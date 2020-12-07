@@ -1,0 +1,159 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch current test w/ ts-node",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "--recursive",
+        "--exit",
+        "${workspaceFolder}/${relativeFile}"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch unit tests w/ ts-node",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "--recursive",
+        "--exit",
+        "${workspaceFolder}/test/unit/models/user/**.ts",
+        "${workspaceFolder}/test/unit/models/user-token/**.ts"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch integration tests w/ ts-node",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "--recursive",
+        "--exit",
+        "${workspaceFolder}/test/integration/data-management/twitter/**.ts",
+        "${workspaceFolder}/test/integration/data-management/user/**.ts",
+        "${workspaceFolder}/test/integration/data-management/user-token/**.ts"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch e2e tests w/ ts-node",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "--recursive",
+        "--parallel=false",
+        "--exit",
+        "${workspaceFolder}/test/e2e/api/user/resolvers/**.ts",
+        "${workspaceFolder}/test/e2e/api/twitter/resolvers/**.ts"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch current file w/ ts-node",
+      "protocol": "inspector",
+      "args": [
+        "${workspaceFolder}/${relativeFile}"
+      ],
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch index.local w/ ts-node",
+      "protocol": "inspector",
+      "args": [
+        "${workspaceFolder}/src/index.local.ts"
+      ],
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "LOCAL",
+        "DATACENTER_ENV": "ONPREM"
+      }
+    },
+    {
+      "name": "Docker Node.js Launch",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "platform": "node"
+    }
+  ]
+}
