@@ -25,3 +25,7 @@ CRYPTOGRAPHY_KEY=cryptograpykey123abc
 ```
 
 4. Open default browser and travel to [graphiql web ide](http://127.0.0.1:3000/graphiql)
+
+## Contributing
+
+All code that is to be contributed by outside entities will need to forllow a PR -> merge pattern for updating the main branch code.
