@@ -48,7 +48,14 @@ const bootstrap = async () => {
       parseOptions: {}, // options for parsing cookies
     });
     // headers
-    fastifyApp.register(require('fastify-helmet'));
+    const { fastifyHelmet } = await import('fastify-helmet');
+    fastifyApp.register(fastifyHelmet, {
+      contentSecurityPolicy: {
+        directives: {
+          'default-src': "'self' https://unpkg.com 'unsafe-inline'",
+        },
+      },
+    });
     // build graphql schema
     const schema = await buildSchema({
       resolvers: [`${__dirname}/**/*.resolver.ts`],

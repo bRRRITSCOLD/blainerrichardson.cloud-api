@@ -51,10 +51,12 @@
     "lodash": "^4.17.20",
     "lokijs": "^1.5.11",
     "mercurius": "^6.5.0",
+    "open": "^7.3.0",
     "reflect-metadata": "^0.1.13",
     "signal-exit": "^3.0.3",
     "type-graphql": "^1.1.1",
     "typedi": "^0.8.0",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "yup": "^0.32.5"
   }
 }

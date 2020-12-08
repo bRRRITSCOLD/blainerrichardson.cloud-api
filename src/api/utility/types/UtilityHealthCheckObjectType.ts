@@ -6,5 +6,5 @@ import { Field, ObjectType } from 'type-graphql';
 @ObjectType({ description: 'Utility Health Check Object Type' })
 export class UtilityHealthCheckObjectType {
   @Field((_type: unknown) => String, { nullable: true })
-  public satus: 'HEALTHY' | 'UNHEALTHY';
+  public status: 'HEALTHY' | 'UNHEALTHY';
 }

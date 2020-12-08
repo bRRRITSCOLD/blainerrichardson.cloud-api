@@ -1,9 +1,7 @@
-/* eslint-disable import/newline-after-import */
-/* eslint-disable import/first */
-/* eslint-disable import/order */
 // node_modules
 import 'reflect-metadata';
 const onExit = require('signal-exit');
+import open from 'open';
 
 // libraries
 import { env } from './lib/environment';
@@ -69,6 +67,8 @@ process.on('unhandledRejection', (err: unknown) => {
     const app = await bootstrap();
     // start server
     const serverInfo = await app.listen(env.PORT);
+    // open chrome to graphiql for dev
+    if (env.isLocal) await open(`${serverInfo}/graphiql`, { app: 'google chrome' });
     // log for debugging and run support purposes
     logger.info(`{}App::server started::serverInfo=${anyUtils.stringify(serverInfo)}`);
   } catch (err) {
