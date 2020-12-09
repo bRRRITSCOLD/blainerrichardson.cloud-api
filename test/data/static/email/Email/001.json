@@ -1,0 +1,6 @@
+{
+  "from": "static-test-email-one@email.com",
+  "to": "static-test-email-two@email.com",
+  "subject": "static test email subject one",
+  "text": "static test email text one"
+}

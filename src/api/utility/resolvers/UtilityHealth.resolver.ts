@@ -10,7 +10,7 @@ import { AnyObject } from '../../../models/common';
 import { UtilityHealthCheckObjectType } from '../types';
 
 // libraries
-import { anyUtils } from '../../../lib/utils';
+import { anyUtils } from '../../../lib/utils/any';
 import { logger } from '../../../lib/logger';
 
 // services

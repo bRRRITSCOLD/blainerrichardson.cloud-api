@@ -6,7 +6,7 @@ import open from 'open';
 // libraries
 import { env } from './lib/environment';
 import { logger } from './lib/logger';
-import { anyUtils } from './lib/utils';
+import { anyUtils } from './lib/utils/any';
 
 // models
 import { APIError } from './models/error';

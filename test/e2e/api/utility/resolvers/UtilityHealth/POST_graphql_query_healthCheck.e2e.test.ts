@@ -92,7 +92,7 @@ describe('api/utility/resolvers/UtilityHealth.resolver - POST /graphql query hea
           method: 'POST',
           url: '/graphql',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
           },
           payload: {
             query: `{

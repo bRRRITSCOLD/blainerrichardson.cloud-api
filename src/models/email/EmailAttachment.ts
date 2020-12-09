@@ -6,37 +6,21 @@ export interface EmailAttachmentInterface {
   filename: string;
   content?: string | Buffer;
   path?: string;
-  contentType?:string;
+  contentType?: string;
   encoding?: string;
 }
 
 export const emailAttachmentSchema = yup.object().shape({
-  filename: yup
-    .string()
-    .label('Filename')
-    .required(),
-  content: yup.mixed()
+  filename: yup.string().label('Filename').optional(),
+  content: yup
+    .mixed()
     .label('Content (Buffer)')
-    .optional()
-    .test(
-      "buffer",
-      "Provide a Buffer.",
-      (value: any) => {
-        return value !== undefined && value instanceof Buffer;
-      }
-    ),
-  path: yup
-    .string()
-    .label('Path')
-    .optional(),
-  contentType: yup
-    .string()
-    .label('Content Type')
-    .optional(),
-  encoding: yup
-    .string()
-    .label('Encoding')
-    .optional()
+    .test('bufferOrString', 'Provide a Buffer or a String.', (value: any) => {
+      return /* optional */ value === undefined || /* type specific */ value instanceof Buffer || typeof value === 'string';
+    }),
+  path: yup.string().label('Path').optional(),
+  contentType: yup.string().label('Content Type').optional(),
+  encoding: yup.string().label('Encoding').optional(),
 });
 
 export class EmailAttachment implements EmailAttachmentInterface {
@@ -47,17 +31,13 @@ export class EmailAttachment implements EmailAttachmentInterface {
   public encoding?: string;
 
   public constructor(emailAttachment: EmailAttachmentInterface) {
-    _.assign(
-      this,
-      emailAttachment,
-      {
-        filename: _.get(emailAttachment, 'filename'),
-        content: _.get(emailAttachment, 'content'),
-        path: _.get(emailAttachment, 'path'),
-        contentType: _.get(emailAttachment, 'contentType'),
-        encoding: _.get(emailAttachment, 'encoding'),
-      }
-    )
+    _.assign(this, emailAttachment, {
+      filename: _.get(emailAttachment, 'filename'),
+      content: _.get(emailAttachment, 'content'),
+      path: _.get(emailAttachment, 'path'),
+      contentType: _.get(emailAttachment, 'contentType'),
+      encoding: _.get(emailAttachment, 'encoding'),
+    });
   }
 
   /**
@@ -71,10 +51,7 @@ export class EmailAttachment implements EmailAttachmentInterface {
       let validationError;
       let validationValue: EmailAttachment | undefined;
       try {
-        const validateSyncResponse = emailAttachmentSchema.validateSync(
-          _.assign({}, this),
-          { strict: true },
-        ) as any;
+        const validateSyncResponse = emailAttachmentSchema.validateSync(_.assign({}, this), { strict: true }) as any;
         validationValue = new EmailAttachment(validateSyncResponse);
       } catch (err) {
         validationError = err;
@@ -96,10 +73,7 @@ export class EmailAttachment implements EmailAttachmentInterface {
       let validationError;
       let validationValue: EmailAttachment | undefined;
       try {
-        const validateResponse = await emailAttachmentSchema.validate(
-          _.assign({}, this),
-          { strict: true },
-        ) as any;
+        const validateResponse = (await emailAttachmentSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new EmailAttachment(validateResponse);
       } catch (err) {
         validationError = err;
