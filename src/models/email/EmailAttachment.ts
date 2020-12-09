@@ -11,13 +11,12 @@ export interface EmailAttachmentInterface {
 }
 
 export const emailAttachmentSchema = yup.object().shape({
-  filename: yup.string().label('Filename').required(),
+  filename: yup.string().label('Filename').optional(),
   content: yup
     .mixed()
     .label('Content (Buffer)')
-    .optional()
     .test('bufferOrString', 'Provide a Buffer or a String.', (value: any) => {
-      return value !== undefined && (value instanceof Buffer || typeof value === 'string');
+      return /* optional */ value === undefined || /* type specific */ value instanceof Buffer || typeof value === 'string';
     }),
   path: yup.string().label('Path').optional(),
   contentType: yup.string().label('Content Type').optional(),

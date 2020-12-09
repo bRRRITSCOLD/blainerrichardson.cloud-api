@@ -52,7 +52,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
+            staticEmailAttachmentData = await readStaticEmailAttachemntData(5);
 
             cachedEmailAttachmentData = staticEmailAttachmentData.slice();
 
@@ -76,7 +76,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email attachment instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -114,7 +114,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
+            staticEmailAttachmentData = await readStaticEmailAttachemntData(5);
 
             cachedEmailAttachmentData = staticEmailAttachmentData.slice();
 
@@ -138,69 +138,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // set expectations
-            const EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE = EmailAttachment;
-            const EXPECTED_EMAIL_ATTACHEMENT = _.assign({}, cachedEmailAttachmentData[1]);
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(cachedEmailAttachmentData[1]);
-
-            // run assertions
-            expect(emailAttachment !== undefined).to.be.true;
-            expect(emailAttachment instanceof EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE).to.be.true;
-            expect(emailAttachment.filename !== undefined).to.be.true;
-            expect(emailAttachment.filename === EXPECTED_EMAIL_ATTACHEMENT.filename).to.be.true;
-            expect(emailAttachment.path !== undefined).to.be.true;
-            expect(emailAttachment.path === EXPECTED_EMAIL_ATTACHEMENT.path).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-      });
-    });
-
-    context('({ filename, path })', () => {
-      context('static data', () => {
-        beforeEach(async () => {
-          try {
-            // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
-
-            cachedEmailAttachmentData = staticEmailAttachmentData.slice();
-
-            // return explicitly
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        afterEach(async () => {
-          try {
-            // reset data holders
-            staticEmailAttachmentData = undefined;
-            cachedEmailAttachmentData = undefined;
-
-            // return explicitly
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email attachment instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -238,7 +176,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
+            staticEmailAttachmentData = await readStaticEmailAttachemntData(5);
 
             cachedEmailAttachmentData = staticEmailAttachmentData.slice();
 
@@ -262,7 +200,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email attachment instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -298,7 +236,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
+            staticEmailAttachmentData = await readStaticEmailAttachemntData(5);
 
             cachedEmailAttachmentData = staticEmailAttachmentData.slice();
 
@@ -322,7 +260,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email attachment instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -362,7 +300,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticEmailAttachmentData = await readStaticEmailAttachemntData(8);
+            staticEmailAttachmentData = await readStaticEmailAttachemntData(5);
 
             cachedEmailAttachmentData = staticEmailAttachmentData.slice();
 
@@ -386,7 +324,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate a valid email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email attachment instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
