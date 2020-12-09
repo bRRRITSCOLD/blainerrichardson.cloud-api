@@ -1,4 +1,4 @@
 {
-  "from": "static-test-email-one@email.com",
-  "to": "static-test-email-two@email.com"
+  "filename": "text1.txt",
+  "content": "hello world!"
 }

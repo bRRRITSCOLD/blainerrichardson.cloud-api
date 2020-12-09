@@ -1,0 +1,12 @@
+{
+  "from": "static-test-email-five@email.com",
+  "to": "static-test-email-six@email.com",
+  "subject": "static test email subject three",
+  "text": "static test email text two",
+  "attachements": [
+    {
+      "filename": "static test email attachment filename one",
+      "content": "ansdf981bfuibf"
+    }
+  ]
+}
