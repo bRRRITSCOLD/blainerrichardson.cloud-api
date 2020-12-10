@@ -1,4 +1,3 @@
 {
-  "filename": "text1.txt",
-  "content": "hello world!"
+  "path": "/path/to/file.txt"
 }

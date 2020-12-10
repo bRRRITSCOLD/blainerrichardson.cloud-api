@@ -76,7 +76,7 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate an email attachment instance', async () => {
+        it('- should correctly map data to and initiate an email address instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -94,8 +94,7 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
             // run assertions
             expect(emailAddress !== undefined).to.be.true;
             expect(emailAddress instanceof EXPECTED_EMAIL_ADDRESS_CLASS_INSTANCE).to.be.true;
-            expect(emailAddress.name !== undefined).to.be.true;
-            expect(emailAddress.name === EXPECTED_EMAIL_ADDRESS.name).to.be.true;
+            expect(emailAddress.name === undefined).to.be.true;
             expect(emailAddress.address !== undefined).to.be.true;
             expect(emailAddress.address === EXPECTED_EMAIL_ADDRESS.address).to.be.true;
 
@@ -109,7 +108,7 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
       });
     });
 
-    context('({ address })', () => {
+    context('({ address, name })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -156,7 +155,8 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
             // run assertions
             expect(emailAddress !== undefined).to.be.true;
             expect(emailAddress instanceof EXPECTED_EMAIL_ADDRESS_CLASS_INSTANCE).to.be.true;
-            expect(emailAddress.name === undefined).to.be.true;
+            expect(emailAddress.name !== undefined).to.be.true;
+            expect(emailAddress.name === EXPECTED_EMAIL_ADDRESS.name).to.be.true;
             expect(emailAddress.address !== undefined).to.be.true;
             expect(emailAddress.address === EXPECTED_EMAIL_ADDRESS.address).to.be.true;
 

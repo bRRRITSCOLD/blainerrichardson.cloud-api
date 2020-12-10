@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "build": "gulp"
+    "test:unit": "scripty"
   },
   "author": "",
   "license": "ISC",

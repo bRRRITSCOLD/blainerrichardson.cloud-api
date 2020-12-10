@@ -1,3 +1,4 @@
+// TODO: refactor tests to be more condenses like Email and EmailAddress
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
 import { expect } from 'chai';
@@ -48,7 +49,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
   });
 
   describe('#validateAsync', () => {
-    context('EmailAttachement({ filename, content })', () => {
+    context('EmailAttachement({ path })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -77,7 +78,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -98,10 +99,8 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             expect(validateAsyncResponse.error === undefined).to.be.true;
             expect((validateAsyncResponse.value as any) !== undefined).to.be.true;
             expect((validateAsyncResponse.value as any) instanceof EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.value as any).filename !== undefined).to.be.true;
-            expect((validateAsyncResponse.value as any).filename === EXPECTED_EMAIL_ATTACHEMENT.filename).to.be.true;
-            expect((validateAsyncResponse.value as any).content !== undefined).to.be.true;
-            expect((validateAsyncResponse.value as any).content === EXPECTED_EMAIL_ATTACHEMENT.content).to.be.true;
+            expect((validateAsyncResponse.value as any).path !== undefined).to.be.true;
+            expect((validateAsyncResponse.value as any).path === EXPECTED_EMAIL_ATTACHEMENT.path).to.be.true;
 
             // return explicitly
             return;
@@ -111,19 +110,19 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (path)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { filename: 1 });
+            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { path: 1 });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
+            const EXPECTED_ERROR_PATH = 'path';
             const EXPECTED_ERROR_TYPE = 'typeError';
 
             /////////////////////////
@@ -155,19 +154,19 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (path)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { filename: true });
+            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { path: false });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
+            const EXPECTED_ERROR_PATH = 'path';
             const EXPECTED_ERROR_TYPE = 'typeError';
 
             /////////////////////////
@@ -190,138 +189,6 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
             expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
             expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { content: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { content: false });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[0], { filename: 1, content: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_POSSIBLE_ERROR_PATHS = ['filename', 'content'];
-            const EXPECTED_POSSIBLE_ERROR_TYPES = ['typeError', 'bufferOrString'];
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect(EXPECTED_POSSIBLE_ERROR_PATHS.includes((validateAsyncResponse.error as ValidationError).path as string)).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect(EXPECTED_POSSIBLE_ERROR_TYPES.includes((validateAsyncResponse.error as ValidationError).type as string)).to.be.true;
 
             // return explicitly
             return;
@@ -362,7 +229,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -396,7 +263,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -440,7 +307,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -484,95 +351,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[1], { path: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'path';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[1], { path: false });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'path';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename or path)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -618,7 +397,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
       });
     });
 
-    context('EmailAttachement({ path })', () => {
+    context('EmailAttachement({ filename, content })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -647,7 +426,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -668,8 +447,10 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             expect(validateAsyncResponse.error === undefined).to.be.true;
             expect((validateAsyncResponse.value as any) !== undefined).to.be.true;
             expect((validateAsyncResponse.value as any) instanceof EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.value as any).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.value as any).path === EXPECTED_EMAIL_ATTACHEMENT.path).to.be.true;
+            expect((validateAsyncResponse.value as any).filename !== undefined).to.be.true;
+            expect((validateAsyncResponse.value as any).filename === EXPECTED_EMAIL_ATTACHEMENT.filename).to.be.true;
+            expect((validateAsyncResponse.value as any).content !== undefined).to.be.true;
+            expect((validateAsyncResponse.value as any).content === EXPECTED_EMAIL_ATTACHEMENT.content).to.be.true;
 
             // return explicitly
             return;
@@ -679,20 +460,20 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (content)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[2], { path: 1 });
+            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[2], { content: 1 });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'path';
-            const EXPECTED_ERROR_TYPE = 'typeError';
+            const EXPECTED_ERROR_PATH = 'content';
+            const EXPECTED_ERROR_TYPE = 'bufferOrString';
 
             /////////////////////////
             //////// test //////////
@@ -723,20 +504,20 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (content)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[2], { path: true });
+            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[2], { content: false });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'path';
-            const EXPECTED_ERROR_TYPE = 'typeError';
+            const EXPECTED_ERROR_PATH = 'content';
+            const EXPECTED_ERROR_TYPE = 'bufferOrString';
 
             /////////////////////////
             //////// test //////////
@@ -758,6 +539,50 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
             expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
             expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
+
+            // return explicitly
+            return;
+          } catch (err) {
+            // throw explicitly
+            throw err;
+          }
+        });
+
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename or content)', async () => {
+          try {
+            /////////////////////////
+            //////// setup //////////
+            /////////////////////////
+            // update data needed for test
+            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[2], { filename: 1, content: 1 });
+
+            // set expectations
+            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
+            const EPECTED_TYPE_OF_STRING = 'string';
+            const EXPECTED_ERRORS_LENGTH = 1;
+            const EXPECTED_POSSIBLE_ERROR_PATHS = ['filename', 'content'];
+            const EXPECTED_POSSIBLE_ERROR_TYPES = ['typeError', 'bufferOrString'];
+
+            /////////////////////////
+            //////// test //////////
+            /////////////////////////
+            // run testee
+            const emailAttachment = new EmailAttachment(updateEmailAttachment);
+            const validateAsyncResponse = await emailAttachment.validateAsync();
+
+            // run assertions
+            expect(validateAsyncResponse !== undefined).to.be.true;
+            expect(validateAsyncResponse.error !== undefined).to.be.true;
+            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
+            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
+            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
+              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
+            }
+            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
+            expect(EXPECTED_POSSIBLE_ERROR_PATHS.includes((validateAsyncResponse.error as ValidationError).path as string)).to.be.true;
+            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
+            expect(EXPECTED_POSSIBLE_ERROR_TYPES.includes((validateAsyncResponse.error as ValidationError).type as string)).to.be.true;
 
             // return explicitly
             return;
@@ -798,7 +623,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -834,183 +659,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[3], { filename: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[3], { filename: true });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[3], { content: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[3], { content: true });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (contentType)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1054,7 +703,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (contentType)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1098,7 +747,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename, content, or contentType)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1173,7 +822,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1209,183 +858,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[4], { filename: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[4], { filename: true });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'filename';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[4], { content: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAttachment = _.assign({}, cachedEmailAttachmentData[4], { content: true });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'content';
-            const EXPECTED_ERROR_TYPE = 'bufferOrString';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAttachment = new EmailAttachment(updateEmailAttachment);
-            const validateAsyncResponse = await emailAttachment.validateAsync();
-
-            // run assertions
-            expect(validateAsyncResponse !== undefined).to.be.true;
-            expect(validateAsyncResponse.error !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateAsyncResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateAsyncResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateAsyncResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (encoding)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1429,7 +902,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (encoding)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -1473,7 +946,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly asynchronously validate an email attachment instance and throw appropriate errors when found', async () => {
+        it('- should correctly validateAsync an email attachment instance and throw appropriate errors when found (filename, content, encoding)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
