@@ -1,4 +1,3 @@
-// TODO: refactor tests to be more condenses like Email and EmailAddress
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
 import { expect } from 'chai';

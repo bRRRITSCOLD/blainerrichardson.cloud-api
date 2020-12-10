@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test:unit": "scripty"
+    "test:unit": "scripty",
+    "test:integration": "scripty",
+    "test:e2e": "scripty",
+    "test": "scripty"
   },
   "author": "",
   "license": "ISC",

@@ -31,13 +31,16 @@ export class UtilityHealthResolver {
       // matches the given
       // criteria
       const response = await this.utilityHealthService.healthCheck();
-      // return explicitly
+
+      // return response explictly for user to handle
       return response;
     } catch (err) {
       // build error
       const error = new APIError(err);
+
       // log for debugging and run support purposes
       logger.error(`{}TwitterTimelineResolver::#twitterUserTimeline::error executing::error=${anyUtils.stringify(error)}`);
+
       // throw error explicitly
       throw { errors: [error] };
     }
