@@ -47,7 +47,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
   });
 
   describe('#constructor', () => {
-    context('({ filename, content })', () => {
+    context('({ path })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -94,10 +94,8 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             // run assertions
             expect(emailAttachment !== undefined).to.be.true;
             expect(emailAttachment instanceof EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE).to.be.true;
-            expect(emailAttachment.filename !== undefined).to.be.true;
-            expect(emailAttachment.filename === EXPECTED_EMAIL_ATTACHEMENT.filename).to.be.true;
-            expect(emailAttachment.content !== undefined).to.be.true;
-            expect(emailAttachment.content === EXPECTED_EMAIL_ATTACHEMENT.content).to.be.true;
+            expect(emailAttachment.path !== undefined).to.be.true;
+            expect(emailAttachment.path === EXPECTED_EMAIL_ATTACHEMENT.path).to.be.true;
 
             // return explicitly
             return;
@@ -171,7 +169,7 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
       });
     });
 
-    context('({ path })', () => {
+    context('({ filename, content })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -218,8 +216,10 @@ describe('models/email/EmailAttachment.ts - unit tests', () => {
             // run assertions
             expect(emailAttachment !== undefined).to.be.true;
             expect(emailAttachment instanceof EXPECTED_EMAIL_ATTACHEMENT_CLASS_INSTANCE).to.be.true;
-            expect(emailAttachment.path !== undefined).to.be.true;
-            expect(emailAttachment.path === EXPECTED_EMAIL_ATTACHEMENT.path).to.be.true;
+            expect(emailAttachment.filename !== undefined).to.be.true;
+            expect(emailAttachment.filename === EXPECTED_EMAIL_ATTACHEMENT.filename).to.be.true;
+            expect(emailAttachment.content !== undefined).to.be.true;
+            expect(emailAttachment.content === EXPECTED_EMAIL_ATTACHEMENT.content).to.be.true;
 
             // return explicitly
             return;

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+printf "starting unit tests"
+NODE_ENV=LOCAL node_modules/mocha/bin/_mocha --require ts-node/register -u bdd --timeout 999999 --colors --recursive --exit test/unit/**/*.ts
+printf "finished unit tests"

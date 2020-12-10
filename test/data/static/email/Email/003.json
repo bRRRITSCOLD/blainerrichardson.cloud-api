@@ -1,12 +1,44 @@
 {
-  "from": "static-test-email-five@email.com",
-  "to": "static-test-email-six@email.com",
-  "subject": "static test email subject three",
-  "text": "static test email text two",
-  "attachements": [
+  "from": {
+    "name": "Boucher, Robert",
+    "address": "water_boy@ul.edu"
+  },
+  "to": [
     {
-      "filename": "static test email attachment filename one",
-      "content": "ansdf981bfuibf"
+      "name": "Fran, Famer One",
+      "address": "diskiodo@emailOne.com"
+    },
+    {
+      "name": "Fran, Famer Two",
+      "address": "diskiodo@emailTwo.com"
+    }
+  ],
+  "cc": [
+    {
+      "name": "Vallencourt, Vicki One",
+      "address": "here_you_go@emailOne.com"
+    },
+    {
+      "name": "Vallencourt, Vicki Two",
+      "address": "here_you_go@emailTwo.com"
+    }
+  ],
+  "bcc": [
+    {
+      "name": "Klein, Coach One",
+      "address": "water_sucks_gatorade_is_better_one@ul.edu"
+    },
+    {
+      "name": "Klein, Coach Two",
+      "address": "water_sucks_gatorade_is_better_two@ul.edu"
+    }
+  ],
+  "subject": "static test email subject two",
+  "html": "<p>static test email text two</p>",
+  "attachments": [
+    {
+      "filename": "textTwo.txt",
+      "content": "hello world two!"
     }
   ]
 }

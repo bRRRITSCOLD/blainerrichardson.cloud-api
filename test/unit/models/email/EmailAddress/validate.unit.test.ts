@@ -48,7 +48,7 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
   });
 
   describe('#validate', () => {
-    context('EmailAddress({ name, address })', () => {
+    context('EmailAddress({ address })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -98,98 +98,8 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
             expect(validateResponse.error === undefined).to.be.true;
             expect((validateResponse.value as any) !== undefined).to.be.true;
             expect((validateResponse.value as any) instanceof EXPECTED_EMAIL_ADDRESS_CLASS_INSTANCE).to.be.true;
-            expect((validateResponse.value as any).name !== undefined).to.be.true;
-            expect((validateResponse.value as any).name === EXPECTED_EMAIL_ADDRESS.name).to.be.true;
             expect((validateResponse.value as any).address !== undefined).to.be.true;
             expect((validateResponse.value as any).address === EXPECTED_EMAIL_ADDRESS.address).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly validate an email address instance and throw appropriate errors when found (name)', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[0], { name: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'name';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAddress = new EmailAddress(updateEmailAddress);
-            const validateResponse = emailAddress.validate();
-
-            // run assertions
-            expect(validateResponse !== undefined).to.be.true;
-            expect(validateResponse.error !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
-
-        it('- should correctly validate an email address instance and throw appropriate errors when found (name)', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[0], { name: true });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'name';
-            const EXPECTED_ERROR_TYPE = 'typeError';
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAddress = new EmailAddress(updateEmailAddress);
-            const validateResponse = emailAddress.validate();
-
-            // run assertions
-            expect(validateResponse !== undefined).to.be.true;
-            expect(validateResponse.error !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-            expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
 
             // return explicitly
             return;
@@ -330,54 +240,10 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
             throw err;
           }
         });
-
-        it('- should correctly validate an email address instance and throw appropriate errors when found (name or address)', async () => {
-          try {
-            /////////////////////////
-            //////// setup //////////
-            /////////////////////////
-            // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[0], { name: 1, address: 1 });
-
-            // set expectations
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EPECTED_TYPE_OF_STRING = 'string';
-            const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_POSSIBLE_ERROR_PATHS = ['name', 'address'];
-            const EXPECTED_POSSIBLE_ERROR_TYPES = ['typeError', 'typeError'];
-
-            /////////////////////////
-            //////// test //////////
-            /////////////////////////
-            // run testee
-            const emailAddress = new EmailAddress(updateEmailAddress);
-            const validateResponse = emailAddress.validate();
-
-            // run assertions
-            expect(validateResponse !== undefined).to.be.true;
-            expect(validateResponse.error !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-            for (const error of (validateResponse.error as ValidationError).errors) {
-              expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-            }
-            expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect(EXPECTED_POSSIBLE_ERROR_PATHS.includes((validateResponse.error as ValidationError).path as string)).to.be.true;
-            expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect(EXPECTED_POSSIBLE_ERROR_TYPES.includes((validateResponse.error as ValidationError).type as string)).to.be.true;
-
-            // return explicitly
-            return;
-          } catch (err) {
-            // throw explicitly
-            throw err;
-          }
-        });
       });
     });
 
-    context('EmailAddress({ address })', () => {
+    context('EmailAddress({ name, address })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -427,6 +293,8 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
             expect(validateResponse.error === undefined).to.be.true;
             expect((validateResponse.value as any) !== undefined).to.be.true;
             expect((validateResponse.value as any) instanceof EXPECTED_EMAIL_ADDRESS_CLASS_INSTANCE).to.be.true;
+            expect((validateResponse.value as any).name !== undefined).to.be.true;
+            expect((validateResponse.value as any).name === EXPECTED_EMAIL_ADDRESS.name).to.be.true;
             expect((validateResponse.value as any).address !== undefined).to.be.true;
             expect((validateResponse.value as any).address === EXPECTED_EMAIL_ADDRESS.address).to.be.true;
 
@@ -438,19 +306,19 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly validate an email address instance and throw appropriate errors when found (address)', async () => {
+        it('- should correctly validate an email address instance and throw appropriate errors when found (name)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { address: 1 });
+            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { name: 1 });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'address';
+            const EXPECTED_ERROR_PATH = 'name';
             const EXPECTED_ERROR_TYPE = 'typeError';
 
             /////////////////////////
@@ -482,19 +350,19 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly validate an email address instance and throw appropriate errors when found (address)', async () => {
+        it('- should correctly validate an email address instance and throw appropriate errors when found (name)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { address: false });
+            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { name: true });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'address';
+            const EXPECTED_ERROR_PATH = 'name';
             const EXPECTED_ERROR_TYPE = 'typeError';
 
             /////////////////////////
@@ -526,20 +394,20 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly validate an email address instance and throw appropriate errors when found (address)', async () => {
+        it('- should correctly validate an email address instance and throw appropriate errors when found (name or address)', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // update data needed for test
-            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { address: undefined });
+            const updateEmailAddress = _.assign({}, cachedEmailAddressData[1], { name: 1, address: 1 });
 
             // set expectations
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EPECTED_TYPE_OF_STRING = 'string';
             const EXPECTED_ERRORS_LENGTH = 1;
-            const EXPECTED_ERROR_PATH = 'address';
-            const EXPECTED_ERROR_TYPE = 'required';
+            const EXPECTED_POSSIBLE_ERROR_PATHS = ['name', 'address'];
+            const EXPECTED_POSSIBLE_ERROR_TYPES = ['typeError', 'typeError'];
 
             /////////////////////////
             //////// test //////////
@@ -558,9 +426,9 @@ describe('models/email/EmailAddress.ts - unit tests', () => {
               expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
             }
             expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
+            expect(EXPECTED_POSSIBLE_ERROR_PATHS.includes((validateResponse.error as ValidationError).path as string)).to.be.true;
             expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-            expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
+            expect(EXPECTED_POSSIBLE_ERROR_TYPES.includes((validateResponse.error as ValidationError).type as string)).to.be.true;
 
             // return explicitly
             return;
