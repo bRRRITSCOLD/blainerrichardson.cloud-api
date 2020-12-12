@@ -1,12 +1,10 @@
 // node modules
-// import { Resolver, Query, FieldResolver, Root, Args } from 'type-graphql';
-import { Resolver, Query, Ctx, Mutation, Arg, Args } from 'type-graphql';
+import { Resolver, Query, Ctx } from 'type-graphql';
 import * as _ from 'lodash';
 import { Service } from 'typedi';
 
 // models
 import { APIError } from '../../../models/error';
-import { AnyObject } from '../../../models/common';
 import { UtilityHealthCheckObjectType } from '../types';
 
 // libraries
