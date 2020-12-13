@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.804.0",
+    "class-validator": "^0.12.2",
     "dotenv-safe": "^8.2.0",
     "fastify": "^3.9.1",
     "fastify-cookie": "^4.1.1",

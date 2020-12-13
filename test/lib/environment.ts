@@ -1,16 +1,16 @@
 import { Env, EnvInterface } from '../../src/lib/environment';
 
 export interface IntegrationTestEnvInterface extends EnvInterface {
-  EMAIL_ADDRESS: string;
+  TEST_TO_EMAIL_ADDRESS: string;
 }
 
 export class IntegrationTestEnv extends Env implements IntegrationTestEnvInterface {
   // non-computed values
-  public get EMAIL_ADDRESS(): string {
-    return process.env.EMAIL_ADDRESS as string;
+  public get TEST_TO_EMAIL_ADDRESS(): string {
+    return process.env.TEST_TO_EMAIL_ADDRESS as string;
   }
   public set EMAIL_ADDRESS(value: string) {
-    process.env.EMAIL_ADDRESS = `${value}`;
+    process.env.TEST_TO_EMAIL_ADDRESS = `${value}`;
   }
 
   public async init(): Promise<void> {
@@ -25,16 +25,16 @@ export class IntegrationTestEnv extends Env implements IntegrationTestEnvInterfa
 }
 
 export interface E2ETestEnvInterface extends EnvInterface {
-  EMAIL_ADDRESS: string;
+  TEST_TO_EMAIL_ADDRESS: string;
 }
 
 export class E2ETestEnv extends Env implements E2ETestEnvInterface {
   // non-computed values
-  public get EMAIL_ADDRESS(): string {
-    return process.env.EMAIL_ADDRESS as string;
+  public get TEST_TO_EMAIL_ADDRESS(): string {
+    return process.env.TEST_TO_EMAIL_ADDRESS as string;
   }
   public set EMAIL_ADDRESS(value: string) {
-    process.env.EMAIL_ADDRESS = `${value}`;
+    process.env.TEST_TO_EMAIL_ADDRESS = `${value}`;
   }
 
   public async init(): Promise<void> {

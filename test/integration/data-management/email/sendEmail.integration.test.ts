@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
-import { FastifyInstance, FastifyLoggerInstance } from 'fastify';
-import { IncomingMessage, Server, ServerResponse } from 'http';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 
 // libraries
 import { integrationTestEnv } from '../../../lib/environment';
 import { emailClients } from '../../../../src/lib/email';
+import { env } from '../../../../src/lib/environment';
+
+// models
+import { Email } from '../../../../src/models/email';
 
 // testees
 import * as emailManager from '../../../../src/data-management/email';
-import { env } from '../../../../src/lib/environment';
-import { Email } from '../../../../src/models/email';
 
 // file constants/functions
-
-let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
-
 async function customStartUp() {
   try {
     // return explicitly
@@ -106,12 +103,14 @@ describe('data-management/email/sendEmail - #sendEmail - integration tests', () 
                 from: {
                   address: env.EMAIL_CLIENT_GMAIL_USERNAME,
                 },
-                to: {
-                  address: integrationTestEnv.EMAIL_ADDRESS,
-                },
+                to: [
+                  {
+                    address: integrationTestEnv.TEST_TO_EMAIL_ADDRESS,
+                  },
+                ],
                 subject: 'TEST',
                 text: 'TEST EMAIL!',
-              } as any,
+              },
             };
             const sendEmailResponse = await emailManager.sendEmail(sendEmailRequest);
 

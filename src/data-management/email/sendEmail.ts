@@ -14,7 +14,7 @@ export interface SendEmailRequestInterface {
 
 export interface SendEmailResponseInterface {
   messageId: string;
-  email: Email;
+  email: EmailInterface;
 }
 
 export async function sendEmail(sendEmailRequest: SendEmailRequestInterface): Promise<SendEmailResponseInterface> {

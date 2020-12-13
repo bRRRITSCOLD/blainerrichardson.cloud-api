@@ -3,18 +3,24 @@
     "name": "Boucher, Robert",
     "address": "water_boy@ul.edu"
   },
-  "to": {
-    "name": "Fran, Famer",
-    "address": "diskiodo@emailOne.com"
-  },
-  "cc": {
-    "name": "Vallencourt, Vicki",
-    "address": "here_you_go@emailTwo.com"
-  },
-  "bcc": {
-    "name": "Klein, Coach",
-    "address": "water_sucks_gatorade_is_better@ul.edu"
-  },
+  "to": [
+    {
+      "name": "Fran, Famer",
+      "address": "diskiodo@emailOne.com"
+    }
+  ],
+  "cc": [
+    {
+      "name": "Vallencourt, Vicki",
+      "address": "here_you_go@emailTwo.com"
+    }
+  ],
+  "bcc": [
+    {
+      "name": "Klein, Coach",
+      "address": "water_sucks_gatorade_is_better@ul.edu"
+    }
+  ],
   "subject": "static test email subject one",
   "text": "static test email text one",
   "attachments": [
