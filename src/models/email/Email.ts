@@ -4,13 +4,13 @@ import * as _ from 'lodash';
 
 // models
 import { EmailAttachmentInterface, emailAttachmentSchema } from './EmailAttachment';
-import { EmailAddress, emailAddressSchema } from './EmailAddress';
+import { EmailAddress, EmailAddressInterface, emailAddressSchema } from './EmailAddress';
 
 export interface EmailInterface {
-  from: EmailAddress;
-  to: EmailAddress | EmailAddress[];
-  cc?: EmailAddress | EmailAddress[];
-  bcc?: EmailAddress | EmailAddress[];
+  from: EmailAddressInterface;
+  to: EmailAddressInterface[];
+  cc?: EmailAddressInterface[];
+  bcc?: EmailAddressInterface[];
   subject: string;
   text?: string;
   html?: string;
@@ -19,15 +19,9 @@ export interface EmailInterface {
 
 export const emailSchema = yup.object().shape({
   from: emailAddressSchema.label('From').required(),
-  to: yup.lazy((val: any) =>
-    Array.isArray(val) ? yup.array().label('To').of(emailAddressSchema).required() : emailAddressSchema.label('To').required(),
-  ),
-  cc: yup.lazy((val: any) =>
-    Array.isArray(val) ? yup.array().label('CC').of(emailAddressSchema).optional() : emailAddressSchema.label('Cc').optional(),
-  ),
-  bcc: yup.lazy((val: any) =>
-    Array.isArray(val) ? yup.array().label('Bcc').of(emailAddressSchema).optional() : emailAddressSchema.label('Bcc').optional(),
-  ),
+  to: yup.array().label('To').of(emailAddressSchema).required(),
+  cc: yup.array().label('CC').of(emailAddressSchema).optional(),
+  bcc: yup.array().label('Bcc').of(emailAddressSchema).optional(),
   subject: yup.string().label('Subject').required(),
   text: yup.string().label('Text').optional(),
   html: yup.string().label('Html').optional(),
@@ -36,9 +30,9 @@ export const emailSchema = yup.object().shape({
 
 export class Email {
   public from!: EmailAddress;
-  public to!: EmailAddress | EmailAddress[];
-  public cc?: EmailAddress | EmailAddress[];
-  public bcc?: EmailAddress | EmailAddress[];
+  public to!: EmailAddress[];
+  public cc?: EmailAddress[];
+  public bcc?: EmailAddress[];
   public subject!: string;
   public text?: string;
   public html?: string;

@@ -40,8 +40,7 @@ export class Environment implements EnvironmentInterface {
         let initial = true;
         let completed = false;
         const ssm = options.awsConfig ? new SSM(options.awsConfig) : new SSM();
-        // @ts-ignore
-        ssm.getParametersByPath = promisify(ssm.getParametersByPath);
+        ssm.getParametersByPath = promisify(ssm.getParametersByPath) as any;
         const env = (() => {
           try {
             dotEnvSafe.config({

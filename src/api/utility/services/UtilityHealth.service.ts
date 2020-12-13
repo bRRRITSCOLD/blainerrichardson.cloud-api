@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import * as _ from 'lodash';
 
 // libraries
-import { anyUtils } from '../../../lib/utils';
+import { anyUtils } from '../../../lib/utils/any';
 import { logger } from '../../../lib/logger';
 
 // models

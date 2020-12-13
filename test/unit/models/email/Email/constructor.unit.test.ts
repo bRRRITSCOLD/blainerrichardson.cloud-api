@@ -103,21 +103,22 @@ describe('models/email/Email.ts - unit tests', () => {
               expect(email.from.name === EXPECTED_EMAIL_ADDRESS.from.name).to.be.true;
               expect(email.from.address !== undefined).to.be.true;
               expect(email.from.address === EXPECTED_EMAIL_ADDRESS.from.address).to.be.true;
-              expect((email.to as any) !== undefined).to.be.true;
-              expect((email.to as any).name !== undefined).to.be.true;
-              expect((email.to as any).name === EXPECTED_EMAIL_ADDRESS.to.name).to.be.true;
-              expect((email.to as any).address !== undefined).to.be.true;
-              expect((email.to as any).address === EXPECTED_EMAIL_ADDRESS.to.address).to.be.true;
+              for (const item of email.to as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.to.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
               expect((email.cc as any) !== undefined).to.be.true;
-              expect((email.cc as any).name !== undefined).to.be.true;
-              expect((email.cc as any).name === EXPECTED_EMAIL_ADDRESS.cc.name).to.be.true;
-              expect((email.cc as any).address !== undefined).to.be.true;
-              expect((email.cc as any).address === EXPECTED_EMAIL_ADDRESS.cc.address).to.be.true;
+              expect((email.cc as any) instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              for (const item of email.cc as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.cc.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
               expect((email.bcc as any) !== undefined).to.be.true;
-              expect((email.bcc as any).name !== undefined).to.be.true;
-              expect((email.bcc as any).name === EXPECTED_EMAIL_ADDRESS.bcc.name).to.be.true;
-              expect((email.bcc as any).address !== undefined).to.be.true;
-              expect((email.bcc as any).address === EXPECTED_EMAIL_ADDRESS.bcc.address).to.be.true;
+              expect((email.bcc as any) instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              for (const item of email.bcc as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.bcc.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
               expect(email.subject !== undefined).to.be.true;
               expect(email.subject === EXPECTED_EMAIL_ADDRESS.subject).to.be.true;
               expect(email.text !== undefined).to.be.true;

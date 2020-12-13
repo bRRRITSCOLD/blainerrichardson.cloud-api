@@ -8,7 +8,7 @@ import { Container } from 'typedi';
 import { env } from './lib/environment';
 import { ErrorInterceptor } from './lib/middleware/error';
 import { logger } from './lib/logger';
-import { anyUtils } from './lib/utils';
+import { anyUtils } from './lib/utils/any';
 
 // models
 import { APIError } from './models/error';

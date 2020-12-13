@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+printf "starting e2e tests"
+NODE_ENV=LOCAL node_modules/mocha/bin/_mocha --require ts-node/register -u bdd --timeout 999999 --colors --recursive --exit test/e2e/**/*.ts
+printf "finished e2e tests"

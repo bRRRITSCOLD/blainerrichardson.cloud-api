@@ -1,12 +1,10 @@
 // node modules
-// import { Resolver, Query, FieldResolver, Root, Args } from 'type-graphql';
-import { Resolver, Query, Ctx, Mutation, Arg, Args } from 'type-graphql';
+import { Resolver, Query, Ctx } from 'type-graphql';
 import * as _ from 'lodash';
 import { Service } from 'typedi';
 
 // models
 import { APIError } from '../../../models/error';
-import { AnyObject } from '../../../models/common';
 import { UtilityHealthCheckObjectType } from '../types';
 
 // libraries
@@ -31,13 +29,16 @@ export class UtilityHealthResolver {
       // matches the given
       // criteria
       const response = await this.utilityHealthService.healthCheck();
-      // return explicitly
+
+      // return response explictly for user to handle
       return response;
     } catch (err) {
       // build error
       const error = new APIError(err);
+
       // log for debugging and run support purposes
       logger.error(`{}TwitterTimelineResolver::#twitterUserTimeline::error executing::error=${anyUtils.stringify(error)}`);
+
       // throw error explicitly
       throw { errors: [error] };
     }
