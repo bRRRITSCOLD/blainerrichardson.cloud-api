@@ -8,9 +8,9 @@ import { mongo } from '../../lib/mongo';
 // models
 import { AnyObject } from '../../models/common';
 import { APIError } from '../../models/error';
-import { SchoolExperience, SchoolExperienceInterface } from '../../models/resume';
+import { Certification, CertificationInterface } from '../../models/resume';
 
-export interface SearchSchoolExperiencesRequestInterface {
+export interface SearchCertificationsRequestInterface {
   searchCriteria: AnyObject;
   searchOptions: {
     pageNumber?: number;
@@ -19,18 +19,18 @@ export interface SearchSchoolExperiencesRequestInterface {
   };
 }
 
-export interface SearchSchoolExperiencesResponseInterface {
-  certifications: SchoolExperience[];
-  moreSchoolExperiences: boolean;
-  totalSchoolExperiences: number | undefined;
+export interface SearchCertificationsResponseInterface {
+  certifications: Certification[];
+  moreCertifications: boolean;
+  totalCertifications: number | undefined;
 }
 
-export async function searchSchoolExperiences(
-  searchSchoolExperiencesRequest: SearchSchoolExperiencesRequestInterface,
-): Promise<SearchSchoolExperiencesResponseInterface> {
+export async function searchCertifications(
+  searchCertificationsRequest: SearchCertificationsRequestInterface,
+): Promise<SearchCertificationsResponseInterface> {
   try {
     // deconstruct for ease
-    const { searchCriteria, searchOptions } = searchSchoolExperiencesRequest;
+    const { searchCriteria, searchOptions } = searchCertificationsRequest;
     let { pageNumber, pageSize, totalCount } = searchOptions;
 
     // default options if not passed in
@@ -39,18 +39,18 @@ export async function searchSchoolExperiences(
     if (!totalCount) totalCount = false;
 
     // create holder for data computations
-    let totalSchoolExperiences: number | undefined;
+    let totalCertifications: number | undefined;
 
     // get mongo connection
     const socialMediaHubMongoDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
     // get cursor
     const cursor = await socialMediaHubMongoDb
-      .collection(env.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
+      .collection(env.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME)
       .find({ ...searchCriteria });
 
     // get count if wanted by user
-    if (totalCount) totalSchoolExperiences = await cursor.count();
+    if (totalCount) totalCertifications = await cursor.count();
 
     // skip the number of pages times the page size
     cursor.skip(pageSize * (pageNumber - 1));
@@ -59,13 +59,13 @@ export async function searchSchoolExperiences(
     cursor.limit(pageSize + 1);
 
     // turn cursor into array of data/objects
-    const fountItems: SchoolExperienceInterface[] = await cursor.toArray();
+    const fountItems: CertificationInterface[] = await cursor.toArray();
 
     // return explicitly
     return {
-      certifications: fountItems.slice(0, pageSize).map((foundItem: SchoolExperienceInterface) => new SchoolExperience(foundItem)),
-      moreSchoolExperiences: fountItems.length > pageSize,
-      totalSchoolExperiences,
+      certifications: fountItems.slice(0, pageSize).map((foundItem: CertificationInterface) => new Certification(foundItem)),
+      moreCertifications: fountItems.length > pageSize,
+      totalCertifications,
     };
   } catch (err) {
     // build error

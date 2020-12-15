@@ -63,7 +63,7 @@ export async function loadCertificationsData(loadCertificationsDataRequest: {
     const blainerrichardsonDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
     // insert our data in one sweep
-    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME).insertMany(certifications);
+    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME).insertMany(certifications);
 
     // return the data for the user
     return certifications;

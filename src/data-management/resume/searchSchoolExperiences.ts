@@ -46,7 +46,7 @@ export async function searchSchoolExperiences(
 
     // get cursor
     const cursor = await socialMediaHubMongoDb
-      .collection(env.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
+      .collection(env.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME)
       .find({ ...searchCriteria });
 
     // get count if wanted by user

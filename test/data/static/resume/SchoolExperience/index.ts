@@ -7,7 +7,7 @@ import { SchoolExperienceInterface } from '../../../../../src/models/resume';
 
 const staticDataFolder = `${process.cwd()}/test/data/static/resume/SchoolExperience`;
 
-const files = [`${staticDataFolder}/001.json`];
+const files = [`${staticDataFolder}/001.json`, `${staticDataFolder}/002.json`, `${staticDataFolder}/003.json`];
 
 export async function readStaticSchoolExperienceData(amountOfObjs: number): Promise<SchoolExperienceInterface[]> {
   try {

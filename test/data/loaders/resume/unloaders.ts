@@ -15,17 +15,17 @@ import {
 import { mongo } from '../../../../src/lib/mongo';
 import { env } from '../../../../src/lib/environment';
 
-export async function loadWorkExperiencesData(loadWorkExperiencesDataRequest: {
+export async function unloadWorkExperiencesData(unloadWorkExperiencesDataRequest: {
   workExperiences: WorkExperienceInterface[];
 }): Promise<boolean> {
   try {
     // deconstruct for ease
-    const { workExperiences } = loadWorkExperiencesDataRequest;
+    const { workExperiences } = unloadWorkExperiencesDataRequest;
 
     // get out mongo connection
     const blainerrichardsonDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
-    // insert our data in one sweep
+    // delete our data in one sweep
     await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME).deleteMany({
       companyName: {
         $in: _.uniq(workExperiences.map((workExperience: WorkExperience | WorkExperienceInterface) => workExperience.companyName)),
@@ -39,17 +39,17 @@ export async function loadWorkExperiencesData(loadWorkExperiencesDataRequest: {
   }
 }
 
-export async function loadSchoolExperiencesData(loadSchoolExperiencesDataRequest: {
+export async function unloadSchoolExperiencesData(unloadSchoolExperiencesDataRequest: {
   schoolExperiences: SchoolExperienceInterface[];
 }): Promise<boolean> {
   try {
     // deconstruct for ease
-    const { schoolExperiences } = loadSchoolExperiencesDataRequest;
+    const { schoolExperiences } = unloadSchoolExperiencesDataRequest;
 
     // get out mongo connection
     const blainerrichardsonDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
-    // insert our data in one sweep
+    // delete our data in one sweep
     await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME).deleteMany({
       schoolName: {
         $in: _.uniq(schoolExperiences.map((schoolExperience: SchoolExperienceInterface) => schoolExperience.schoolName)),
@@ -63,19 +63,19 @@ export async function loadSchoolExperiencesData(loadSchoolExperiencesDataRequest
   }
 }
 
-export async function loadCertificationsData(loadCertificationsDataRequest: {
+export async function unloadCertificationsData(unloadCertificationsDataRequest: {
   certifications: CertificationInterface[];
 }): Promise<boolean> {
   try {
     // deconstruct for ease
-    const { certifications } = loadCertificationsDataRequest;
+    const { certifications } = unloadCertificationsDataRequest;
 
     // get out mongo connection
     const blainerrichardsonDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
-    // insert our data in one sweep
-    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME).deleteMany({
-      schoolName: {
+    // delete our data in one sweep
+    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME).deleteMany({
+      institution: {
         $in: _.uniq(certifications.map((certification: CertificationInterface) => certification.institution)),
       },
     });
