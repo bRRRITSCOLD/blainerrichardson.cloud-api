@@ -1,0 +1,25 @@
+{
+  "startDate": "2020-02-15T04:15:14.908Z",
+  "endDate": "2020-04-08T11:36:57.463Z",
+  "schoolName": "Klein and Sons",
+  "schoolAddress": {
+    "addressLine1": "07337 Donnelly Garden",
+    "city": "Weissnatton",
+    "state": "Michigan",
+    "zipCode": "99357"
+  },
+  "degree": "Legacy Response Planner",
+  "classes": [
+    "lavender",
+    "Loan",
+    "e-commerce",
+    "Plain",
+    "system",
+    "Directives",
+    "Metal",
+    "connect",
+    "compressing",
+    "SQL",
+    "Colombia"
+  ]
+}

@@ -106,21 +106,22 @@ describe('models/email/Email.ts - unit tests', () => {
               expect((validateResponse.value as any).from.name === EXPECTED_EMAIL_ADDRESS.from.name).to.be.true;
               expect((validateResponse.value as any).from.address !== undefined).to.be.true;
               expect((validateResponse.value as any).from.address === EXPECTED_EMAIL_ADDRESS.from.address).to.be.true;
-              expect((validateResponse.value as any).to !== undefined).to.be.true;
-              expect((validateResponse.value as any).to.name !== undefined).to.be.true;
-              expect((validateResponse.value as any).to.name === EXPECTED_EMAIL_ADDRESS.to.name).to.be.true;
-              expect((validateResponse.value as any).to.address !== undefined).to.be.true;
-              expect((validateResponse.value as any).to.address === EXPECTED_EMAIL_ADDRESS.to.address).to.be.true;
-              expect((validateResponse.value as any).cc !== undefined).to.be.true;
-              expect((validateResponse.value as any).cc.name !== undefined).to.be.true;
-              expect((validateResponse.value as any).cc.name === EXPECTED_EMAIL_ADDRESS.cc.name).to.be.true;
-              expect((validateResponse.value as any).cc.address !== undefined).to.be.true;
-              expect((validateResponse.value as any).cc.address === EXPECTED_EMAIL_ADDRESS.cc.address).to.be.true;
-              expect((validateResponse.value as any).bcc !== undefined).to.be.true;
-              expect((validateResponse.value as any).bcc.name !== undefined).to.be.true;
-              expect((validateResponse.value as any).bcc.name === EXPECTED_EMAIL_ADDRESS.bcc.name).to.be.true;
-              expect((validateResponse.value as any).bcc.address !== undefined).to.be.true;
-              expect((validateResponse.value as any).bcc.address === EXPECTED_EMAIL_ADDRESS.bcc.address).to.be.true;
+              for (const item of email.to as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.to.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
+              expect((email.cc as any) !== undefined).to.be.true;
+              expect((email.cc as any) instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              for (const item of email.cc as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.cc.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
+              expect((email.bcc as any) !== undefined).to.be.true;
+              expect((email.bcc as any) instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              for (const item of email.bcc as any) {
+                const found = EXPECTED_EMAIL_ADDRESS.bcc.find((expectedItem: any) => expectedItem.address === item.address);
+                expect(found !== undefined).to.be.true;
+              }
               expect((validateResponse.value as any).subject !== undefined).to.be.true;
               expect((validateResponse.value as any).subject === EXPECTED_EMAIL_ADDRESS.subject).to.be.true;
               expect((validateResponse.value as any).text !== undefined).to.be.true;

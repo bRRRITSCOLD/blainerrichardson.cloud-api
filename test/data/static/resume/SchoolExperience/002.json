@@ -1,0 +1,22 @@
+{
+  "startDate": "2020-04-23T14:23:31.315Z",
+  "endDate": "2020-05-26T22:12:37.478Z",
+  "schoolName": "Grady, Harber and Nicolas",
+  "schoolAddress": {
+    "addressLine1": "43085 Taya Ford",
+    "city": "Lake Brock",
+    "state": "Virginia",
+    "zipCode": "39572"
+  },
+  "degree": "Human Markets Analyst",
+  "classes": [
+    "Manager",
+    "monitor",
+    "instruction",
+    "throughput",
+    "Hills",
+    "Granite",
+    "deposit",
+    "Business-focused"
+  ]
+}
