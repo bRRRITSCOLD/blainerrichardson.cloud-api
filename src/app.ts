@@ -13,11 +13,10 @@ import { anyUtils } from './lib/utils/any';
 // models
 import { APIError } from './models/error';
 
-// app
-const fastifyApp = fastify({ logger: true });
-
 const bootstrap = async () => {
   try {
+    // app
+    const fastifyApp = fastify({ logger: true });
     // errors
     fastifyApp.addHook('onError', async (_request, _reply, err) => {
       // build error

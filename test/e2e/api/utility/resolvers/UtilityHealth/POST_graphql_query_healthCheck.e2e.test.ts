@@ -127,6 +127,9 @@ describe('api/utility/resolvers/UtilityHealth.resolver - POST /graphql query hea
 
   after(async () => {
     try {
+      // shutdown app/server
+      await app.close();
+
       // return explicitly
       return;
     } catch (err) {

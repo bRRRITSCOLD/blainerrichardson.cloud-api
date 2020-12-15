@@ -259,6 +259,9 @@ describe('api/email/resolvers/Email.resolver - POST /graphql mutation sendEmail 
 
   after(async () => {
     try {
+      // shutdown app/server
+      await app.close();
+
       // return explicitly
       return;
     } catch (err) {
