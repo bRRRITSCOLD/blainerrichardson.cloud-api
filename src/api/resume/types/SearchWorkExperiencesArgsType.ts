@@ -6,7 +6,7 @@ const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_PAGE_SIZE = 500;
 
 @InputType()
-export class SearchWorkExperienceSearchOptionsArgsType {
+export class SearchWorkExperiencesSearchOptionsArgsType {
   @Field({ nullable: true, defaultValue: DEFAULT_PAGE_NUMBER })
   pageNumber: number;
 
@@ -15,13 +15,13 @@ export class SearchWorkExperienceSearchOptionsArgsType {
 }
 
 @ArgsType()
-export class SearchWorkExperienceArgsType {
+export class SearchWorkExperiencesArgsType {
   @Field((_type: unknown) => GraphQLJSONObject)
   searchCriteria: Record<string, unknown>;
 
-  @Field((_type: unknown) => SearchWorkExperienceSearchOptionsArgsType, {
+  @Field((_type: unknown) => SearchWorkExperiencesSearchOptionsArgsType, {
     nullable: true,
     defaultValue: { pageNumber: DEFAULT_PAGE_NUMBER, pageSize: DEFAULT_PAGE_SIZE },
   })
-  searchOptions: SearchWorkExperienceSearchOptionsArgsType;
+  searchOptions: SearchWorkExperiencesSearchOptionsArgsType;
 }

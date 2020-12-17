@@ -1,5 +1,6 @@
 // node_modules
 import * as _ from 'lodash';
+import { Field, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
 import { dateUtils } from '../../lib/utils/date';
 
@@ -17,11 +18,19 @@ export const certficationShema = yup.object().shape({
   institution: yup.string().required(),
 });
 
+@ObjectType()
 export class Certification implements CertificationInterface {
-  public startDate!: string | Date;
-  public endDate?: string | Date;
-  public name!: string;
-  public institution!: string;
+  @Field()
+  startDate: string;
+
+  @Field()
+  endDate?: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  institution: string;
 
   public constructor(certification: Partial<CertificationInterface>) {
     _.assign(this, certification, {

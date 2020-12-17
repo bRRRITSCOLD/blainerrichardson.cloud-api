@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 // models
 import { APIError } from '../../../models/error';
 import { WorkExperience } from '../../../models/resume';
-import { SearchWorkExperienceArgsType } from '../types/SearchWorkExperienceArgsType';
-import { SearchWorkExperienceResponseObjectType } from '../types/SearchWorkExperienceResponseObjectType';
+import { SearchWorkExperiencesArgsType } from '../types/SearchWorkExperiencesArgsType';
+import { SearchWorkExperiencesResponseObjectType } from '../types/SearchWorkExperiencesResponseObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';
@@ -19,11 +19,11 @@ import { WorkExperienceService } from '../services/WorkExperience.service';
 export class WorkExperiencelineResolver {
   public constructor(private readonly workExperienceService: WorkExperienceService) {}
 
-  @Query((_returns: unknown) => SearchWorkExperienceResponseObjectType)
+  @Query((_returns: unknown) => SearchWorkExperiencesResponseObjectType)
   public async searchWorkExperiences(
     @Ctx() _context: any,
-    @Args() searchWorkExperienceArgsType: SearchWorkExperienceArgsType,
-  ): Promise<SearchWorkExperienceResponseObjectType> {
+    @Args() searchWorkExperienceArgsType: SearchWorkExperiencesArgsType,
+  ): Promise<SearchWorkExperiencesResponseObjectType> {
     try {
       // create params here for ease
       const searchWorkExperiencesResponse = await this.workExperienceService.searchWorkExperiences(searchWorkExperienceArgsType);
