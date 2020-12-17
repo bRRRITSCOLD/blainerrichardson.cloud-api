@@ -1,13 +1,12 @@
 // node modules
-// import { Resolver, Query, FieldResolver, Root, Args } from 'type-graphql';
 import { Resolver, Query, Ctx, Args } from 'type-graphql';
 import * as _ from 'lodash';
-import { Service } from 'typedi';
 
 // models
 import { APIError } from '../../../models/error';
 import { WorkExperience } from '../../../models/resume';
-import { SearchWorkExperienceArgsType, SearchWorkExperienceResponseObjectType } from '../types/SearchWorkExperienceArgsType';
+import { SearchWorkExperienceArgsType } from '../types/SearchWorkExperienceArgsType';
+import { SearchWorkExperienceResponseObjectType } from '../types/SearchWorkExperienceResponseObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';

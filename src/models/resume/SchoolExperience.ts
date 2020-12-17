@@ -1,19 +1,32 @@
 // node_modules
 import * as _ from 'lodash';
+import { Field, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
 import { dateUtils } from '../../lib/utils/date';
 
+@ObjectType()
+export class SchoolExperienceCompanyAddress {
+  @Field()
+  addressLine1: string;
+
+  @Field({ nullable: true })
+  addressLine2?: string;
+
+  @Field()
+  city: string;
+
+  @Field()
+  state: string;
+
+  @Field()
+  zipCode: string;
+}
+
 export interface SchoolExperienceInterface {
-  startDate: string | Date;
-  endDate?: string | Date;
+  startDate: string;
+  endDate?: string;
   schoolName: string;
-  schoolAddress: {
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
+  schoolAddress: SchoolExperienceCompanyAddress;
   degree?: string;
   classes: string[];
 }
@@ -25,19 +38,25 @@ export const schoolExperienceSchema = yup.object().shape({
   institution: yup.string().required(),
 });
 
+@ObjectType()
 export class SchoolExperience implements SchoolExperienceInterface {
-  public startDate!: string | Date;
-  public endDate?: string | Date;
-  public schoolName!: string;
-  public schoolAddress!: {
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-  public degree?: string;
-  public classes!: string[];
+  @Field()
+  startDate: string;
+
+  @Field()
+  endDate?: string;
+
+  @Field()
+  schoolName!: string;
+
+  @Field((_type) => SchoolExperienceCompanyAddress)
+  schoolAddress: SchoolExperienceCompanyAddress;
+
+  @Field()
+  degree: string;
+
+  @Field((_type) => [String])
+  classes!: string[];
 
   public constructor(schoolExperience: Partial<SchoolExperienceInterface>) {
     _.assign(this, schoolExperience, {

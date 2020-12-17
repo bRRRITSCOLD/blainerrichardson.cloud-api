@@ -36,7 +36,7 @@ export class WorkExperienceService {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}EmailService::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}searchWorkExperiences::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }

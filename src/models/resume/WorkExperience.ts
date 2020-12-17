@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { dateUtils } from '../../lib/utils/date';
 
 @ObjectType()
-class WorExperienceCompanyAddress {
+export class WorkExperienceCompanyAddress {
   @Field()
   addressLine1: string;
 
@@ -26,7 +26,7 @@ export interface WorkExperienceInterface {
   startDate: string;
   endDate?: string;
   companyName: string;
-  companyAddress: WorExperienceCompanyAddress;
+  companyAddress: WorkExperienceCompanyAddress;
   position: string;
   duties: string[];
   accomplishments: string[];
@@ -50,8 +50,8 @@ export class WorkExperience implements WorkExperienceInterface {
   @Field()
   companyName: string;
 
-  @Field((_type) => WorExperienceCompanyAddress)
-  companyAddress: WorExperienceCompanyAddress;
+  @Field((_type) => WorkExperienceCompanyAddress)
+  companyAddress: WorkExperienceCompanyAddress;
 
   @Field()
   position: string;

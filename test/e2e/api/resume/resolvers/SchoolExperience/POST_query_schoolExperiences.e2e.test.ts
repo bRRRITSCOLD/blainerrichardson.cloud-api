@@ -10,19 +10,19 @@ import { e2eTestEnv } from '../../../../../lib/environment';
 import { mongo } from '../../../../../../src/lib/mongo';
 
 // models
-// import { WorkExperience } from '../../../../../../src/models/resume';
+// import { SchoolExperience } from '../../../../../../src/models/resume';
 
 // testees
 import { bootstrap } from '../../../../../../src/app';
 let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // data
-import { readStaticWorkExperienceData } from '../../../../../data/static/resume/WorkExperience';
-import { loadWorkExperiencesData, unloadWorkExperiencesData } from '../../../../../data/loaders/resume';
+import { readStaticSchoolExperienceData } from '../../../../../data/static/resume/SchoolExperience';
+import { loadSchoolExperiencesData, unloadSchoolExperiencesData } from '../../../../../data/loaders/resume';
 
 // file constants/functions
-let staticWorkExperienceData: any | any[];
-let cachedWorkExperienceData: any | any[];
+let staticSchoolExperienceData: any | any[];
+let cachedSchoolExperienceData: any | any[];
 
 async function customStartUp() {
   try {
@@ -35,7 +35,7 @@ async function customStartUp() {
 }
 
 // tests
-describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query searchWorkExperiences - e2e tests', () => {
+describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql query searchSchoolExperiences - e2e tests', () => {
   before(async () => {
     try {
       // load out environment
@@ -61,15 +61,15 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
     }
   });
 
-  describe('{ query: { searchWorkExperiences(searchCriteria: {}) { } } }', () => {
+  describe('{ query: { searchSchoolExperiences(searchCriteria: {}) { } } }', () => {
     beforeEach(async () => {
       try {
         // create the faked data
-        staticWorkExperienceData = await readStaticWorkExperienceData(3);
+        staticSchoolExperienceData = await readStaticSchoolExperienceData(3);
 
         // load data into datasources
-        cachedWorkExperienceData = await loadWorkExperiencesData({
-          workExperiences: staticWorkExperienceData,
+        cachedSchoolExperienceData = await loadSchoolExperiencesData({
+          schoolExperiences: staticSchoolExperienceData,
         });
 
         // return explicitly
@@ -82,8 +82,8 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
     afterEach(async () => {
       try {
         // unload data from datasources
-        cachedWorkExperienceData = await unloadWorkExperiencesData({
-          workExperiences: cachedWorkExperienceData,
+        cachedSchoolExperienceData = await unloadSchoolExperiencesData({
+          schoolExperiences: cachedSchoolExperienceData,
         });
 
         // return explicitly
@@ -93,7 +93,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
       }
     });
 
-    it('- should retrun 1...N work experience instances that match a given criteria with the given options applied', async () => {
+    it('- should retrun 1...N school experience instances that match a given criteria with the given options applied', async () => {
       try {
         /////////////////////////
         ///////// setup /////////
@@ -101,7 +101,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
         // set up expectations
         const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
         const EXPECTED_TYPE_OF_STRING = 'string';
-        const EXPECTED_WORK_EXPERIENCES = cachedWorkExperienceData.slice();
+        const EXPECTED_WORK_EXPERIENCES = cachedSchoolExperienceData.slice();
         const EXPECTED_WORK_EXPERIENCES_LENGTH = EXPECTED_WORK_EXPERIENCES.length;
 
         /////////////////////////
@@ -117,15 +117,15 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
           },
           payload: {
             query: `{
-              searchWorkExperiences(
+              searchSchoolExperiences(
                 searchCriteria: {},
                 searchOptions: {}
               ) {
-                workExperiences {
-                  companyName
+                schoolExperiences {
+                  schoolName
                 },
-                moreWorkExperiences,
-                totalWorkExperiences
+                moreSchoolExperiences,
+                totalSchoolExperiences
               }
             }`,
           },
@@ -145,18 +145,17 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query sea
         // validate results
         expect(parsedBody !== undefined).to.be.true;
         expect(parsedBody.data !== null).to.be.true;
-        expect(parsedBody.data.searchWorkExperiences !== null).to.be.true;
-        expect(parsedBody.data.searchWorkExperiences.workExperiences !== null).to.be.true;
-        expect(parsedBody.data.searchWorkExperiences.workExperiences instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-        expect(parsedBody.data.searchWorkExperiences.workExperiences.length === EXPECTED_WORK_EXPERIENCES_LENGTH).to.be.true;
-        for (const item of parsedBody.data.searchWorkExperiences.workExperiences) {
+        expect(parsedBody.data.searchSchoolExperiences !== null).to.be.true;
+        expect(parsedBody.data.searchSchoolExperiences.schoolExperiences !== null).to.be.true;
+        expect(parsedBody.data.searchSchoolExperiences.schoolExperiences instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+        expect(parsedBody.data.searchSchoolExperiences.schoolExperiences.length === EXPECTED_WORK_EXPERIENCES_LENGTH).to.be.true;
+        for (const item of parsedBody.data.searchSchoolExperiences.schoolExperiences) {
           expect(EXPECTED_WORK_EXPERIENCES.find((expectedItem: any) => expectedItem.companyName === item.companyName) !== undefined).to.be
             .true;
         }
-        expect(parsedBody.data.searchWorkExperiences.moreWorkExperiences !== null).to.be.true;
-        expect(parsedBody.data.searchWorkExperiences.moreWorkExperiences).to.be.false;
-        expect(parsedBody.data.searchWorkExperiences.totalWorkExperiences === null).to.be.true;
-
+        expect(parsedBody.data.searchSchoolExperiences.moreSchoolExperiences !== null).to.be.true;
+        expect(parsedBody.data.searchSchoolExperiences.moreSchoolExperiences).to.be.false;
+        expect(parsedBody.data.searchSchoolExperiences.totalSchoolExperiences === null).to.be.true;
         // return explicitly
         return;
       } catch (err) {
