@@ -1,19 +1,32 @@
 // node_modules
 import * as _ from 'lodash';
+import { Field, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
 import { dateUtils } from '../../lib/utils/date';
 
+@ObjectType()
+export class WorkExperienceCompanyAddress {
+  @Field()
+  addressLine1: string;
+
+  @Field({ nullable: true })
+  addressLine2?: string;
+
+  @Field()
+  city: string;
+
+  @Field()
+  state: string;
+
+  @Field()
+  zipCode: string;
+}
+
 export interface WorkExperienceInterface {
-  startDate: string | Date;
-  endDate?: string | Date;
+  startDate: string;
+  endDate?: string;
   companyName: string;
-  companyAddress: {
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
+  companyAddress: WorkExperienceCompanyAddress;
   position: string;
   duties: string[];
   accomplishments: string[];
@@ -26,20 +39,28 @@ export const workExperienceSchema = yup.object().shape({
   institution: yup.string().required(),
 });
 
+@ObjectType()
 export class WorkExperience implements WorkExperienceInterface {
-  public startDate!: string | Date;
-  public endDate?: string | Date;
-  public companyName!: string;
-  public companyAddress!: {
-    addressLine1: string;
-    addressLine2?: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-  public position: string;
-  public duties: string[];
-  public accomplishments: string[];
+  @Field()
+  startDate: string;
+
+  @Field({ nullable: true })
+  endDate?: string;
+
+  @Field()
+  companyName: string;
+
+  @Field((_type) => WorkExperienceCompanyAddress)
+  companyAddress: WorkExperienceCompanyAddress;
+
+  @Field()
+  position: string;
+
+  @Field((_type) => [String])
+  duties: string[];
+
+  @Field((_type) => [String])
+  accomplishments: string[];
 
   public constructor(workExperience: Partial<WorkExperienceInterface>) {
     _.assign(this, workExperience, {

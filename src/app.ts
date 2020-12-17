@@ -17,13 +17,16 @@ const bootstrap = async () => {
   try {
     // app
     const fastifyApp = fastify({ logger: true });
+
     // errors
     fastifyApp.addHook('onError', async (_request, _reply, err) => {
       // build error
       const error = new APIError(err);
+
       // log for debugging and run support purposes
       logger.error(`{}App::#onError::error=${anyUtils.stringify(error)}`);
     });
+
     // cors
     fastifyApp.register(require('fastify-cors'), {
       // origin: 'http://127.0.0.1:3000',
@@ -34,6 +37,7 @@ const bootstrap = async () => {
             if (origin === undefined) isAllowed = true;
             else if (allowedOrigin === '*') isAllowed = true;
             else if (origin.includes(allowedOrigin)) isAllowed = true;
+
             return isAllowed;
           }, false)
         )
@@ -42,10 +46,12 @@ const bootstrap = async () => {
       },
       credentials: true,
     });
+
     // cookies
     fastifyApp.register(require('fastify-cookie'), {
       parseOptions: {}, // options for parsing cookies
     });
+
     // headers
     const { fastifyHelmet } = await import('fastify-helmet');
     fastifyApp.register(fastifyHelmet, {
@@ -55,12 +61,14 @@ const bootstrap = async () => {
         },
       },
     });
+
     // build graphql schema
     const schema = await buildSchema({
       resolvers: [`${__dirname}/**/*.resolver.ts`],
       container: Container,
       globalMiddlewares: [ErrorInterceptor],
     });
+
     // register graphql
     fastifyApp.register(require('mercurius'), {
       schema,
@@ -73,13 +81,16 @@ const bootstrap = async () => {
         };
       },
     });
+
     // return app explicitly
     return fastifyApp;
   } catch (err) {
     // build error
     const error = new APIError(err);
+
     // log for debugging and run support purposes
     logger.error(`{}App::#bootstrap::error executing::error=${anyUtils.stringify(error)}`);
+
     // throw any error
     throw error;
   }
