@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 // models
 import { APIError } from '../../../models/error';
 import { SchoolExperience } from '../../../models/resume';
-import { SearchSchoolExperienceArgsType } from '../types/SearchSchoolExperienceArgsType';
-import { SearchSchoolExperienceResponseObjectType } from '../types/SearchSchoolExperienceResponseObjectType';
+import { SearchSchoolExperiencesArgsType } from '../types/SearchSchoolExperiencesArgsType';
+import { SearchSchoolExperiencesResponseObjectType } from '../types/SearchSchoolExperiencesResponseObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';
@@ -19,11 +19,11 @@ import { SchoolExperienceService } from '../services/SchoolExperience.service';
 export class SchoolExperiencelineResolver {
   public constructor(private readonly SchoolExperienceService: SchoolExperienceService) {}
 
-  @Query((_returns: unknown) => SearchSchoolExperienceResponseObjectType)
+  @Query((_returns: unknown) => SearchSchoolExperiencesResponseObjectType)
   public async searchSchoolExperiences(
     @Ctx() _context: any,
-    @Args() searchSchoolExperienceArgsType: SearchSchoolExperienceArgsType,
-  ): Promise<SearchSchoolExperienceResponseObjectType> {
+    @Args() searchSchoolExperienceArgsType: SearchSchoolExperiencesArgsType,
+  ): Promise<SearchSchoolExperiencesResponseObjectType> {
     try {
       // create params here for ease
       const searchSchoolExperiencesResponse = await this.SchoolExperienceService.searchSchoolExperiences(searchSchoolExperienceArgsType);
