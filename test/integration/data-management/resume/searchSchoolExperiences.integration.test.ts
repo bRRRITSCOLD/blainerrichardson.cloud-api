@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
+import 'reflect-metadata';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 
@@ -130,8 +131,9 @@ describe('data-management/resume/searchSchoolExperiences - #searchSchoolExperien
             for (const schoolExperience of searchSchoolExperiencesResponse.schoolExperiences) {
               expect(schoolExperience instanceof EXPECTED_SCHOOL_EXPERIENCE_CLASS_INSTANCE).to.be.true;
               expect(
-                EXPECTED_SCHOOL_EXPERIENCES.find((expectedItem: any) => expectedItem.schoolName === schoolExperience.schoolName) !==
-                  undefined,
+                EXPECTED_SCHOOL_EXPERIENCES.find(
+                  (expectedItem: any) => expectedItem.schoolExperienceId === schoolExperience.schoolExperienceId,
+                ) !== undefined,
               ).to.be.true;
             }
 
@@ -186,7 +188,9 @@ describe('data-management/resume/searchSchoolExperiences - #searchSchoolExperien
             // none
             const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
             const EXPECTED_SCHOOL_EXPERIENCE_CLASS_INSTANCE = SchoolExperience;
-            const EXPECTED_SCHOOL_EXPERIENCES = cachedSchoolExperienceData.slice(0, 1);
+            const EXPECTED_SCHOOL_EXPERIENCES = cachedSchoolExperienceData
+              .slice()
+              .filter((item: any) => item.schoolName === cachedSchoolExperienceData[0].schoolName);
             const EXPECTED_SCHOOL_EXPERIENCES_LENGTH = EXPECTED_SCHOOL_EXPERIENCES.length;
 
             /////////////////////////
@@ -208,8 +212,9 @@ describe('data-management/resume/searchSchoolExperiences - #searchSchoolExperien
             for (const schoolExperience of searchSchoolExperiencesResponse.schoolExperiences) {
               expect(schoolExperience instanceof EXPECTED_SCHOOL_EXPERIENCE_CLASS_INSTANCE).to.be.true;
               expect(
-                EXPECTED_SCHOOL_EXPERIENCES.find((expectedItem: any) => expectedItem.schoolName === schoolExperience.schoolName) !==
-                  undefined,
+                EXPECTED_SCHOOL_EXPERIENCES.find(
+                  (expectedItem: any) => expectedItem.schoolExperienceId === schoolExperience.schoolExperienceId,
+                ) !== undefined,
               ).to.be.true;
             }
 

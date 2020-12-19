@@ -49,7 +49,7 @@ describe('models/email/SchoolExperience.ts - unit tests', () => {
   });
 
   describe('#constructor', () => {
-    context('({ startDate, endDate, schoolName, schoolAddress, degree, classes })', () => {
+    context('({ schoolExperienceId, startDate, endDate, schoolName, schoolAddress, degree, classes })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
@@ -97,6 +97,8 @@ describe('models/email/SchoolExperience.ts - unit tests', () => {
             // run assertions
             expect(schoolExperience !== undefined).to.be.true;
             expect(schoolExperience instanceof EXPECTED_SCHOOL_EXPERIENCE_CLASS_INSTANCE).to.be.true;
+            expect(schoolExperience.schoolExperienceId !== undefined).to.be.true;
+            expect(schoolExperience.schoolExperienceId === EXPECTED_SCHOOL_EXPERIENCE.schoolExperienceId).to.be.true;
             expect(schoolExperience.startDate !== undefined).to.be.true;
             expect(schoolExperience.startDate === EXPECTED_SCHOOL_EXPERIENCE.startDate).to.be.true;
             expect(schoolExperience.endDate !== undefined).to.be.true;

@@ -2,9 +2,13 @@
 import * as _ from 'lodash';
 import { Field, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
+import { v4 as uuid } from 'uuid';
+
+// libraries
 import { dateUtils } from '../../lib/utils/date';
 
 export interface CertificationInterface {
+  certificationId: string;
   startDate: string | Date;
   endDate?: string | Date;
   name: string;
@@ -12,14 +16,24 @@ export interface CertificationInterface {
 }
 
 export const certficationShema = yup.object().shape({
-  startDate: yup.date().required(),
-  endDate: yup.date().optional(),
+  certificationId: yup.string().required(),
+  startDate: yup
+    .mixed()
+    .test('is-date', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value))
+    .required(),
+  endDate: yup
+    .mixed()
+    .test('is-date', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value))
+    .optional(),
   name: yup.string().required(),
   institution: yup.string().required(),
 });
 
 @ObjectType()
 export class Certification implements CertificationInterface {
+  @Field()
+  certificationId: string;
+
   @Field()
   startDate: string;
 
@@ -34,6 +48,7 @@ export class Certification implements CertificationInterface {
 
   public constructor(certification: Partial<CertificationInterface>) {
     _.assign(this, certification, {
+      certificationId: _.get(certification, 'certificationId', uuid()),
       startDate: dateUtils.dateTime(new Date(_.get(certification, 'startDate', new Date()))),
       endDate: _.get(certification, 'endDate') ? dateUtils.dateTime(new Date(_.get(certification, 'endDate') as any)) : undefined,
       name: _.get(certification, 'name'),
