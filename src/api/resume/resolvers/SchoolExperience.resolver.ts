@@ -14,7 +14,8 @@ import { anyUtils } from '../../../lib/utils/any';
 
 // services
 import { SchoolExperienceService } from '../services/SchoolExperience.service';
-import { PutSchoolExperienceInputType } from '../types/PutSchoolExperiencesInputType';
+import { PutSchoolExperiencesInputType } from '../types/PutSchoolExperiencesInputType';
+import { PutSchoolExperiencesObjectType } from '../types';
 
 @Resolver((_of: unknown) => SchoolExperience)
 export class SchoolExperienceResolver {
@@ -41,22 +42,22 @@ export class SchoolExperienceResolver {
     }
   }
 
-  @Mutation((_returns: unknown) => SearchSchoolExperiencesObjectType)
+  @Mutation((_returns: unknown) => PutSchoolExperiencesObjectType)
   public async putSchoolExperiences(
     @Ctx() _context: any,
-    @Arg('data') putSchoolExperienceInputType: PutSchoolExperienceInputType,
-  ): Promise<SearchSchoolExperiencesObjectType> {
+    @Arg('data') putSchoolExperienceInputType: PutSchoolExperiencesInputType,
+  ): Promise<PutSchoolExperiencesObjectType> {
     try {
       // create params here for ease
-      const searchSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperience(putSchoolExperienceInputType);
+      const putSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperiences(putSchoolExperienceInputType);
 
       // return expiclitly
-      return searchSchoolExperiencesResponse;
+      return putSchoolExperiencesResponse;
     } catch (err) {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}SchoolExperienceResolver::#searchSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}SchoolExperienceResolver::#putSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw { errors: [error] };
     }

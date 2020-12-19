@@ -37,16 +37,16 @@ export class SchoolExperienceService {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}searchSchoolExperiences::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}SchoolExperienceService::#searchSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }
   }
 
-  public async putSchoolExperience(putSchoolExperienceRequest: { schoolExperiences: SchoolExperience[] }): Promise<any> {
+  public async putSchoolExperiences(putSchoolExperiencesRequest: { schoolExperiences: SchoolExperience[] }): Promise<any> {
     try {
       // deconstruct for east and usability
-      const { schoolExperiences } = putSchoolExperienceRequest;
+      const { schoolExperiences } = putSchoolExperiencesRequest;
 
       // call data-management layer to search backend
       // datasources for School experience resume data
@@ -58,7 +58,7 @@ export class SchoolExperienceService {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}searchSchoolExperiences::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}SchoolExperienceService::#putSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }
