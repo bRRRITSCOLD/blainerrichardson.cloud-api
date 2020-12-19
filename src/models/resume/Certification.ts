@@ -1,6 +1,6 @@
 // node_modules
 import * as _ from 'lodash';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
 
@@ -29,7 +29,8 @@ export const certficationShema = yup.object().shape({
   institution: yup.string().required(),
 });
 
-@ObjectType()
+@ObjectType('CertificationObjectType')
+@InputType('CertificationInputType')
 export class Certification implements CertificationInterface {
   @Field()
   certificationId: string;
