@@ -12,6 +12,7 @@ import { AnyObject } from 'yup/lib/types';
 
 // data-management
 import * as resumeManager from '../../../data-management/resume';
+import { Certification } from '../../../models/resume';
 
 @Service()
 export class CertificationService {
@@ -37,6 +38,27 @@ export class CertificationService {
       const error = new APIError(err);
       // log for debugging and run support purposes
       logger.error(`{}searchCertifications::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw error;
+    }
+  }
+
+  public async putCertifications(putCertificationsRequest: { certifications: Certification[] }): Promise<any> {
+    try {
+      // deconstruct for east and usability
+      const { certifications } = putCertificationsRequest;
+
+      // call data-management layer to search backend
+      // datasources for School experience resume data
+      const searchCertificationsResponse = await resumeManager.putCertifications({ certifications });
+
+      // return health check explicitly
+      return searchCertificationsResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}CertificationService::#putCertifications::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }

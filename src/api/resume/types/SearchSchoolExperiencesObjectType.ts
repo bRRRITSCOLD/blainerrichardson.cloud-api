@@ -3,7 +3,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { SchoolExperience } from '../../../models/resume';
 
 @ObjectType()
-export class SearchSchoolExperiencesResponseObjectType {
+export class SearchSchoolExperiencesObjectType {
   @Field((_type: unknown) => [SchoolExperience])
   schoolExperiences: SchoolExperience[];
 

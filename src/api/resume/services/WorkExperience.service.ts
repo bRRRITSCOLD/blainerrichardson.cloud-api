@@ -12,6 +12,7 @@ import { AnyObject } from 'yup/lib/types';
 
 // data-management
 import * as resumeManager from '../../../data-management/resume';
+import { WorkExperience } from '../../../models/resume';
 
 @Service()
 export class WorkExperienceService {
@@ -36,7 +37,28 @@ export class WorkExperienceService {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}searchWorkExperiences::#sendEmail::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}WorkExperienceService::#searchWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw error;
+    }
+  }
+
+  public async putWorkExperiences(putWorkExperienceRequest: { workExperiences: WorkExperience[] }): Promise<any> {
+    try {
+      // deconstruct for east and usability
+      const { workExperiences } = putWorkExperienceRequest;
+
+      // call data-management layer to search backend
+      // datasources for Work experience resume data
+      const putSchoolExperiencesResponse = await resumeManager.putWorkExperiences({ workExperiences });
+
+      // return health check explicitly
+      return putSchoolExperiencesResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}WorkExperienceService::#putWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }
