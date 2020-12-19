@@ -17,7 +17,7 @@ export interface SchoolExperienceCompanyAddressInterface {
 
 @ObjectType('SchoolExperienceCompanyAddressObjectType')
 @InputType('SchoolExperienceCompanyAddressInputType')
-export class SchoolExperienceCompanyAddress {
+export class SchoolExperienceCompanyAddress implements SchoolExperienceCompanyAddressInterface {
   @Field()
   addressLine1: string;
 
@@ -47,7 +47,7 @@ export interface SchoolExperienceInterface {
   startDate: string;
   endDate?: string;
   schoolName: string;
-  schoolAddress: SchoolExperienceCompanyAddress;
+  schoolAddress: SchoolExperienceCompanyAddressInterface;
   degree?: string;
   classes: string[];
 }

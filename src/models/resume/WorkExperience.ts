@@ -1,11 +1,31 @@
 // node_modules
 import * as _ from 'lodash';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import * as yup from 'yup';
+import { v4 as uuid } from 'uuid';
+
+// libraries
 import { dateUtils } from '../../lib/utils/date';
 
-@ObjectType()
-export class WorkExperienceCompanyAddress {
+export interface WorkExperienceCompanyAddressInterface {
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
+export const workExperienceAddressSchema = yup.object().shape({
+  addressLine1: yup.string().required(),
+  addressLine2: yup.string().optional(),
+  city: yup.string().required(),
+  state: yup.string().required(),
+  zipCode: yup.string().required(),
+});
+
+@ObjectType('WorkExperienceCompanyAddressObjectType')
+@InputType('WorkExperienceCompanyAddressInputType')
+export class WorkExperienceCompanyAddress implements WorkExperienceCompanyAddressInterface {
   @Field()
   addressLine1: string;
 
@@ -26,21 +46,35 @@ export interface WorkExperienceInterface {
   startDate: string;
   endDate?: string;
   companyName: string;
-  companyAddress: WorkExperienceCompanyAddress;
+  companyAddress: WorkExperienceCompanyAddressInterface;
   position: string;
   duties: string[];
   accomplishments: string[];
 }
 
 export const workExperienceSchema = yup.object().shape({
-  startDate: yup.date().required(),
-  endDate: yup.date().optional(),
-  name: yup.string().required(),
-  institution: yup.string().required(),
+  workExperienceId: yup.string().required(),
+  startDate: yup
+    .mixed()
+    .test('is-date', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value))
+    .required(),
+  endDate: yup
+    .mixed()
+    .test('is-date', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value))
+    .optional(),
+  companyName: yup.string().required(),
+  companyAddress: workExperienceAddressSchema,
+  position: yup.string().required(),
+  duties: yup.array().of(yup.string().optional()).required(),
+  accomplishments: yup.array().of(yup.string().optional()).required(),
 });
 
-@ObjectType()
+@ObjectType('WorkExperienceObjectType')
+@InputType('WorkExperienceInputType')
 export class WorkExperience implements WorkExperienceInterface {
+  @Field()
+  workExperienceId: string;
+
   @Field()
   startDate: string;
 
@@ -64,6 +98,7 @@ export class WorkExperience implements WorkExperienceInterface {
 
   public constructor(workExperience: Partial<WorkExperienceInterface>) {
     _.assign(this, workExperience, {
+      workExperienceId: _.get(workExperience, 'workExperienceId', uuid()),
       startDate: dateUtils.dateTime(new Date(_.get(workExperience, 'startDate', new Date()))),
       endDate: _.get(workExperience, 'endDate') ? dateUtils.dateTime(new Date(_.get(workExperience, 'endDate') as any)) : undefined,
       companyName: _.get(workExperience, 'companyName'),
