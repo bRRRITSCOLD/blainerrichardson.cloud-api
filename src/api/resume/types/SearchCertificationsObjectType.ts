@@ -3,7 +3,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { Certification } from '../../../models/resume';
 
 @ObjectType()
-export class SearchCertificationsResponseObjectType {
+export class SearchCertificationsObjectType {
   @Field((_type: unknown) => [Certification])
   certifications: Certification[];
 

@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { APIError } from '../../../models/error';
 import { Certification } from '../../../models/resume';
 import { SearchCertificationsArgsType } from '../types/SearchCertificationsArgsType';
-import { SearchCertificationsResponseObjectType } from '../types/SearchCertificationsResponseObjectType';
+import { SearchCertificationsObjectType } from '../types/SearchCertificationsObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';
@@ -19,11 +19,11 @@ import { CertificationService } from '../services/Certification.service';
 export class CertificationlineResolver {
   public constructor(private readonly CertificationService: CertificationService) {}
 
-  @Query((_returns: unknown) => SearchCertificationsResponseObjectType)
+  @Query((_returns: unknown) => SearchCertificationsObjectType)
   public async searchCertifications(
     @Ctx() _context: any,
     @Args() searchCertificationArgsType: SearchCertificationsArgsType,
-  ): Promise<SearchCertificationsResponseObjectType> {
+  ): Promise<SearchCertificationsObjectType> {
     try {
       // create params here for ease
       const searchCertificationsResponse = await this.CertificationService.searchCertifications(searchCertificationArgsType);
