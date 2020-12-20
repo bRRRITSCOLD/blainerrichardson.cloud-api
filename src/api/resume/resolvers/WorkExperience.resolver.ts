@@ -16,6 +16,8 @@ import { anyUtils } from '../../../lib/utils/any';
 import { WorkExperienceService } from '../services/WorkExperience.service';
 import { PutWorkExperiencesObjectType } from '../types/PutWorkExperiencesObjectType';
 import { PutWorkExperiencesInputType } from '../types/PutWorkExperiencesInputType';
+import { DeleteWorkExperiencesObjectType } from '../types/DeleteWorkExperiencesObjectType';
+import { DeleteWorkExperiencesInputType } from '../types/DeleteWorkExperiencesInputType';
 
 @Resolver((_of: unknown) => WorkExperience)
 export class WorkExperienceResolver {
@@ -49,15 +51,36 @@ export class WorkExperienceResolver {
   ): Promise<PutWorkExperiencesObjectType> {
     try {
       // create params here for ease
-      const putSchoolExperiencesResponse = await this.workExperienceService.putWorkExperiences(putWorkExperienceInputType);
+      const putWorkExperiencesResponse = await this.workExperienceService.putWorkExperiences(putWorkExperienceInputType);
 
       // return expiclitly
-      return putSchoolExperiencesResponse;
+      return putWorkExperiencesResponse;
     } catch (err) {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
-      logger.error(`{}WorkExperienceResolver::#putSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      logger.error(`{}WorkExperienceResolver::#putWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw { errors: [error] };
+    }
+  }
+
+  @Mutation((_returns: unknown) => DeleteWorkExperiencesObjectType)
+  public async deleteWorkExperiences(
+    @Ctx() _context: any,
+    @Arg('data') deleteWorkExperiencesInputType: DeleteWorkExperiencesInputType,
+  ): Promise<DeleteWorkExperiencesObjectType> {
+    try {
+      // create params here for ease
+      const putWorkExperiencesResponse = await this.workExperienceService.deleteWorkExperiences(deleteWorkExperiencesInputType);
+
+      // return expiclitly
+      return putWorkExperiencesResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}WorkExperienceResolver::#deleteWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw { errors: [error] };
     }

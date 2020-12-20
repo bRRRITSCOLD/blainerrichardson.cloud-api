@@ -50,15 +50,36 @@ export class CertificationService {
 
       // call data-management layer to search backend
       // datasources for School experience resume data
-      const searchCertificationsResponse = await resumeManager.putCertifications({ certifications });
+      const putCertificationsResponse = await resumeManager.putCertifications({ certifications });
 
       // return health check explicitly
-      return searchCertificationsResponse;
+      return putCertificationsResponse;
     } catch (err) {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
       logger.error(`{}CertificationService::#putCertifications::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw error;
+    }
+  }
+
+  public async deleteCertifications(deleteCertificationsRequest: { certificationIds: string[] }): Promise<any> {
+    try {
+      // deconstruct for east and usability
+      const { certificationIds } = deleteCertificationsRequest;
+
+      // call data-management layer to search backend
+      // datasources for School experience resume data
+      const deleteCertificationsResponse = await resumeManager.deleteCertifications({ certificationIds });
+
+      // return health check explicitly
+      return deleteCertificationsResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}CertificationService::#deleteCertifications::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }

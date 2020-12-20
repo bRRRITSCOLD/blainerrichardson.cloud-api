@@ -50,15 +50,36 @@ export class WorkExperienceService {
 
       // call data-management layer to search backend
       // datasources for Work experience resume data
-      const putSchoolExperiencesResponse = await resumeManager.putWorkExperiences({ workExperiences });
+      const putWorkExperiencesResponse = await resumeManager.putWorkExperiences({ workExperiences });
 
       // return health check explicitly
-      return putSchoolExperiencesResponse;
+      return putWorkExperiencesResponse;
     } catch (err) {
       // build error
       const error = new APIError(err);
       // log for debugging and run support purposes
       logger.error(`{}WorkExperienceService::#putWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw error;
+    }
+  }
+
+  public async deleteWorkExperiences(deleteWorkExperiencesRequest: { workExperienceIds: string[] }): Promise<any> {
+    try {
+      // deconstruct for east and usability
+      const { workExperienceIds } = deleteWorkExperiencesRequest;
+
+      // call data-management layer to search backend
+      // datasources for School experience resume data
+      const deleteWorkExperiencesResponse = await resumeManager.deleteWorkExperiences({ workExperienceIds });
+
+      // return health check explicitly
+      return deleteWorkExperiencesResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}WorkExperienceService::#deleteWorkExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw error;
     }
