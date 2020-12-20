@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import * as _ from 'lodash';
 
 // models
-import { EmailAttachmentInterface, emailAttachmentSchema } from './EmailAttachment';
+import { EmailAttachment, EmailAttachmentInterface, emailAttachmentSchema } from './EmailAttachment';
 import { EmailAddress, EmailAddressInterface, emailAddressSchema } from './EmailAddress';
 
 export interface EmailInterface {
@@ -36,12 +36,22 @@ export class Email {
   public subject!: string;
   public text?: string;
   public html?: string;
-  public attachments?: EmailAttachmentInterface[];
+  public attachments?: EmailAttachment[];
 
   public constructor(email: EmailInterface) {
-    _.assign(this, email, {});
+    _.assign(this, email, {
+      from: new EmailAddress(_.get(email, 'from')),
+      to: _.get(email, 'to', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item)),
+      cc: _.get(email, 'cc', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item)),
+      bcc: _.get(email, 'bcc', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item)),
+      subject: _.get(email, 'subject'),
+      text: _.get(email, 'subject'),
+      html: _.get(email, 'subject'),
+      attachments: _.get(email, 'attachments', [] as EmailAttachmentInterface[]).map(
+        (item: EmailAttachmentInterface) => new EmailAttachment(item),
+      ),
+    });
   }
-
   /**
    *
    *
