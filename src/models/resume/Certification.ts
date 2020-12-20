@@ -29,23 +29,12 @@ export const certficationShema = yup.object().shape({
   institution: yup.string().required(),
 });
 
-@ObjectType('CertificationObjectType')
-@InputType('CertificationInputType')
 export class Certification implements CertificationInterface {
-  @Field()
-  certificationId: string;
-
-  @Field()
-  startDate: string;
-
-  @Field()
-  endDate?: string;
-
-  @Field()
-  name: string;
-
-  @Field()
-  institution: string;
+  public certificationId: string;
+  public startDate: string;
+  public endDate?: string;
+  public name: string;
+  public institution: string;
 
   public constructor(certification: Partial<CertificationInterface>) {
     _.assign(this, certification, {

@@ -10,19 +10,19 @@
 // import { mongo } from '../../../../../../src/lib/mongo';
 
 // // models
-// // import { Certification } from '../../../../../../src/models/resume';
+// // import { WorkExperience } from '../../../../../../src/models/resume';
 
 // // testees
 // import { bootstrap } from '../../../../../../src/app';
 // let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // // data
-// import { readStaticCertificationData } from '../../../../../data/static/resume/Certification';
-// import { loadCertificationsData, unloadCertificationsData } from '../../../../../data/loaders/resume';
+// import { readStaticWorkExperienceData } from '../../../../../data/static/resume/WorkExperience';
+// import { loadWorkExperiencesData, unloadWorkExperiencesData } from '../../../../../data/loaders/resume';
 
 // // file constants/functions
-// let staticCertificationData: any | any[];
-// let cachedCertificationData: any | any[];
+// let staticWorkExperienceData: any | any[];
+// let cachedWorkExperienceData: any | any[];
 
 // async function customStartUp() {
 //   try {
@@ -35,7 +35,7 @@
 // }
 
 // // tests
-// describe('api/resume/resolvers/Certification.resolver - POST /graphql query searchCertifications - e2e tests', () => {
+// describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql query searchWorkExperiences - e2e tests', () => {
 //   before(async () => {
 //     try {
 //       // load out environment
@@ -61,15 +61,15 @@
 //     }
 //   });
 
-//   describe('{ query: { searchCertifications(searchCriteria: {}) { } } }', () => {
+//   describe('{ query: { searchWorkExperiences(searchCriteria: {}) { } } }', () => {
 //     beforeEach(async () => {
 //       try {
 //         // create the faked data
-//         staticCertificationData = await readStaticCertificationData(3);
+//         staticWorkExperienceData = await readStaticWorkExperienceData(3);
 
 //         // load data into datasources
-//         cachedCertificationData = await loadCertificationsData({
-//           certifications: staticCertificationData,
+//         cachedWorkExperienceData = await loadWorkExperiencesData({
+//           workExperiences: staticWorkExperienceData,
 //         });
 
 //         // return explicitly
@@ -82,8 +82,8 @@
 //     afterEach(async () => {
 //       try {
 //         // unload data from datasources
-//         cachedCertificationData = await unloadCertificationsData({
-//           certifications: cachedCertificationData,
+//         cachedWorkExperienceData = await unloadWorkExperiencesData({
+//           workExperiences: cachedWorkExperienceData,
 //         });
 
 //         // return explicitly
@@ -93,7 +93,7 @@
 //       }
 //     });
 
-//     it('- should retrun 1...N certification instances that match a given criteria with the given options applied', async () => {
+//     it('- should retrun 1...N work experience instances that match a given criteria with the given options applied', async () => {
 //       try {
 //         /////////////////////////
 //         ///////// setup /////////
@@ -101,7 +101,7 @@
 //         // set up expectations
 //         const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
 //         const EXPECTED_TYPE_OF_STRING = 'string';
-//         const EXPECTED_WORK_EXPERIENCES = cachedCertificationData.slice();
+//         const EXPECTED_WORK_EXPERIENCES = cachedWorkExperienceData.slice();
 //         const EXPECTED_WORK_EXPERIENCES_LENGTH = EXPECTED_WORK_EXPERIENCES.length;
 
 //         /////////////////////////
@@ -117,15 +117,15 @@
 //           },
 //           payload: {
 //             query: `{
-//               searchCertifications(
+//               searchWorkExperiences(
 //                 searchCriteria: {},
 //                 searchOptions: {}
 //               ) {
-//                 certifications {
-//                   institution
+//                 workExperiences {
+//                   companyName
 //                 },
-//                 moreCertifications,
-//                 totalCertifications
+//                 moreWorkExperiences,
+//                 totalWorkExperiences
 //               }
 //             }`,
 //           },
@@ -145,17 +145,18 @@
 //         // validate results
 //         expect(parsedBody !== undefined).to.be.true;
 //         expect(parsedBody.data !== null).to.be.true;
-//         expect(parsedBody.data.searchCertifications !== null).to.be.true;
-//         expect(parsedBody.data.searchCertifications.certifications !== null).to.be.true;
-//         expect(parsedBody.data.searchCertifications.certifications instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-//         expect(parsedBody.data.searchCertifications.certifications.length === EXPECTED_WORK_EXPERIENCES_LENGTH).to.be.true;
-//         for (const item of parsedBody.data.searchCertifications.certifications) {
+//         expect(parsedBody.data.searchWorkExperiences !== null).to.be.true;
+//         expect(parsedBody.data.searchWorkExperiences.workExperiences !== null).to.be.true;
+//         expect(parsedBody.data.searchWorkExperiences.workExperiences instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+//         expect(parsedBody.data.searchWorkExperiences.workExperiences.length === EXPECTED_WORK_EXPERIENCES_LENGTH).to.be.true;
+//         for (const item of parsedBody.data.searchWorkExperiences.workExperiences) {
 //           expect(EXPECTED_WORK_EXPERIENCES.find((expectedItem: any) => expectedItem.companyName === item.companyName) !== undefined).to.be
 //             .true;
 //         }
-//         expect(parsedBody.data.searchCertifications.moreCertifications !== null).to.be.true;
-//         expect(parsedBody.data.searchCertifications.moreCertifications).to.be.false;
-//         expect(parsedBody.data.searchCertifications.totalCertifications === null).to.be.true;
+//         expect(parsedBody.data.searchWorkExperiences.moreWorkExperiences !== null).to.be.true;
+//         expect(parsedBody.data.searchWorkExperiences.moreWorkExperiences).to.be.false;
+//         expect(parsedBody.data.searchWorkExperiences.totalWorkExperiences === null).to.be.true;
+
 //         // return explicitly
 //         return;
 //       } catch (err) {

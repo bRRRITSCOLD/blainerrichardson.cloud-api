@@ -1,8 +1,8 @@
 import { Field, InputType } from 'type-graphql';
-import { Certification } from '../../../models/resume';
+import { CertificationInputType } from './CertificationInputType';
 
 @InputType()
 export class PutCertificationsInputType {
-  @Field((_type: unknown) => [Certification])
-  certifications: Certification[];
+  @Field((_type: unknown) => [CertificationInputType])
+  certifications: CertificationInputType[];
 }

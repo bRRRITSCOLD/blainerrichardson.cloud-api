@@ -7,10 +7,10 @@ import { mongo } from '../../lib/mongo';
 
 // models
 import { APIError } from '../../models/error';
-import { Certification } from '../../models/resume';
+import { Certification, CertificationInterface } from '../../models/resume';
 
 export interface PutCertificationsRequestInterface {
-  certifications: Certification[];
+  certifications: CertificationInterface[];
 }
 
 export interface PutCertificationsResponseInterface {

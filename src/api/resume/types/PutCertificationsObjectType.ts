@@ -1,8 +1,8 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Certification } from '../../../models/resume';
+import { CertificationObjectType } from './CertificationObjectType';
 
 @ObjectType()
 export class PutCertificationsObjectType {
-  @Field((_type: unknown) => [Certification])
-  certifications: Certification[];
+  @Field((_type: unknown) => [CertificationObjectType])
+  certifications: CertificationObjectType[];
 }

@@ -1,8 +1,8 @@
 import { Field, InputType } from 'type-graphql';
-import { WorkExperience } from '../../../models/resume';
+import { WorkExperienceInputType } from './WorkExperienceInputType';
 
 @InputType()
 export class PutWorkExperiencesInputType {
-  @Field((_type: unknown) => [WorkExperience])
-  workExperiences: WorkExperience[];
+  @Field((_type: unknown) => [WorkExperienceInputType])
+  workExperiences: WorkExperienceInputType[];
 }

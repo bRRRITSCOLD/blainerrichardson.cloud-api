@@ -1,11 +1,11 @@
 // node_modules
 import { Field, ObjectType } from 'type-graphql';
-import { WorkExperience } from '../../../models/resume';
+import { WorkExperienceObjectType } from './WorkExperienceObjectType';
 
 @ObjectType()
 export class SearchWorkExperiencesObjectType {
-  @Field((_type: unknown) => [WorkExperience])
-  workExperiences: WorkExperience[];
+  @Field((_type: unknown) => [WorkExperienceObjectType])
+  workExperiences: WorkExperienceObjectType[];
 
   @Field()
   moreWorkExperiences: boolean;

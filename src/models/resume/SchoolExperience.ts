@@ -15,23 +15,22 @@ export interface SchoolExperienceCompanyAddressInterface {
   zipCode: string;
 }
 
-@ObjectType('SchoolExperienceCompanyAddressObjectType')
-@InputType('SchoolExperienceCompanyAddressInputType')
 export class SchoolExperienceCompanyAddress implements SchoolExperienceCompanyAddressInterface {
-  @Field()
-  addressLine1: string;
+  public addressLine1: string;
+  public addressLine2?: string;
+  public city: string;
+  public state: string;
+  public zipCode: string;
 
-  @Field({ nullable: true })
-  addressLine2?: string;
-
-  @Field()
-  city: string;
-
-  @Field()
-  state: string;
-
-  @Field()
-  zipCode: string;
+  public constructor(schoolExperienceCompanyAddress: Partial<SchoolExperienceCompanyAddressInterface>) {
+    _.assign(this, schoolExperienceCompanyAddress, {
+      addressLine1: _.get(schoolExperienceCompanyAddress, 'addressLine1'),
+      addressLine2: _.get(schoolExperienceCompanyAddress, 'addressLine2'),
+      city: _.get(schoolExperienceCompanyAddress, 'city'),
+      state: _.get(schoolExperienceCompanyAddress, 'state'),
+      zipCode: _.get(schoolExperienceCompanyAddress, 'zipCode'),
+    });
+  }
 }
 
 export const schoolExperienceAddressSchema = yup.object().shape({
@@ -68,29 +67,14 @@ export const schoolExperienceSchema = yup.object().shape({
   classes: yup.array().of(yup.string().optional()).required(),
 });
 
-@ObjectType('SchoolExperienceObjectType')
-@InputType('SchoolExperienceInputType')
 export class SchoolExperience implements SchoolExperienceInterface {
-  @Field()
-  schoolExperienceId: string;
-
-  @Field()
-  startDate: string;
-
-  @Field()
-  endDate?: string;
-
-  @Field()
-  schoolName!: string;
-
-  @Field((_type) => SchoolExperienceCompanyAddress)
-  schoolAddress: SchoolExperienceCompanyAddress;
-
-  @Field()
-  degree: string;
-
-  @Field((_type) => [String])
-  classes!: string[];
+  public schoolExperienceId: string;
+  public startDate: string;
+  public endDate?: string;
+  public schoolName!: string;
+  public schoolAddress: SchoolExperienceCompanyAddress;
+  public degree: string;
+  public classes!: string[];
 
   public constructor(schoolExperience: Partial<SchoolExperienceInterface>) {
     _.assign(this, schoolExperience, {

@@ -23,23 +23,22 @@ export const workExperienceAddressSchema = yup.object().shape({
   zipCode: yup.string().required(),
 });
 
-@ObjectType('WorkExperienceCompanyAddressObjectType')
-@InputType('WorkExperienceCompanyAddressInputType')
 export class WorkExperienceCompanyAddress implements WorkExperienceCompanyAddressInterface {
-  @Field()
-  addressLine1: string;
+  public addressLine1: string;
+  public addressLine2?: string;
+  public city: string;
+  public state: string;
+  public zipCode: string;
 
-  @Field({ nullable: true })
-  addressLine2?: string;
-
-  @Field()
-  city: string;
-
-  @Field()
-  state: string;
-
-  @Field()
-  zipCode: string;
+  public constructor(workExperienceCompanyAddress: Partial<WorkExperienceCompanyAddressInterface>) {
+    _.assign(this, workExperienceCompanyAddress, {
+      addressLine1: _.get(workExperienceCompanyAddress, 'addressLine1'),
+      addressLine2: _.get(workExperienceCompanyAddress, 'addressLine2'),
+      city: _.get(workExperienceCompanyAddress, 'city'),
+      state: _.get(workExperienceCompanyAddress, 'state'),
+      zipCode: _.get(workExperienceCompanyAddress, 'zipCode'),
+    });
+  }
 }
 
 export interface WorkExperienceInterface {
@@ -69,32 +68,15 @@ export const workExperienceSchema = yup.object().shape({
   accomplishments: yup.array().of(yup.string().optional()).required(),
 });
 
-@ObjectType('WorkExperienceObjectType')
-@InputType('WorkExperienceInputType')
 export class WorkExperience implements WorkExperienceInterface {
-  @Field()
-  workExperienceId: string;
-
-  @Field()
-  startDate: string;
-
-  @Field({ nullable: true })
-  endDate?: string;
-
-  @Field()
-  companyName: string;
-
-  @Field((_type) => WorkExperienceCompanyAddress)
-  companyAddress: WorkExperienceCompanyAddress;
-
-  @Field()
-  position: string;
-
-  @Field((_type) => [String])
-  duties: string[];
-
-  @Field((_type) => [String])
-  accomplishments: string[];
+  public workExperienceId: string;
+  public startDate: string;
+  public endDate?: string;
+  public companyName: string;
+  public companyAddress: WorkExperienceCompanyAddress;
+  public position: string;
+  public duties: string[];
+  public accomplishments: string[];
 
   public constructor(workExperience: Partial<WorkExperienceInterface>) {
     _.assign(this, workExperience, {
