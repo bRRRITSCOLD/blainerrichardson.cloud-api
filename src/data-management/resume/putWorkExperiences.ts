@@ -7,10 +7,10 @@ import { mongo } from '../../lib/mongo';
 
 // models
 import { APIError } from '../../models/error';
-import { WorkExperience } from '../../models/resume';
+import { WorkExperience, WorkExperienceInterface } from '../../models/resume';
 
 export interface PutWorkExperiencesRequestInterface {
-  workExperiences: WorkExperience[];
+  workExperiences: WorkExperienceInterface[];
 }
 
 export interface PutWorkExperiencesResponseInterface {

@@ -45,11 +45,11 @@ export class CertificationlineResolver {
   @Mutation((_returns: unknown) => PutCertificationsObjectType)
   public async putCertifications(
     @Ctx() _context: any,
-    @Arg('data') putCertificationInputType: PutCertificationsInputType,
+    @Arg('data') putCertificationsInputType: PutCertificationsInputType,
   ): Promise<PutCertificationsObjectType> {
     try {
       // create params here for ease
-      const putCertificationsResponse = await this.certificationService.putCertifications(putCertificationInputType);
+      const putCertificationsResponse = await this.certificationService.putCertifications(putCertificationsInputType);
 
       // return expiclitly
       return putCertificationsResponse;

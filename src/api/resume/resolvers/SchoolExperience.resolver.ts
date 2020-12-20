@@ -49,7 +49,7 @@ export class SchoolExperienceResolver {
   ): Promise<PutSchoolExperiencesObjectType> {
     try {
       // create params here for ease
-      const putSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperiences(putSchoolExperienceInputType);
+      const putSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperiences(putSchoolExperienceInputType as any);
 
       // return expiclitly
       return putSchoolExperiencesResponse;

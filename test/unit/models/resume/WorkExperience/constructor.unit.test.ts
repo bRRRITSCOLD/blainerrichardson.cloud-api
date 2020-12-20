@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
+import 'reflect-metadata';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 

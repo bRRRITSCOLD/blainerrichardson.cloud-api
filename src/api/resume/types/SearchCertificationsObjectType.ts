@@ -1,11 +1,11 @@
 // node_modules
 import { Field, ObjectType } from 'type-graphql';
-import { Certification } from '../../../models/resume';
+import { CertificationObjectType } from './CertificationObjectType';
 
 @ObjectType()
 export class SearchCertificationsObjectType {
-  @Field((_type: unknown) => [Certification])
-  certifications: Certification[];
+  @Field((_type: unknown) => [CertificationObjectType])
+  certifications: CertificationObjectType[];
 
   @Field()
   moreCertifications: boolean;

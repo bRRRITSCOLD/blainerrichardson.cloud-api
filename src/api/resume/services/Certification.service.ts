@@ -12,7 +12,7 @@ import { AnyObject } from 'yup/lib/types';
 
 // data-management
 import * as resumeManager from '../../../data-management/resume';
-import { Certification } from '../../../models/resume';
+import { Certification, CertificationInterface } from '../../../models/resume';
 
 @Service()
 export class CertificationService {
@@ -43,7 +43,7 @@ export class CertificationService {
     }
   }
 
-  public async putCertifications(putCertificationsRequest: { certifications: Certification[] }): Promise<any> {
+  public async putCertifications(putCertificationsRequest: { certifications: CertificationInterface[] }): Promise<any> {
     try {
       // deconstruct for east and usability
       const { certifications } = putCertificationsRequest;

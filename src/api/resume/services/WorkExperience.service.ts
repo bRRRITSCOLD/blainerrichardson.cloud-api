@@ -12,7 +12,7 @@ import { AnyObject } from 'yup/lib/types';
 
 // data-management
 import * as resumeManager from '../../../data-management/resume';
-import { WorkExperience } from '../../../models/resume';
+import { WorkExperience, WorkExperienceInterface } from '../../../models/resume';
 
 @Service()
 export class WorkExperienceService {
@@ -43,7 +43,7 @@ export class WorkExperienceService {
     }
   }
 
-  public async putWorkExperiences(putWorkExperienceRequest: { workExperiences: WorkExperience[] }): Promise<any> {
+  public async putWorkExperiences(putWorkExperienceRequest: { workExperiences: WorkExperienceInterface[] }): Promise<any> {
     try {
       // deconstruct for east and usability
       const { workExperiences } = putWorkExperienceRequest;

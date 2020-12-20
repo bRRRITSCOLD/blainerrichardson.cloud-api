@@ -1,8 +1,8 @@
 import { Field, ObjectType } from 'type-graphql';
-import { SchoolExperience } from '../../../models/resume';
+import { SchoolExperienceObjectType } from './SchoolExperienceObjectType';
 
 @ObjectType()
 export class PutSchoolExperiencesObjectType {
-  @Field((_type: unknown) => [SchoolExperience])
-  schoolExperiences: SchoolExperience[];
+  @Field((_type: unknown) => [SchoolExperienceObjectType])
+  schoolExperiences: SchoolExperienceObjectType[];
 }
