@@ -1,21 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
+import 'reflect-metadata';
+import { FastifyInstance, FastifyLoggerInstance } from 'fastify';
+import { IncomingMessage, Server, ServerResponse } from 'http';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 
 // libraries
-import { integrationTestEnv } from '../../../lib/environment';
-import { mongo } from '../../../../src/lib/mongo';
+import { e2eTestEnv } from '../../../../../lib/environment';
+import { mongo } from '../../../../../../src/lib/mongo';
 
 // models
-import { SchoolExperience } from '../../../../src/models/resume';
+import { SchoolExperience } from '../../../../../../src/models/resume';
 
 // testees
-import * as resumeManager from '../../../../src/data-management/resume';
-import { loadSchoolExperiencesData, unloadSchoolExperiencesData } from '../../../data/loaders/resume';
-import { readStaticSchoolExperienceData } from '../../../data/static/resume/SchoolExperience';
+import { bootstrap } from '../../../../../../src/app';
+let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // data
+import { loadSchoolExperiencesData, unloadSchoolExperiencesData } from '../../../../../data/loaders/resume';
+import { readStaticSchoolExperienceData } from '../../../../../data/static/resume/SchoolExperience';
 
 // file constants/functions
 let staticSchoolExperienceData: any | any[];
@@ -43,17 +47,20 @@ async function customTearDown() {
 }
 
 // tests
-describe('data-management/resume/deleteSchoolExperiences - #deleteSchoolExperiences - integration tests', () => {
+describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutation deleteSchoolExperiences - e2e tests', () => {
   before(async () => {
     try {
       // load out environment
-      await integrationTestEnv.init();
+      await e2eTestEnv.init();
 
       // initialize asynchronous tasks, connectiones, etc. here
-      await Promise.all([mongo.init(require('../../../../src/configs/mongo').default)]);
+      await Promise.all([mongo.init(require('../../../../../../src/configs/mongo').default)]);
 
       // initialize synchronous tasks, connectiones, etc. here
       [];
+
+      // create and store app
+      app = await bootstrap();
 
       // cusom start up functionality
       await customStartUp();
@@ -66,7 +73,7 @@ describe('data-management/resume/deleteSchoolExperiences - #deleteSchoolExperien
     }
   });
 
-  describe('#deleteSchoolExperiences', () => {
+  describe('{ mutation deleteSchoolExperiences }', () => {
     context('({ schoolExperienceIds })', () => {
       context('static data', () => {
         beforeEach(async () => {
@@ -115,9 +122,9 @@ describe('data-management/resume/deleteSchoolExperiences - #deleteSchoolExperien
             //////// test ///////////
             /////////////////////////
             // query mongo to get info
-            const blainerrichardsonCloudDb = await mongo.getConnection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
+            const blainerrichardsonCloudDb = await mongo.getConnection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
             let foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME)
               .find({ schoolExperienceId: { $in: cachedSchoolExperienceData.map((item: any) => item.schoolExperienceId) } })
               .toArray();
 
@@ -133,17 +140,46 @@ describe('data-management/resume/deleteSchoolExperiences - #deleteSchoolExperien
             }
 
             // run testee
-            const deleteSchoolExperiencesRequest = {
-              schoolExperienceIds: cachedSchoolExperienceData.map((item: any) => item.schoolExperienceId),
+            const httpRequest: any = {
+              method: 'POST',
+              url: '/graphql',
+              headers: {
+                'content-type': 'application/json',
+              },
+              payload: {
+                query: `mutation deleteSchoolExperiences($data: DeleteSchoolExperiencesInputType!) {
+                  deleteSchoolExperiences(data: $data) {
+                    schoolExperienceIds
+                  }
+                }`,
+                variables: {
+                  data: {
+                    schoolExperienceIds: cachedSchoolExperienceData.map((item: any) => item.schoolExperienceId),
+                  },
+                },
+              },
             };
-            const deleteSchoolExperiencesResponse = await resumeManager.deleteSchoolExperiences(deleteSchoolExperiencesRequest);
+            const httResponse = await app.inject(httpRequest);
 
             // run assertions
-            expect(deleteSchoolExperiencesResponse !== undefined).to.be.true;
-            expect(deleteSchoolExperiencesResponse.schoolExperienceIds !== undefined).to.be.true;
-            expect(deleteSchoolExperiencesResponse.schoolExperienceIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect(deleteSchoolExperiencesResponse.schoolExperienceIds.length === EXPECTED_SCHOOL_EXPERIENCE_IDS_LENGTH).to.be.true;
-            for (const schoolExperienceId of deleteSchoolExperiencesResponse.schoolExperienceIds) {
+            expect(httResponse !== undefined).to.be.true;
+            expect(httResponse.statusCode !== undefined).to.be.true;
+            expect(httResponse.statusCode === 200).to.be.true;
+            expect(httResponse.body !== undefined).to.be.true;
+            expect(typeof httResponse.body === EXPECTED_TYPE_OF_STRING).to.be.true;
+
+            // parse JSON body
+            const parsedBody = JSON.parse(httResponse.body);
+
+            // validate results
+            expect(parsedBody !== undefined).to.be.true;
+            expect(parsedBody.data !== null).to.be.true;
+            expect(parsedBody.data.deleteSchoolExperiences !== null).to.be.true;
+            expect(parsedBody.data.deleteSchoolExperiences !== null).to.be.true;
+            expect(parsedBody.data.deleteSchoolExperiences.schoolExperienceIds !== null).to.be.true;
+            expect(parsedBody.data.deleteSchoolExperiences.schoolExperienceIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+            expect(parsedBody.data.deleteSchoolExperiences.schoolExperienceIds.length === EXPECTED_SCHOOL_EXPERIENCE_IDS_LENGTH).to.be.true;
+            for (const schoolExperienceId of parsedBody.data.deleteSchoolExperiences.schoolExperienceIds) {
               expect(typeof schoolExperienceId === EXPECTED_TYPE_OF_STRING).to.be.true;
               expect(EXPECTED_SCHOOL_EXPERIENCE_IDS.find((expectedItem: any) => expectedItem === schoolExperienceId) !== undefined).to.be
                 .true;
@@ -151,7 +187,7 @@ describe('data-management/resume/deleteSchoolExperiences - #deleteSchoolExperien
 
             // query mongo to get info
             foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_SCHOOL_EXPERIENCES_COLLECTION_NAME)
               .find({ schoolExperienceId: { $in: cachedSchoolExperienceData.map((item: any) => item.schoolExperienceId) } })
               .toArray();
 

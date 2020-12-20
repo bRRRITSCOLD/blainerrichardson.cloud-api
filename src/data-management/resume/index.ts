@@ -4,3 +4,6 @@ export * from './searchSchoolExperiences';
 export * from './putCertifications';
 export * from './putWorkExperiences';
 export * from './putSchoolExperiences';
+export * from './deleteCertifications';
+export * from './deleteWorkExperiences';
+export * from './deleteSchoolExperiences';

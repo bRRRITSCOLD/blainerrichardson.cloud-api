@@ -16,6 +16,8 @@ import { anyUtils } from '../../../lib/utils/any';
 import { CertificationService } from '../services/Certification.service';
 import { PutCertificationsInputType } from '../types/PutCertificationsInputType';
 import { PutCertificationsObjectType } from '../types/PutCertificationsObjectType';
+import { DeleteCertificationsInputType } from '../types/DeleteCertificationsInputType';
+import { DeleteCertificationsObjectType } from '../types/DeleteCertificationsObjectType';
 
 @Resolver((_of: unknown) => Certification)
 export class CertificationlineResolver {
@@ -58,6 +60,27 @@ export class CertificationlineResolver {
       const error = new APIError(err);
       // log for debugging and run support purposes
       logger.error(`{}CertificationResolver::#putCertifications::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw { errors: [error] };
+    }
+  }
+
+  @Mutation((_returns: unknown) => DeleteCertificationsObjectType)
+  public async deleteCertifications(
+    @Ctx() _context: any,
+    @Arg('data') deleteCertificationsInputType: DeleteCertificationsInputType,
+  ): Promise<DeleteCertificationsObjectType> {
+    try {
+      // create params here for ease
+      const deleteCertificationsResponse = await this.certificationService.deleteCertifications(deleteCertificationsInputType);
+
+      // return expiclitly
+      return deleteCertificationsResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}CertificationResolver::#deleteCertifications::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw { errors: [error] };
     }

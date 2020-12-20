@@ -16,6 +16,8 @@ import { anyUtils } from '../../../lib/utils/any';
 import { SchoolExperienceService } from '../services/SchoolExperience.service';
 import { PutSchoolExperiencesInputType } from '../types/PutSchoolExperiencesInputType';
 import { PutSchoolExperiencesObjectType } from '../types';
+import { DeleteSchoolExperiencesObjectType } from '../types/DeleteSchoolExperiencesObjectType';
+import { DeleteSchoolExperiencesInputType } from '../types/DeleteSchoolExperiencesInputType';
 
 @Resolver((_of: unknown) => SchoolExperience)
 export class SchoolExperienceResolver {
@@ -45,11 +47,11 @@ export class SchoolExperienceResolver {
   @Mutation((_returns: unknown) => PutSchoolExperiencesObjectType)
   public async putSchoolExperiences(
     @Ctx() _context: any,
-    @Arg('data') putSchoolExperienceInputType: PutSchoolExperiencesInputType,
+    @Arg('data') putSchoolExperiencesInputType: PutSchoolExperiencesInputType,
   ): Promise<PutSchoolExperiencesObjectType> {
     try {
       // create params here for ease
-      const putSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperiences(putSchoolExperienceInputType as any);
+      const putSchoolExperiencesResponse = await this.schoolExperienceService.putSchoolExperiences(putSchoolExperiencesInputType as any);
 
       // return expiclitly
       return putSchoolExperiencesResponse;
@@ -58,6 +60,27 @@ export class SchoolExperienceResolver {
       const error = new APIError(err);
       // log for debugging and run support purposes
       logger.error(`{}SchoolExperienceResolver::#putSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw { errors: [error] };
+    }
+  }
+
+  @Mutation((_returns: unknown) => DeleteSchoolExperiencesObjectType)
+  public async deleteSchoolExperiences(
+    @Ctx() _context: any,
+    @Arg('data') deleteSchoolExperiencesInputType: DeleteSchoolExperiencesInputType,
+  ): Promise<DeleteSchoolExperiencesObjectType> {
+    try {
+      // create params here for ease
+      const deleteSchoolExperiencesResponse = await this.schoolExperienceService.deleteSchoolExperiences(deleteSchoolExperiencesInputType);
+
+      // return expiclitly
+      return deleteSchoolExperiencesResponse;
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}SchoolExperienceResolver::#deleteSchoolExperiences::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
       throw { errors: [error] };
     }

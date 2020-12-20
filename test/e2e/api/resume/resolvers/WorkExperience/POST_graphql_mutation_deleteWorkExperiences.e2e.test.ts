@@ -1,21 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
+import 'reflect-metadata';
+import { FastifyInstance, FastifyLoggerInstance } from 'fastify';
+import { IncomingMessage, Server, ServerResponse } from 'http';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 
 // libraries
-import { integrationTestEnv } from '../../../lib/environment';
-import { mongo } from '../../../../src/lib/mongo';
+import { e2eTestEnv } from '../../../../../lib/environment';
+import { mongo } from '../../../../../../src/lib/mongo';
 
 // models
-import { WorkExperience } from '../../../../src/models/resume';
+import { WorkExperience } from '../../../../../../src/models/resume';
 
 // testees
-import * as resumeManager from '../../../../src/data-management/resume';
-import { loadWorkExperiencesData, unloadWorkExperiencesData } from '../../../data/loaders/resume';
-import { readStaticWorkExperienceData } from '../../../data/static/resume/WorkExperience';
+import { bootstrap } from '../../../../../../src/app';
+let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // data
+import { loadWorkExperiencesData, unloadWorkExperiencesData } from '../../../../../data/loaders/resume';
+import { readStaticWorkExperienceData } from '../../../../../data/static/resume/WorkExperience';
 
 // file constants/functions
 let staticWorkExperienceData: any | any[];
@@ -43,17 +47,20 @@ async function customTearDown() {
 }
 
 // tests
-describe('data-management/resume/deleteWorkExperiences - #deleteWorkExperiences - integration tests', () => {
+describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation deleteWorkExperiences - e2e tests', () => {
   before(async () => {
     try {
       // load out environment
-      await integrationTestEnv.init();
+      await e2eTestEnv.init();
 
       // initialize asynchronous tasks, connectiones, etc. here
-      await Promise.all([mongo.init(require('../../../../src/configs/mongo').default)]);
+      await Promise.all([mongo.init(require('../../../../../../src/configs/mongo').default)]);
 
       // initialize synchronous tasks, connectiones, etc. here
       [];
+
+      // create and store app
+      app = await bootstrap();
 
       // cusom start up functionality
       await customStartUp();
@@ -66,7 +73,7 @@ describe('data-management/resume/deleteWorkExperiences - #deleteWorkExperiences 
     }
   });
 
-  describe('#deleteWorkExperiences', () => {
+  describe('{ mutation deleteWorkExperiences }', () => {
     context('({ workExperienceIds })', () => {
       context('static data', () => {
         beforeEach(async () => {
@@ -115,9 +122,9 @@ describe('data-management/resume/deleteWorkExperiences - #deleteWorkExperiences 
             //////// test ///////////
             /////////////////////////
             // query mongo to get info
-            const blainerrichardsonCloudDb = await mongo.getConnection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
+            const blainerrichardsonCloudDb = await mongo.getConnection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
             let foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
               .find({ workExperienceId: { $in: cachedWorkExperienceData.map((item: any) => item.workExperienceId) } })
               .toArray();
 
@@ -132,24 +139,53 @@ describe('data-management/resume/deleteWorkExperiences - #deleteWorkExperiences 
             }
 
             // run testee
-            const deleteWorkExperiencesRequest = {
-              workExperienceIds: cachedWorkExperienceData.map((item: any) => item.workExperienceId),
+            const httpRequest: any = {
+              method: 'POST',
+              url: '/graphql',
+              headers: {
+                'content-type': 'application/json',
+              },
+              payload: {
+                query: `mutation deleteWorkExperiences($data: DeleteWorkExperiencesInputType!) {
+                  deleteWorkExperiences(data: $data) {
+                    workExperienceIds
+                  }
+                }`,
+                variables: {
+                  data: {
+                    workExperienceIds: cachedWorkExperienceData.map((item: any) => item.workExperienceId),
+                  },
+                },
+              },
             };
-            const deleteWorkExperiencesResponse = await resumeManager.deleteWorkExperiences(deleteWorkExperiencesRequest);
+            const httResponse = await app.inject(httpRequest);
 
             // run assertions
-            expect(deleteWorkExperiencesResponse !== undefined).to.be.true;
-            expect(deleteWorkExperiencesResponse.workExperienceIds !== undefined).to.be.true;
-            expect(deleteWorkExperiencesResponse.workExperienceIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect(deleteWorkExperiencesResponse.workExperienceIds.length === EXPECTED_WORK_EXPERIENCE_IDS_LENGTH).to.be.true;
-            for (const workExperienceId of deleteWorkExperiencesResponse.workExperienceIds) {
+            expect(httResponse !== undefined).to.be.true;
+            expect(httResponse.statusCode !== undefined).to.be.true;
+            expect(httResponse.statusCode === 200).to.be.true;
+            expect(httResponse.body !== undefined).to.be.true;
+            expect(typeof httResponse.body === EXPECTED_TYPE_OF_STRING).to.be.true;
+
+            // parse JSON body
+            const parsedBody = JSON.parse(httResponse.body);
+
+            // validate results
+            expect(parsedBody !== undefined).to.be.true;
+            expect(parsedBody.data !== null).to.be.true;
+            expect(parsedBody.data.deleteWorkExperiences !== null).to.be.true;
+            expect(parsedBody.data.deleteWorkExperiences !== null).to.be.true;
+            expect(parsedBody.data.deleteWorkExperiences.workExperienceIds !== null).to.be.true;
+            expect(parsedBody.data.deleteWorkExperiences.workExperienceIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+            expect(parsedBody.data.deleteWorkExperiences.workExperienceIds.length === EXPECTED_WORK_EXPERIENCE_IDS_LENGTH).to.be.true;
+            for (const workExperienceId of parsedBody.data.deleteWorkExperiences.workExperienceIds) {
               expect(typeof workExperienceId === EXPECTED_TYPE_OF_STRING).to.be.true;
               expect(EXPECTED_WORK_EXPERIENCE_IDS.find((expectedItem: any) => expectedItem === workExperienceId) !== undefined).to.be.true;
             }
 
             // query mongo to get info
             foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_WORK_EXPERIENCES_COLLECTION_NAME)
               .find({ workExperienceId: { $in: cachedWorkExperienceData.map((item: any) => item.workExperienceId) } })
               .toArray();
 

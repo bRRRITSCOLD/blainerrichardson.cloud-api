@@ -1,21 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 // node_modules
+import 'reflect-metadata';
+import { FastifyInstance, FastifyLoggerInstance } from 'fastify';
+import { IncomingMessage, Server, ServerResponse } from 'http';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 
 // libraries
-import { integrationTestEnv } from '../../../lib/environment';
-import { mongo } from '../../../../src/lib/mongo';
+import { e2eTestEnv } from '../../../../../lib/environment';
+import { mongo } from '../../../../../../src/lib/mongo';
 
 // models
-import { Certification } from '../../../../src/models/resume';
+import { Certification } from '../../../../../../src/models/resume';
 
 // testees
-import * as resumeManager from '../../../../src/data-management/resume';
-import { loadCertificationsData, unloadCertificationsData } from '../../../data/loaders/resume';
-import { readStaticCertificationData } from '../../../data/static/resume/Certification';
+import { bootstrap } from '../../../../../../src/app';
+let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // data
+import { loadCertificationsData, unloadCertificationsData } from '../../../../../data/loaders/resume';
+import { readStaticCertificationData } from '../../../../../data/static/resume/Certification';
 
 // file constants/functions
 let staticCertificationData: any | any[];
@@ -43,17 +47,20 @@ async function customTearDown() {
 }
 
 // tests
-describe('data-management/resume/deleteCertifications - #deleteCertifications - integration tests', () => {
+describe('api/resume/resolvers/Certification.resolver - POST /graphql mutation deleteCertifications - e2e tests', () => {
   before(async () => {
     try {
       // load out environment
-      await integrationTestEnv.init();
+      await e2eTestEnv.init();
 
       // initialize asynchronous tasks, connectiones, etc. here
-      await Promise.all([mongo.init(require('../../../../src/configs/mongo').default)]);
+      await Promise.all([mongo.init(require('../../../../../../src/configs/mongo').default)]);
 
       // initialize synchronous tasks, connectiones, etc. here
       [];
+
+      // create and store app
+      app = await bootstrap();
 
       // cusom start up functionality
       await customStartUp();
@@ -66,7 +73,7 @@ describe('data-management/resume/deleteCertifications - #deleteCertifications - 
     }
   });
 
-  describe('#deleteCertifications', () => {
+  describe('{ mutation deleteCertifications }', () => {
     context('({ certificationIds })', () => {
       context('static data', () => {
         beforeEach(async () => {
@@ -115,9 +122,9 @@ describe('data-management/resume/deleteCertifications - #deleteCertifications - 
             //////// test ///////////
             /////////////////////////
             // query mongo to get info
-            const blainerrichardsonCloudDb = await mongo.getConnection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
+            const blainerrichardsonCloudDb = await mongo.getConnection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
             let foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME)
               .find({ certificationId: { $in: cachedCertificationData.map((item: any) => item.certificationId) } })
               .toArray();
 
@@ -132,24 +139,53 @@ describe('data-management/resume/deleteCertifications - #deleteCertifications - 
             }
 
             // run testee
-            const deleteCertificationsRequest = {
-              certificationIds: cachedCertificationData.map((item: any) => item.certificationId),
+            const httpRequest: any = {
+              method: 'POST',
+              url: '/graphql',
+              headers: {
+                'content-type': 'application/json',
+              },
+              payload: {
+                query: `mutation deleteCertifications($data: DeleteCertificationsInputType!) {
+                  deleteCertifications(data: $data) {
+                    certificationIds
+                  }
+                }`,
+                variables: {
+                  data: {
+                    certificationIds: cachedCertificationData.map((item: any) => item.certificationId),
+                  },
+                },
+              },
             };
-            const deleteCertificationsResponse = await resumeManager.deleteCertifications(deleteCertificationsRequest);
+            const httResponse = await app.inject(httpRequest);
 
             // run assertions
-            expect(deleteCertificationsResponse !== undefined).to.be.true;
-            expect(deleteCertificationsResponse.certificationIds !== undefined).to.be.true;
-            expect(deleteCertificationsResponse.certificationIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect(deleteCertificationsResponse.certificationIds.length === EXPECTED_CERTIFICATION_IDS_LENGTH).to.be.true;
-            for (const certificationId of deleteCertificationsResponse.certificationIds) {
+            expect(httResponse !== undefined).to.be.true;
+            expect(httResponse.statusCode !== undefined).to.be.true;
+            expect(httResponse.statusCode === 200).to.be.true;
+            expect(httResponse.body !== undefined).to.be.true;
+            expect(typeof httResponse.body === EXPECTED_TYPE_OF_STRING).to.be.true;
+
+            // parse JSON body
+            const parsedBody = JSON.parse(httResponse.body);
+
+            // validate results
+            expect(parsedBody !== undefined).to.be.true;
+            expect(parsedBody.data !== null).to.be.true;
+            expect(parsedBody.data.deleteCertifications !== null).to.be.true;
+            expect(parsedBody.data.deleteCertifications !== null).to.be.true;
+            expect(parsedBody.data.deleteCertifications.certificationIds !== null).to.be.true;
+            expect(parsedBody.data.deleteCertifications.certificationIds instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+            expect(parsedBody.data.deleteCertifications.certificationIds.length === EXPECTED_CERTIFICATION_IDS_LENGTH).to.be.true;
+            for (const certificationId of parsedBody.data.deleteCertifications.certificationIds) {
               expect(typeof certificationId === EXPECTED_TYPE_OF_STRING).to.be.true;
               expect(EXPECTED_CERTIFICATION_IDS.find((expectedItem: any) => expectedItem === certificationId) !== undefined).to.be.true;
             }
 
             // query mongo to get info
             foundItems = await blainerrichardsonCloudDb
-              .collection(integrationTestEnv.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME)
+              .collection(e2eTestEnv.MONGO_BLAINERRICARDSON_CLOUD_CERTIFICATIONS_COLLECTION_NAME)
               .find({ certificationId: { $in: cachedCertificationData.map((item: any) => item.certificationId) } })
               .toArray();
 
