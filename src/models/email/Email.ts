@@ -96,7 +96,7 @@ export class Email {
       let validationError;
       let validationValue: Email | undefined;
       try {
-        const validateResponse = (await await emailSchema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await emailSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new Email(validateResponse);
       } catch (err) {
         validationError = err;

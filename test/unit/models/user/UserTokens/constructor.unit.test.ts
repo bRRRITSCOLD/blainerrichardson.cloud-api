@@ -4,14 +4,14 @@ import { expect } from 'chai';
 import * as _ from 'lodash';
 
 // models
-import { Certification } from '../../../../../src/models/resume';
+import { UserTokens } from '../../../../../src/models/user';
 
 // data
-import { readStaticCertificationData } from '../../../../data/static/resume/Certification';
+import { readStaticUserTokensData } from '../../../../data/static/user/UserTokens';
 
 // file constants/functions
-let staticCertificationData: any | any[];
-let cachedCertificationData: any | any[];
+let staticUserTokensData: any | any[];
+let cachedUserTokensData: any | any[];
 
 async function customStartUp() {
   try {
@@ -34,7 +34,7 @@ async function customTearDown() {
 }
 
 // tests
-describe('models/email/Certification.ts - unit tests', () => {
+describe('models/email/UserTokens.ts - unit tests', () => {
   before(async () => {
     try {
       // run custom start ups
@@ -49,14 +49,14 @@ describe('models/email/Certification.ts - unit tests', () => {
   });
 
   describe('#constructor', () => {
-    context('({ startDate, endDate, institution, name })', () => {
+    context('({ userTokensId, firstName, lastName, userTokensname, passwordHash, roles })', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
             // set data holders
-            staticCertificationData = await readStaticCertificationData(2);
+            staticUserTokensData = await readStaticUserTokensData(2);
 
-            cachedCertificationData = staticCertificationData.slice();
+            cachedUserTokensData = staticUserTokensData.slice();
 
             // return explicitly
           } catch (err) {
@@ -68,8 +68,8 @@ describe('models/email/Certification.ts - unit tests', () => {
         afterEach(async () => {
           try {
             // reset data holders
-            staticCertificationData = undefined;
-            cachedCertificationData = undefined;
+            staticUserTokensData = undefined;
+            cachedUserTokensData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -78,32 +78,28 @@ describe('models/email/Certification.ts - unit tests', () => {
           }
         });
 
-        it('- should correctly map data to and initiate an certification instance', async () => {
+        it('- should correctly map data to and initiate an user tokens instance', async () => {
           try {
             /////////////////////////
             //////// setup //////////
             /////////////////////////
             // set expectations
-            const EXPECTED_CERTIFICATION_CLASS_INSTANCE = Certification;
-            const EXPECTED_CERTIFICATION = _.assign({}, cachedCertificationData[0]);
+            const EXPECTED_USER_TOKENS_CLASS_INSTANCE = UserTokens;
+            const EXPECTED_USER_TOKENS = _.assign({}, cachedUserTokensData[0]);
 
             /////////////////////////
             //////// test //////////
             /////////////////////////
             // run testee
-            const certification = new Certification(cachedCertificationData[0]);
+            const userTokens = new UserTokens(cachedUserTokensData[0]);
 
             // run assertions
-            expect(certification !== undefined).to.be.true;
-            expect(certification instanceof EXPECTED_CERTIFICATION_CLASS_INSTANCE).to.be.true;
-            expect(certification.startDate !== undefined).to.be.true;
-            expect(certification.startDate === EXPECTED_CERTIFICATION.startDate).to.be.true;
-            expect(certification.endDate !== undefined).to.be.true;
-            expect(certification.endDate === EXPECTED_CERTIFICATION.endDate).to.be.true;
-            expect(certification.name !== undefined).to.be.true;
-            expect(certification.name === EXPECTED_CERTIFICATION.name).to.be.true;
-            expect(certification.institution !== undefined).to.be.true;
-            expect(certification.institution === EXPECTED_CERTIFICATION.institution).to.be.true;
+            expect(userTokens !== undefined).to.be.true;
+            expect(userTokens instanceof EXPECTED_USER_TOKENS_CLASS_INSTANCE).to.be.true;
+            expect(userTokens.jwt !== undefined).to.be.true;
+            expect(userTokens.jwt === EXPECTED_USER_TOKENS.jwt).to.be.true;
+            expect(userTokens.refreshToken !== undefined).to.be.true;
+            expect(userTokens.refreshToken === EXPECTED_USER_TOKENS.refreshToken).to.be.true;
 
             // return explicitly
             return;

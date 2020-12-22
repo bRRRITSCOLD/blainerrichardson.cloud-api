@@ -121,7 +121,7 @@ export class SchoolExperience implements SchoolExperienceInterface {
       let validationError;
       let validationValue: SchoolExperience | undefined;
       try {
-        const validateResponse = (await await schoolExperienceSchema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await schoolExperienceSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new SchoolExperience(validateResponse);
       } catch (err) {
         validationError = err;

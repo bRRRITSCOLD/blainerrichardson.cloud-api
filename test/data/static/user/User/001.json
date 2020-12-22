@@ -1,0 +1,10 @@
+{
+  "userId": "5f40a26a-3020-4714-97db-b87b43ec5314",
+  "firstName": "Luke",
+  "lastName": "Skywalker",
+  "username": "master_jedi_01",
+  "passwordHash": "nbfdasf92rfu0+uh29fbwi=",
+  "roles": [
+    "jedi"
+  ]
+}
