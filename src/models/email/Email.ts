@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import * as _ from 'lodash';
 
 // models
-import { EmailAttachmentInterface, emailAttachmentSchema } from './EmailAttachment';
+import { EmailAttachment, EmailAttachmentInterface, emailAttachmentSchema } from './EmailAttachment';
 import { EmailAddress, EmailAddressInterface, emailAddressSchema } from './EmailAddress';
 
 export interface EmailInterface {
@@ -36,10 +36,31 @@ export class Email {
   public subject!: string;
   public text?: string;
   public html?: string;
-  public attachments?: EmailAttachmentInterface[];
+  public attachments?: EmailAttachment[];
 
   public constructor(email: EmailInterface) {
-    _.assign(this, email, {});
+    _.assign(this, email, {
+      from: new EmailAddress(_.get(email, 'from')),
+      to:
+        _.get(email, 'to') && Array.isArray(_.get(email, 'to'))
+          ? _.get(email, 'to', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item))
+          : _.get(email, 'to'),
+      cc:
+        _.get(email, 'cc') && Array.isArray(_.get(email, 'cc'))
+          ? _.get(email, 'cc', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item))
+          : _.get(email, 'cc'),
+      bcc:
+        _.get(email, 'bcc') && Array.isArray(_.get(email, 'bcc'))
+          ? _.get(email, 'bcc', [] as EmailAddressInterface[]).map((item: EmailAddressInterface) => new EmailAddress(item))
+          : _.get(email, 'bcc'),
+      subject: _.get(email, 'subject'),
+      text: _.get(email, 'text'),
+      html: _.get(email, 'html'),
+      attachments:
+        _.get(email, 'attachments') && Array.isArray(_.get(email, 'attachments'))
+          ? _.get(email, 'attachments', [] as EmailAttachmentInterface[]).map((item: EmailAttachmentInterface) => new EmailAttachment(item))
+          : _.get(email, 'attachments'),
+    });
   }
 
   /**
@@ -75,7 +96,7 @@ export class Email {
       let validationError;
       let validationValue: Email | undefined;
       try {
-        const validateResponse = (await await emailSchema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await emailSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new Email(validateResponse);
       } catch (err) {
         validationError = err;

@@ -52,7 +52,7 @@ export class EmailAddress implements EmailAddressInterface {
       let validationError;
       let validationValue: EmailAddress | undefined;
       try {
-        const validateResponse = (await await emailAddressSchema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await emailAddressSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new EmailAddress(validateResponse);
       } catch (err) {
         validationError = err;

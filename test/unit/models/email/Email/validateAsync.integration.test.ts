@@ -153,8 +153,8 @@ describe('models/email/Email.ts - unit tests', () => {
               const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
               const EPECTED_TYPE_OF_STRING = 'string';
               const EXPECTED_ERRORS_LENGTH = 1;
-              const EXPECTED_ERROR_PATH = 'from';
-              const EXPECTED_ERROR_TYPE = 'typeError';
+              const EXPECTED_ERROR_PATH = 'from.address';
+              const EXPECTED_ERROR_TYPE = 'required';
 
               /////////////////////////
               //////// test //////////
@@ -197,8 +197,8 @@ describe('models/email/Email.ts - unit tests', () => {
               const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
               const EPECTED_TYPE_OF_STRING = 'string';
               const EXPECTED_ERRORS_LENGTH = 1;
-              const EXPECTED_ERROR_PATH = 'from';
-              const EXPECTED_ERROR_TYPE = 'typeError';
+              const EXPECTED_ERROR_PATH = 'from.address';
+              const EXPECTED_ERROR_TYPE = 'required';
 
               /////////////////////////
               //////// test //////////

@@ -1,0 +1,14 @@
+{
+  "userId": "c791471d-d6bd-4c40-9689-3f24a6ba762c",
+  "tokenType": "REFRESH_TOKEN",
+  "userTokenId": "0ff65d4c-700f-406e-8e02-93389fed74fd",
+  "token": "nbijvbwnkincoqucb10+ucbquieb018hd1o=",
+  "relatedTokenIds": [
+    "ccdd3dd0-9a5e-42c7-9fdb-87f507a7418f"
+  ],
+  "expireDate": "2020-12-22T22:01:34.158Z",
+  "createdDate": "2020-12-22T22:01:34.158Z",
+  "createdIp": "97.143.224.158",
+  "revokedDate": "2020-12-22T22:01:34.158Z",
+  "revokedIp": "97.143.224.158"
+}

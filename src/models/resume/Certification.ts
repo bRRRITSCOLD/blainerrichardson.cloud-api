@@ -79,7 +79,7 @@ export class Certification implements CertificationInterface {
       let validationError;
       let validationValue: Certification | undefined;
       try {
-        const validateResponse = (await await certficationShema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await certficationShema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new Certification(validateResponse);
       } catch (err) {
         validationError = err;

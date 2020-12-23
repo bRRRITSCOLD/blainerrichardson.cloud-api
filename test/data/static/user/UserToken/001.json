@@ -1,0 +1,14 @@
+{
+  "userId": "62758231-4536-4f40-a9f6-216c5e6f2e03",
+  "tokenType": "JWT",
+  "userTokenId": "b9ccac88-878a-463d-9d0e-efa3c5f1e5a0",
+  "token": "asbg874gbfuv30f2inc0834ibc79g3f23f-3=f02cn3c-2j=1n-f9",
+  "relatedTokenIds": [
+    "c3d9332b-9518-4081-a4d8-7813a910d661"
+  ],
+  "expireDate": "2020-12-22T22:01:34.158Z",
+  "createdDate": "2020-12-22T22:01:34.158Z",
+  "createdIp": "135.243.225.201",
+  "revokedDate": "2020-12-22T22:01:34.158Z",
+  "revokedIp": "135.243.225.201"
+}

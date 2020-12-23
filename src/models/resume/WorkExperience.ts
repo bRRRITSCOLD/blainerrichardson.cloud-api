@@ -124,7 +124,7 @@ export class WorkExperience implements WorkExperienceInterface {
       let validationError;
       let validationValue: WorkExperience | undefined;
       try {
-        const validateResponse = (await await workExperienceSchema.validate(_.assign({}, this), { strict: true })) as any;
+        const validateResponse = (await workExperienceSchema.validate(_.assign({}, this), { strict: true })) as any;
         validationValue = new WorkExperience(validateResponse);
       } catch (err) {
         validationError = err;

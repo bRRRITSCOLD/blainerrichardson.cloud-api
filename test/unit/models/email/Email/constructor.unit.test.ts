@@ -2,7 +2,6 @@
 // node_modules
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import { ValidationError } from 'yup';
 
 // models
 import { Email } from '../../../../../src/models/email';
