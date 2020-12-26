@@ -61,7 +61,7 @@ describe('api/resume/resolvers/Certification.resolver - POST /graphql query sear
     }
   });
 
-  describe('{ query: { searchCertifications(searchCriteria: {}) { } } }', () => {
+  describe('{ query: { searchCertifications(searchCriteria: {}) } }', () => {
     beforeEach(async () => {
       try {
         // create the faked data
