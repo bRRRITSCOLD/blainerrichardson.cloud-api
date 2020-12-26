@@ -18,9 +18,9 @@ export interface UserTokenInterface {
   userTokenId: string;
   token: string;
   relatedTokenIds: string[];
-  expireDate?: string;
+  expireDate: string;
   createdDate: string;
-  createdIp?: string;
+  createdIp: string;
   revokedDate?: string;
   revokedIp?: string;
 }
@@ -42,7 +42,7 @@ export const userTokenSchema = yup.object().shape({
   createdIp: yup.string().optional(),
   revokedDate: yup
     .mixed()
-    .test('is-date', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value))
+    .test('is-date-optional', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value) || value === undefined)
     .optional(),
   revokedIp: yup.string().optional(),
 });

@@ -90,3 +90,5 @@ typings/
 
 # misc
 package-lock.json
+
+private

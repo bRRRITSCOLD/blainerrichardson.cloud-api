@@ -79,7 +79,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -124,7 +124,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (userId)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (userId)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -168,7 +168,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (userId)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (userId)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -212,7 +212,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (tokenType)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (tokenType)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -256,7 +256,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (tokenType)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (tokenType)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -300,7 +300,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (userTokenId)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (userTokenId)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -344,7 +344,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (userTokenId)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (userTokenId)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -388,7 +388,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (token)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (token)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -432,7 +432,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (token)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (token)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -476,7 +476,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (relatedTokenIds)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (relatedTokenIds)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -520,7 +520,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (relatedTokenIds)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (relatedTokenIds)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -564,7 +564,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (expireDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (expireDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -608,7 +608,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (expireDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (expireDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -652,7 +652,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (createdDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (createdDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -696,7 +696,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (createdDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (createdDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -740,7 +740,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (createdIp)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (createdIp)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -784,7 +784,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (createdIp)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (createdIp)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -828,7 +828,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -872,7 +872,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -916,7 +916,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedIp)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (revokedIp)', async () => {
             try {
               /////////////////////////
               //////// setup //////////
@@ -960,7 +960,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedIp)', async () => {
+          it('- should correctly asynchronously validate an user token instance and throw appropriate errors when found (revokedIp)', async () => {
             try {
               /////////////////////////
               //////// setup //////////

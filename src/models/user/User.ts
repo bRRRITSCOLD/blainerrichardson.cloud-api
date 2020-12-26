@@ -7,7 +7,7 @@ export interface UserInterface {
   firstName: string;
   lastName: string;
   username: string;
-  passwordHash: string;
+  passwordHash?: string;
   roles: string[];
 }
 
@@ -16,7 +16,7 @@ export const userSchema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   username: yup.string().required(),
-  passwordHash: yup.string().required(),
+  passwordHash: yup.string().optional(),
   roles: yup.array().of(yup.string()).required(),
 });
 
@@ -25,7 +25,7 @@ export class User implements UserInterface {
   public firstName!: string;
   public lastName!: string;
   public username!: string;
-  public passwordHash!: string;
+  public passwordHash?: string;
   public roles!: string[];
 
   public constructor(user: UserInterface) {
