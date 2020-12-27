@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 // libraries
 import { e2eTestEnv } from '../../../../../lib/environment';
 import { mongo } from '../../../../../../src/lib/mongo';
+import * as jwt from '../../../../../../src/lib/jwt';
 
 // models
 import { Certification } from '../../../../../../src/models/resume';
@@ -20,11 +21,15 @@ let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerI
 // data
 import { loadCertificationsData, unloadCertificationsData } from '../../../../../data/loaders/resume';
 import { readStaticCertificationData } from '../../../../../data/static/resume/Certification';
+import { readStaticUserData } from '../../../../../data/static/user/User';
+import { loadUsersData } from '../../../../../data/loaders/user';
 
 // file constants/functions
 let staticCertificationData: any | any[];
+let staticUserData: any | any[];
 
 let cachedCertificationData: any | any[];
+let cachedUserData: any | any[];
 
 async function customStartUp() {
   try {
@@ -80,10 +85,15 @@ describe('api/resume/resolvers/Certification.resolver - POST /graphql mutation d
           try {
             // create the faked data
             staticCertificationData = await readStaticCertificationData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedCertificationData = await loadCertificationsData({
               certifications: staticCertificationData,
+            });
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
             });
 
             // return explicitly
@@ -96,9 +106,14 @@ describe('api/resume/resolvers/Certification.resolver - POST /graphql mutation d
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedCertificationData = await unloadCertificationsData({
+            await unloadCertificationsData({
               certifications: cachedCertificationData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -144,6 +159,7 @@ describe('api/resume/resolvers/Certification.resolver - POST /graphql mutation d
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation deleteCertifications($data: DeleteCertificationsInputType!) {

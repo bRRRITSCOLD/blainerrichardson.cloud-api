@@ -8,20 +8,27 @@ import { User, UserInterface, UserToken, UserTokenInterface } from '../../../../
 import { mongo } from '../../../../src/lib/mongo';
 import { env } from '../../../../src/lib/environment';
 
-export async function unloadUserTokensData(unloadUserTokensDataRequest: { userTokens: UserTokenInterface[] }): Promise<boolean> {
+export async function unloadUserTokensData(unloadUserTokensDataRequest: {
+  userTokens?: UserTokenInterface[];
+  unloadCriteria?: any;
+}): Promise<boolean> {
   try {
     // deconstruct for ease
-    const { userTokens } = unloadUserTokensDataRequest;
+    const { userTokens, unloadCriteria } = unloadUserTokensDataRequest;
 
     // get out mongo connection
     const blainerrichardsonDb = await mongo.getConnection(env.MONGO_BLAINERRICARDSON_CLOUD_DB_NAME);
 
     // delete our data in one sweep
-    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_USER_TOKENS_COLLECTION_NAME).deleteMany({
-      userTokenId: {
-        $in: _.uniq(userTokens.map((userToken: UserToken | UserTokenInterface) => userToken.userTokenId)),
-      },
-    });
+    await blainerrichardsonDb.collection(env.MONGO_BLAINERRICARDSON_CLOUD_USER_TOKENS_COLLECTION_NAME).deleteMany(
+      unloadCriteria
+        ? unloadCriteria
+        : {
+            userTokenId: {
+              $in: _.uniq((userTokens as any[]).map((userToken: UserToken | UserTokenInterface) => userToken.userTokenId)),
+            },
+          },
+    );
 
     // return the data for the user
     return true;

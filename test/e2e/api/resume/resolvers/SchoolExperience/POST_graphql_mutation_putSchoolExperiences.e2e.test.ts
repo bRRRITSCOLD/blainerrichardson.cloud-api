@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 // libraries
 import { e2eTestEnv } from '../../../../../lib/environment';
 import { mongo } from '../../../../../../src/lib/mongo';
+import * as jwt from '../../../../../../src/lib/jwt';
 
 // models
 import { SchoolExperience } from '../../../../../../src/models/resume';
@@ -20,11 +21,15 @@ let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerI
 // data
 import { loadSchoolExperiencesData, unloadSchoolExperiencesData } from '../../../../../data/loaders/resume';
 import { readStaticSchoolExperienceData } from '../../../../../data/static/resume/SchoolExperience';
+import { readStaticUserData } from '../../../../../data/static/user/User';
+import { loadUsersData } from '../../../../../data/loaders/user';
 
 // file constants/functions
 let staticSchoolExperienceData: any | any[];
+let staticUserData: any | any[];
 
 let cachedSchoolExperienceData: any | any[];
+let cachedUserData: any | any[];
 
 async function customStartUp() {
   try {
@@ -80,9 +85,14 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
           try {
             // create the faked data
             staticSchoolExperienceData = await readStaticSchoolExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedSchoolExperienceData = staticSchoolExperienceData.slice();
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -94,9 +104,14 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedSchoolExperienceData = await unloadSchoolExperiencesData({
+            await unloadSchoolExperiencesData({
               schoolExperiences: cachedSchoolExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -137,6 +152,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putSchoolExperiences($data: PutSchoolExperiencesInputType!) {
@@ -217,6 +233,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
           try {
             // create the faked data
             staticSchoolExperienceData = await readStaticSchoolExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedSchoolExperienceData = _.flatten([
@@ -225,6 +242,10 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               }),
               staticSchoolExperienceData.slice(1),
             ]);
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -236,9 +257,14 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedSchoolExperienceData = await unloadSchoolExperiencesData({
+            await unloadSchoolExperiencesData({
               schoolExperiences: cachedSchoolExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -305,6 +331,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putSchoolExperiences($data: PutSchoolExperiencesInputType!) {
@@ -387,6 +414,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
           try {
             // create the faked data
             staticSchoolExperienceData = await readStaticSchoolExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedSchoolExperienceData = _.flatten([
@@ -395,6 +423,10 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               }),
               staticSchoolExperienceData.slice(-1),
             ]);
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -406,9 +438,14 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedSchoolExperienceData = await unloadSchoolExperiencesData({
+            await unloadSchoolExperiencesData({
               schoolExperiences: cachedSchoolExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -477,6 +514,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putSchoolExperiences($data: PutSchoolExperiencesInputType!) {
@@ -559,10 +597,15 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
           try {
             // create the faked data
             staticSchoolExperienceData = await readStaticSchoolExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedSchoolExperienceData = await loadSchoolExperiencesData({
               schoolExperiences: staticSchoolExperienceData,
+            });
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
             });
 
             // return explicitly
@@ -575,9 +618,14 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedSchoolExperienceData = await unloadSchoolExperiencesData({
+            await unloadSchoolExperiencesData({
               schoolExperiences: cachedSchoolExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -643,6 +691,7 @@ describe('api/resume/resolvers/SchoolExperience.resolver - POST /graphql mutatio
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putSchoolExperiences($data: PutSchoolExperiencesInputType!) {

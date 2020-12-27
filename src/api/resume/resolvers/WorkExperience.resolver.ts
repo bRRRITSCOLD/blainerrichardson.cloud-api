@@ -12,6 +12,9 @@ import { SearchWorkExperiencesObjectType } from '../types/SearchWorkExperiencesO
 import { logger } from '../../../lib/logger';
 import { anyUtils } from '../../../lib/utils/any';
 
+// decorators
+import { CurrentUser, JWTAuthorization } from '../../../decorators/security';
+
 // services
 import { WorkExperienceService } from '../services/WorkExperience.service';
 import { PutWorkExperiencesObjectType } from '../types/PutWorkExperiencesObjectType';
@@ -45,6 +48,8 @@ export class WorkExperienceResolver {
   }
 
   @Mutation((_returns: unknown) => PutWorkExperiencesObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async putWorkExperiences(
     @Ctx() _context: any,
     @Arg('data') putWorkExperienceInputType: PutWorkExperiencesInputType,
@@ -66,6 +71,8 @@ export class WorkExperienceResolver {
   }
 
   @Mutation((_returns: unknown) => DeleteWorkExperiencesObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async deleteWorkExperiences(
     @Ctx() _context: any,
     @Arg('data') deleteWorkExperiencesInputType: DeleteWorkExperiencesInputType,

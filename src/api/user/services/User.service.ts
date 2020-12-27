@@ -39,6 +39,7 @@ export class UserService {
 
       // validate a user was found
       const user = searchUsersResponse.users[0];
+      console.log(`user`, user);
       if (!user || !(await bcrypt.compare(password, user.passwordHash as string))) {
         throw new Error('username or password is incorrect');
       }

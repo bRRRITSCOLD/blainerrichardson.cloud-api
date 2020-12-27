@@ -7,17 +7,20 @@ import { APIError } from '../../../models/error';
 import { Certification } from '../../../models/resume';
 import { SearchCertificationsArgsType } from '../types/SearchCertificationsArgsType';
 import { SearchCertificationsObjectType } from '../types/SearchCertificationsObjectType';
+import { PutCertificationsInputType } from '../types/PutCertificationsInputType';
+import { PutCertificationsObjectType } from '../types/PutCertificationsObjectType';
+import { DeleteCertificationsInputType } from '../types/DeleteCertificationsInputType';
+import { DeleteCertificationsObjectType } from '../types/DeleteCertificationsObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';
 import { anyUtils } from '../../../lib/utils/any';
 
+// decorators
+import { CurrentUser, JWTAuthorization } from '../../../decorators/security';
+
 // services
 import { CertificationService } from '../services/Certification.service';
-import { PutCertificationsInputType } from '../types/PutCertificationsInputType';
-import { PutCertificationsObjectType } from '../types/PutCertificationsObjectType';
-import { DeleteCertificationsInputType } from '../types/DeleteCertificationsInputType';
-import { DeleteCertificationsObjectType } from '../types/DeleteCertificationsObjectType';
 
 @Resolver((_of: unknown) => Certification)
 export class CertificationlineResolver {
@@ -45,6 +48,8 @@ export class CertificationlineResolver {
   }
 
   @Mutation((_returns: unknown) => PutCertificationsObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async putCertifications(
     @Ctx() _context: any,
     @Arg('data') putCertificationsInputType: PutCertificationsInputType,
@@ -66,6 +71,8 @@ export class CertificationlineResolver {
   }
 
   @Mutation((_returns: unknown) => DeleteCertificationsObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async deleteCertifications(
     @Ctx() _context: any,
     @Arg('data') deleteCertificationsInputType: DeleteCertificationsInputType,

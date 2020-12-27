@@ -7,17 +7,20 @@ import { APIError } from '../../../models/error';
 import { SchoolExperience } from '../../../models/resume';
 import { SearchSchoolExperiencesArgsType } from '../types/SearchSchoolExperiencesArgsType';
 import { SearchSchoolExperiencesObjectType } from '../types/SearchSchoolExperiencesObjectType';
+import { PutSchoolExperiencesInputType } from '../types/PutSchoolExperiencesInputType';
+import { PutSchoolExperiencesObjectType } from '../types';
+import { DeleteSchoolExperiencesObjectType } from '../types/DeleteSchoolExperiencesObjectType';
+import { DeleteSchoolExperiencesInputType } from '../types/DeleteSchoolExperiencesInputType';
 
 // libraries
 import { logger } from '../../../lib/logger';
 import { anyUtils } from '../../../lib/utils/any';
 
+// decorators
+import { CurrentUser, JWTAuthorization } from '../../../decorators/security';
+
 // services
 import { SchoolExperienceService } from '../services/SchoolExperience.service';
-import { PutSchoolExperiencesInputType } from '../types/PutSchoolExperiencesInputType';
-import { PutSchoolExperiencesObjectType } from '../types';
-import { DeleteSchoolExperiencesObjectType } from '../types/DeleteSchoolExperiencesObjectType';
-import { DeleteSchoolExperiencesInputType } from '../types/DeleteSchoolExperiencesInputType';
 
 @Resolver((_of: unknown) => SchoolExperience)
 export class SchoolExperienceResolver {
@@ -45,6 +48,8 @@ export class SchoolExperienceResolver {
   }
 
   @Mutation((_returns: unknown) => PutSchoolExperiencesObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async putSchoolExperiences(
     @Ctx() _context: any,
     @Arg('data') putSchoolExperiencesInputType: PutSchoolExperiencesInputType,
@@ -66,6 +71,8 @@ export class SchoolExperienceResolver {
   }
 
   @Mutation((_returns: unknown) => DeleteSchoolExperiencesObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async deleteSchoolExperiences(
     @Ctx() _context: any,
     @Arg('data') deleteSchoolExperiencesInputType: DeleteSchoolExperiencesInputType,

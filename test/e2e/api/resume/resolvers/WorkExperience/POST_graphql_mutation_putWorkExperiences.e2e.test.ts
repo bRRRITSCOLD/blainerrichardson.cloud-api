@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 // libraries
 import { e2eTestEnv } from '../../../../../lib/environment';
 import { mongo } from '../../../../../../src/lib/mongo';
+import * as jwt from '../../../../../../src/lib/jwt';
 
 // models
 import { WorkExperience } from '../../../../../../src/models/resume';
@@ -20,11 +21,15 @@ let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerI
 // data
 import { loadWorkExperiencesData, unloadWorkExperiencesData } from '../../../../../data/loaders/resume';
 import { readStaticWorkExperienceData } from '../../../../../data/static/resume/WorkExperience';
+import { readStaticUserData } from '../../../../../data/static/user/User';
+import { loadUsersData } from '../../../../../data/loaders/user';
 
 // file constants/functions
 let staticWorkExperienceData: any | any[];
+let staticUserData: any | any[];
 
 let cachedWorkExperienceData: any | any[];
+let cachedUserData: any | any[];
 
 async function customStartUp() {
   try {
@@ -80,9 +85,14 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
           try {
             // create the faked data
             staticWorkExperienceData = await readStaticWorkExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedWorkExperienceData = staticWorkExperienceData.slice();
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -94,9 +104,14 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedWorkExperienceData = await unloadWorkExperiencesData({
+            await unloadWorkExperiencesData({
               workExperiences: cachedWorkExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -137,6 +152,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putWorkExperiences($data: PutWorkExperiencesInputType!) {
@@ -216,6 +232,8 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
             // create the faked data
             staticWorkExperienceData = await readStaticWorkExperienceData(3);
 
+            staticUserData = await readStaticUserData(3);
+
             // load data into datasources
             cachedWorkExperienceData = _.flatten([
               await loadWorkExperiencesData({
@@ -223,6 +241,10 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               }),
               staticWorkExperienceData.slice(1),
             ]);
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -234,9 +256,14 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedWorkExperienceData = await unloadWorkExperiencesData({
+            await unloadWorkExperiencesData({
               workExperiences: cachedWorkExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -303,6 +330,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putWorkExperiences($data: PutWorkExperiencesInputType!) {
@@ -383,6 +411,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
           try {
             // create the faked data
             staticWorkExperienceData = await readStaticWorkExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedWorkExperienceData = _.flatten([
@@ -391,6 +420,10 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               }),
               staticWorkExperienceData.slice(-1),
             ]);
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
+            });
 
             // return explicitly
           } catch (err) {
@@ -402,9 +435,14 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedWorkExperienceData = await unloadWorkExperiencesData({
+            await unloadWorkExperiencesData({
               workExperiences: cachedWorkExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -473,6 +511,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putWorkExperiences($data: PutWorkExperiencesInputType!) {
@@ -553,10 +592,15 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
           try {
             // create the faked data
             staticWorkExperienceData = await readStaticWorkExperienceData(3);
+            staticUserData = await readStaticUserData(3);
 
             // load data into datasources
             cachedWorkExperienceData = await loadWorkExperiencesData({
               workExperiences: staticWorkExperienceData,
+            });
+
+            cachedUserData = await loadUsersData({
+              users: staticUserData,
             });
 
             // return explicitly
@@ -569,9 +613,14 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
         afterEach(async () => {
           try {
             // unload data from datasources
-            cachedWorkExperienceData = await unloadWorkExperiencesData({
+            await unloadWorkExperiencesData({
               workExperiences: cachedWorkExperienceData,
             });
+
+            // reset data holders
+            staticUserData = undefined;
+
+            cachedUserData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -637,6 +686,7 @@ describe('api/resume/resolvers/WorkExperience.resolver - POST /graphql mutation 
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               payload: {
                 query: `mutation putWorkExperiences($data: PutWorkExperiencesInputType!) {

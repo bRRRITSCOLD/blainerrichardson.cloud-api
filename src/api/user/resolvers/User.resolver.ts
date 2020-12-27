@@ -27,7 +27,7 @@ export class UserResolver {
     try {
       // create params here for ease
       const authenticateUserResponse = await this.userService.authenticateUser(
-        _.assign({}, authenticateUserInputType, { ipAddress: context.request.clientId }),
+        _.assign({}, authenticateUserInputType, { ipAddress: context.request.ip }),
       );
 
       // set cookies needed
