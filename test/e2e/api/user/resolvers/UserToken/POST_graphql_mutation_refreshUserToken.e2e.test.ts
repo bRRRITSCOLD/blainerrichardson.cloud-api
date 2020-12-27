@@ -6,11 +6,11 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
 import { expect } from 'chai';
 import * as _ from 'lodash';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 // libraries
 import { e2eTestEnv } from '../../../../../lib/environment';
 import { mongo } from '../../../../../../src/lib/mongo';
+import * as jwt from '../../../../../../src/lib/jwt';
 
 // testees
 import { bootstrap } from '../../../../../../src/app';
@@ -158,6 +158,7 @@ describe('api/user/resolvers/UserToken.resolver - POST /graphql mutation refresh
               url: '/graphql',
               headers: {
                 'content-type': 'application/json',
+                authorization: jwt.sign({ userId: cachedUserData[0].userId }),
               },
               cookies: {
                 refreshToken: cachedUserTokenData[0].token,

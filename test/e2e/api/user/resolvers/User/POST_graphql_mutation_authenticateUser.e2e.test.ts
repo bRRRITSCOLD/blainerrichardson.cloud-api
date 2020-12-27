@@ -7,6 +7,7 @@ import { expect } from 'chai';
 import * as _ from 'lodash';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { v4 as uuid } from 'uuid';
 
 // libraries
 import { e2eTestEnv } from '../../../../../lib/environment';
@@ -19,7 +20,7 @@ let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerI
 // data
 import { loadUsersData, unloadUsersData, unloadUserTokensData } from '../../../../../data/loaders/user';
 import { readStaticUserData, readStaticUserPasswordData } from '../../../../../data/static/user/User';
-import { UserTokenTypeEnum } from '../../../../../../src/models/user';
+import { User, UserTokenTypeEnum } from '../../../../../../src/models/user';
 
 // file constants/functions
 let staticUserData: any | any[];
@@ -88,13 +89,16 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
             cachedUserPasswordData = staticUserPasswordData.slice();
 
             // create password salts needed to hash test passwords
-            const salt = await bcrypt.genSalt(_.sample([13, 14, 15, 16, 17]));
+            const salt = await bcrypt.genSalt(10);
 
             // load data into datasources
             cachedUserData = await loadUsersData({
               users: await Promise.all(
                 staticUserData.map(async (userData: any, userDataIndex: number) =>
-                  _.assign({}, userData, { passwordHash: await bcrypt.hash(cachedUserPasswordData[userDataIndex].password, salt) }),
+                  _.assign({}, userData, {
+                    username: uuid(),
+                    passwordHash: await bcrypt.hash(cachedUserPasswordData[userDataIndex].password, salt),
+                  }),
                 ),
               ),
             });

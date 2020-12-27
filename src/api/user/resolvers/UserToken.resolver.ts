@@ -1,5 +1,5 @@
 // node modules
-import { Resolver, Query, Ctx, Args, Arg, Mutation } from 'type-graphql';
+import { Resolver, Query, Ctx, Args, Arg, Mutation, UseMiddleware } from 'type-graphql';
 import * as _ from 'lodash';
 
 // models
@@ -11,6 +11,9 @@ import { RefreshUserTokenObjectType } from '../types/RefreshUserTokenObjectType'
 import { logger } from '../../../lib/logger';
 import { anyUtils } from '../../../lib/utils/any';
 
+// decorators
+import { JWTAuthorization, CurrentUser } from '../../../decorators/security';
+
 // services
 import { UserTokenService } from '../services/UserToken.service';
 
@@ -19,6 +22,8 @@ export class UserTokenResolver {
   public constructor(private readonly userTokenService: UserTokenService) {}
 
   @Mutation((_returns: unknown) => RefreshUserTokenObjectType)
+  @JWTAuthorization()
+  @CurrentUser()
   public async refreshUserToken(@Ctx() context: any): Promise<RefreshUserTokenObjectType> {
     try {
       // create params here for ease
