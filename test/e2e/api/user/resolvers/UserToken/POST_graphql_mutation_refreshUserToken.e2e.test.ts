@@ -17,16 +17,20 @@ import { bootstrap } from '../../../../../../src/app';
 let app: FastifyInstance<Server, IncomingMessage, ServerResponse, FastifyLoggerInstance>;
 
 // data
-import { loadUsersData, unloadUsersData, unloadUserTokensData } from '../../../../../data/loaders/user';
+import { loadUsersData, loadUserTokensData, unloadUsersData, unloadUserTokensData } from '../../../../../data/loaders/user';
 import { readStaticUserData, readStaticUserPasswordData } from '../../../../../data/static/user/User';
 import { UserTokenTypeEnum } from '../../../../../../src/models/user';
+import { readStaticUserTokenData } from '../../../../../data/static/user/UserToken';
+import { dateUtils } from '../../../../../../src/lib/utils/date';
 
 // file constants/functions
 let staticUserData: any | any[];
 let staticUserPasswordData: any | any[];
+let staticUserTokenData: any | any[];
 
 let cachedUserData: any | any[];
 let cachedUserPasswordData: any | any[];
+let cachedUserTokenData: any | any[];
 
 async function customStartUp() {
   try {
@@ -49,7 +53,7 @@ async function customTearDown() {
 }
 
 // tests
-describe('api/resume/resolvers/User.resolver - POST /graphql mutation authenticateUser - e2e tests', () => {
+describe('api/user/resolvers/UserToken.resolver - POST /graphql mutation refreshUserToken - e2e tests', () => {
   before(async () => {
     try {
       // load out environment
@@ -75,27 +79,32 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
     }
   });
 
-  describe('{ mutation authenticateUser }', () => {
-    context('({ username, password })', () => {
+  describe('{ mutation refreshtoken }', () => {
+    context('()', () => {
       context('static data', () => {
         beforeEach(async () => {
           try {
             // read static data
             staticUserData = await readStaticUserData(3);
-            staticUserPasswordData = await readStaticUserPasswordData(3);
-
-            // cache any needed static data
-            cachedUserPasswordData = staticUserPasswordData.slice();
-
-            // create password salts needed to hash test passwords
-            const salt = await bcrypt.genSalt(_.sample([13, 14, 15, 16, 17]));
+            staticUserTokenData = await readStaticUserTokenData(3);
 
             // load data into datasources
             cachedUserData = await loadUsersData({
-              users: await Promise.all(
-                staticUserData.map(async (userData: any, userDataIndex: number) =>
-                  _.assign({}, userData, { passwordHash: await bcrypt.hash(cachedUserPasswordData[userDataIndex].password, salt) }),
-                ),
+              users: staticUserData,
+            });
+
+            cachedUserTokenData = await loadUserTokensData({
+              userTokens: staticUserTokenData.map((userTokenData: any, userTokenDataIndex: number) =>
+                _.assign({}, userTokenData, {
+                  userId: cachedUserData[userTokenDataIndex].userId,
+                  tokenType: UserTokenTypeEnum.REFRESH_TOKEN,
+                  relatedTokenIds: [],
+                  expireDate: dateUtils.dateTime(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)),
+                  createdDate: dateUtils.dateTime(new Date(Date.now())),
+                  createdIp: '127.0.0.1',
+                  revokedDate: undefined,
+                  revokedIp: undefined,
+                }),
               ),
             });
 
@@ -113,15 +122,15 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
               users: cachedUserData,
             });
             await unloadUserTokensData({
-              unloadCriteria: { userId: cachedUserData[0].userId },
+              unloadCriteria: { userId: { $in: cachedUserData.map((item: any) => item.userId) } },
             });
 
             // reset data holders
             staticUserData = undefined;
-            staticUserPasswordData = undefined;
+            staticUserTokenData = undefined;
 
             cachedUserData = undefined;
-            cachedUserPasswordData = undefined;
+            cachedUserTokenData = undefined;
 
             // return explicitly
           } catch (err) {
@@ -130,7 +139,7 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
           }
         });
 
-        it('- should authenticate a user and return their user data (that is applicable) and any tokens + cookies they may need to interacte with the api', async () => {
+        it(`- should refresh a user jwt when passed a valid refresh token from a user's cookies`, async () => {
           try {
             /////////////////////////
             //////// setup //////////
@@ -150,9 +159,11 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
               headers: {
                 'content-type': 'application/json',
               },
+              cookies: {
+                refreshToken: cachedUserTokenData[0].token,
+              },
               payload: {
-                query: `mutation authenticateUser($data: AuthenticateUserInputType!) {
-                  authenticateUser(data: $data) {
+                query: `mutation { refreshUserToken {
                     user {
                       firstName
                     },
@@ -162,12 +173,6 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
                     }
                   }
                 }`,
-                variables: {
-                  data: {
-                    username: cachedUserData[0].username,
-                    password: cachedUserPasswordData[0].password,
-                  },
-                },
               },
             };
             const httResponse = await app.inject(httpRequest);
@@ -193,18 +198,18 @@ describe('api/resume/resolvers/User.resolver - POST /graphql mutation authentica
             // run assertions
             expect(parsedBody !== undefined).to.be.true;
             expect(parsedBody.data !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser.user !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser.user.firstName !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser.user.firstName === EXPECTED_USER.firstName).to.be.true;
-            expect(parsedBody.data.authenticateUser.userToken !== null).to.be.true;
-            expect(parsedBody.data.authenticateUser.userToken.token !== null).to.be.true;
-            expect(typeof parsedBody.data.authenticateUser.userToken.token === EXPECTED_TYPE_OF_STRING).to.be.true;
+            expect(parsedBody.data.refreshUserToken !== null).to.be.true;
+            expect(parsedBody.data.refreshUserToken !== null).to.be.true;
+            expect(parsedBody.data.refreshUserToken.user !== null).to.be.true;
+            expect(parsedBody.data.refreshUserToken.user.firstName !== null).to.be.true;
+            expect(parsedBody.data.refreshUserToken.user.firstName === EXPECTED_USER.firstName).to.be.true;
+            expect(parsedBody.data.refreshUserToken.userToken !== null).to.be.true;
+            expect(parsedBody.data.refreshUserToken.userToken.token !== null).to.be.true;
+            expect(typeof parsedBody.data.refreshUserToken.userToken.token === EXPECTED_TYPE_OF_STRING).to.be.true;
 
             // decode token returned to check
             // if it is a correct jwt
-            const decodedToken = jwt.decode(parsedBody.data.authenticateUser.userToken.token);
+            const decodedToken = jwt.decode(parsedBody.data.refreshUserToken.userToken.token);
 
             // run assertions
             expect(decodedToken !== undefined).to.be.true;

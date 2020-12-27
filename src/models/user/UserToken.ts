@@ -83,6 +83,22 @@ export class UserToken implements UserTokenInterface {
     });
   }
 
+  public get isExpired(): boolean {
+    return Date.now() >= new Date(this.expireDate).getTime();
+  }
+
+  public get hasRevokedDate(): boolean {
+    return this.revokedDate !== undefined && this.revokedDate !== null;
+  }
+
+  public get hasRevokedIp(): boolean {
+    return this.revokedIp !== undefined && this.revokedIp !== null;
+  }
+
+  public get isActive(): boolean {
+    return !this.isExpired && !this.hasRevokedDate && !this.hasRevokedIp;
+  }
+
   /**
    *
    *

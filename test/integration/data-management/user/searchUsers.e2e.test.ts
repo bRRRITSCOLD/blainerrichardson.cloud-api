@@ -126,11 +126,14 @@ describe('data-management/user/searchUsers - #searchUsers - integration tests', 
             expect(searchUsersResponse !== undefined).to.be.true;
             expect(searchUsersResponse.users !== undefined).to.be.true;
             expect(searchUsersResponse.users instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            expect(searchUsersResponse.users.length === EXPECTED_USERS_LENGTH).to.be.true;
+            expect(searchUsersResponse.users.length >= EXPECTED_USERS_LENGTH).to.be.true;
+            let foundCount = 0;
             for (const user of searchUsersResponse.users) {
               expect(user instanceof EXPECTED_USER_CLASS_INSTANCE).to.be.true;
-              expect(EXPECTED_USERS.find((expectedItem: any) => expectedItem.userId === user.userId) !== undefined).to.be.true;
+              const found = EXPECTED_USERS.find((expectedItem: any) => expectedItem.userId === user.userId);
+              if (found) foundCount++;
             }
+            expect(foundCount === EXPECTED_USERS_LENGTH).to.be.true;
             expect(searchUsersResponse.moreUsers !== undefined).to.be.true;
             expect(searchUsersResponse.moreUsers).to.be.false;
             expect(searchUsersResponse.totalUsers === undefined).to.be.true;

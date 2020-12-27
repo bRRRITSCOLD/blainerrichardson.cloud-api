@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import fastify from 'fastify';
 import { buildSchema } from 'type-graphql';
 import { Container } from 'typedi';
-// import requestIp from 'request-ip';
 
 // libraries
 import { env } from './lib/environment';
@@ -62,9 +61,6 @@ const bootstrap = async () => {
         },
       },
     });
-
-    // ip
-    // fastifyApp.register(requestIp.mw());
 
     // build graphql schema
     const schema = await buildSchema({
