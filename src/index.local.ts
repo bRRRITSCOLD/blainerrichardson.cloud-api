@@ -14,6 +14,7 @@ import { APIError } from './models/error';
 // app
 import { bootstrap } from './app';
 import { emailClients } from './lib/email';
+import { mongo } from './lib/mongo';
 
 // certralize app exiting
 function exit(code?: number | string | boolean | any) {
@@ -71,7 +72,7 @@ process.on('unhandledRejection', (err: unknown) => {
     await Promise.all([]);
 
     // initialize synchronous libraries, connectiones, etc. here
-    [emailClients.init(require('./configs/email-clients').default)];
+    [emailClients.init(require('./configs/email-clients').default), mongo.init(require('./configs/mongo').default)];
 
     // build app
     const app = await bootstrap();
