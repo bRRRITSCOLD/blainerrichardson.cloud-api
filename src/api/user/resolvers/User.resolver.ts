@@ -55,7 +55,7 @@ export class UserResolver {
       // log for debugging and run support purposes
       logger.error(`{}UserResolver::#putUsers::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
-      throw { errors: [error] };
+      throw error;
     }
   }
 }
