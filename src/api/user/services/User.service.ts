@@ -66,7 +66,7 @@ export class UserService {
         token: jwt.sign({ sub: user.userId, userId: user.userId }, env.JWT_SECRET, { expiresIn: '15m' }),
         userTokenId: uuid(),
         relatedTokenIds: [userRefreshToken.userTokenId],
-        expireDate: dateUtils.dateTime(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)),
+        expireDate: dateUtils.dateTime(new Date(Date.now() + 900000)),
         createdDate: dateUtils.dateTime(new Date(Date.now())),
         createdIp: ipAddress,
       });

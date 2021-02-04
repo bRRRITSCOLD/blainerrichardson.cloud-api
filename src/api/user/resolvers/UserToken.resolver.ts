@@ -22,8 +22,6 @@ export class UserTokenResolver {
   public constructor(private readonly userTokenService: UserTokenService) {}
 
   @Mutation((_returns: unknown) => RefreshUserTokenObjectType)
-  @JWTAuthorization()
-  @CurrentUser()
   public async refreshUserToken(@Ctx() context: any): Promise<RefreshUserTokenObjectType> {
     try {
       // create params here for ease
@@ -57,7 +55,7 @@ export class UserTokenResolver {
       // log for debugging and run support purposes
       logger.error(`{}UserTokenResolver::#putUserTokens::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
-      throw { errors: [error] };
+      throw error;
     }
   }
 }

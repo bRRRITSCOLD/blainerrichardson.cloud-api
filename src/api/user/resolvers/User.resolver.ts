@@ -29,7 +29,7 @@ export class UserResolver {
       const authenticateUserResponse = await this.userService.authenticateUser(
         _.assign({}, authenticateUserInputType, { ipAddress: context.request.ip }),
       );
-
+      console.log('authenticateUserResponse=', authenticateUserResponse);
       // set cookies needed
       const userRefreshToken = authenticateUserResponse.userTokens.find(
         (userToken: UserToken) => userToken.tokenType === UserTokenTypeEnum.REFRESH_TOKEN,
@@ -55,7 +55,7 @@ export class UserResolver {
       // log for debugging and run support purposes
       logger.error(`{}UserResolver::#putUsers::error executing::error=${anyUtils.stringify(error)}`);
       // throw error explicitly
-      throw { errors: [error] };
+      throw error;
     }
   }
 }

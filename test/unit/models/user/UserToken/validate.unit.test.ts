@@ -841,7 +841,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
               const EPECTED_TYPE_OF_STRING = 'string';
               const EXPECTED_ERRORS_LENGTH = 1;
               const EXPECTED_ERROR_PATH = 'revokedDate';
-              const EXPECTED_ERROR_TYPE = 'is-date';
+              const EXPECTED_ERROR_TYPE = 'is-date-optional';
 
               /////////////////////////
               //////// test //////////
@@ -885,7 +885,7 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
               const EPECTED_TYPE_OF_STRING = 'string';
               const EXPECTED_ERRORS_LENGTH = 1;
               const EXPECTED_ERROR_PATH = 'revokedDate';
-              const EXPECTED_ERROR_TYPE = 'is-date';
+              const EXPECTED_ERROR_TYPE = 'is-date-optional';
 
               /////////////////////////
               //////// test //////////

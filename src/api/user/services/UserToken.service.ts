@@ -28,6 +28,7 @@ export class UserTokenService {
     try {
       // deconstruct for east and usability
       const { refreshToken, ipAddress } = refreshUserTokenRequest;
+      console.log(`refreshToken`, refreshToken);
 
       // search and find userToken
       const searchUserTokensResponse = await userManager.searchUserTokens({
@@ -89,7 +90,7 @@ export class UserTokenService {
         token: jwt.sign({ sub: user.userId, userId: user.userId }, env.JWT_SECRET, { expiresIn: '15m' }),
         userTokenId: uuid(),
         relatedTokenIds: [newUserTokenRefreshToken.userTokenId],
-        expireDate: dateUtils.dateTime(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)),
+        expireDate: dateUtils.dateTime(new Date(Date.now() + 900000)),
         createdDate: dateUtils.dateTime(new Date(Date.now())),
         createdIp: ipAddress,
       });
