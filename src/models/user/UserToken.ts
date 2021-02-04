@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // node_modules
 import * as yup from 'yup';
 import * as _ from 'lodash';
@@ -43,13 +42,7 @@ export const userTokenSchema = yup.object().shape({
   createdIp: yup.string().optional(),
   revokedDate: yup
     .mixed()
-    .test(
-      'is-date-optional',
-      '${path} is not a valid date',
-      (value, _context) => {
-        return dateUtils.isValid(value) || value === undefined || value !== ''
-      },
-    )
+    .test('is-date-optional', '${path} is not a valid date', (value, _context) => dateUtils.isValid(value) && value !== undefined)
     .optional(),
   revokedIp: yup.string().optional(),
 });
@@ -83,7 +76,10 @@ export class UserToken implements UserTokenInterface {
           : undefined,
       createdIp: _.get(userToken, 'createdIp'),
       revokedDate:
-        _.get(userToken, 'revokedDate') && !isNaN(Date.parse(_.get(userToken, 'revokedDate', '')))
+        _.get(userToken, 'revokedDate') &&
+        _.get(userToken, 'revokedDate') !== '' &&
+        typeof _.get(userToken, 'revokedDate') !== 'boolean' &&
+        !isNaN(Date.parse(_.get(userToken, 'revokedDate', '')))
           ? dateUtils.dateTime(new Date(_.get(userToken, 'revokedDate') as any))
           : undefined,
       revokedIp: _.get(userToken, 'revokedIp'),

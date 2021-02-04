@@ -828,93 +828,93 @@ describe('models/userToken/UserToken.ts - unit tests', () => {
             }
           });
 
-          // it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
-          //   try {
-          //     /////////////////////////
-          //     //////// setup //////////
-          //     /////////////////////////
-          //     // update data needed for test
-          //     const updateUserToken = _.assign({}, cachedUserTokenData[0], { revokedDate: '' });
+          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
+            try {
+              /////////////////////////
+              //////// setup //////////
+              /////////////////////////
+              // update data needed for test
+              const updateUserToken = _.assign({}, cachedUserTokenData[0], { revokedDate: '' });
 
-          //     // set expectations
-          //     const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-          //     const EPECTED_TYPE_OF_STRING = 'string';
-          //     const EXPECTED_ERRORS_LENGTH = 1;
-          //     const EXPECTED_ERROR_PATH = 'revokedDate';
-          //     const EXPECTED_ERROR_TYPE = 'is-date';
+              // set expectations
+              const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
+              const EPECTED_TYPE_OF_STRING = 'string';
+              const EXPECTED_ERRORS_LENGTH = 1;
+              const EXPECTED_ERROR_PATH = 'revokedDate';
+              const EXPECTED_ERROR_TYPE = 'is-date-optional';
 
-          //     /////////////////////////
-          //     //////// test //////////
-          //     /////////////////////////
-          //     // run testee
-          //     const userToken = new UserToken(updateUserToken);
-          //     const validateResponse = userToken.validate();
+              /////////////////////////
+              //////// test //////////
+              /////////////////////////
+              // run testee
+              const userToken = new UserToken(updateUserToken);
+              const validateResponse = userToken.validate();
 
-          //     // run assertions
-          //     expect(validateResponse !== undefined).to.be.true;
-          //     expect(validateResponse.error !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-          //     for (const error of (validateResponse.error as ValidationError).errors) {
-          //       expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-          //     }
-          //     expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-          //     expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
+              // run assertions
+              expect(validateResponse !== undefined).to.be.true;
+              expect(validateResponse.error !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
+              for (const error of (validateResponse.error as ValidationError).errors) {
+                expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
+              }
+              expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
+              expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
 
-          //     // return explicitly
-          //     return;
-          //   } catch (err) {
-          //     // throw explicitly
-          //     throw err;
-          //   }
-          // });
+              // return explicitly
+              return;
+            } catch (err) {
+              // throw explicitly
+              throw err;
+            }
+          });
 
-          // it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
-          //   try {
-          //     /////////////////////////
-          //     //////// setup //////////
-          //     /////////////////////////
-          //     // update data needed for test
-          //     const updateUserToken = _.assign({}, cachedUserTokenData[0], { revokedDate: true });
+          it('- should correctly validate an user token instance and throw appropriate errors when found (revokedDate)', async () => {
+            try {
+              /////////////////////////
+              //////// setup //////////
+              /////////////////////////
+              // update data needed for test
+              const updateUserToken = _.assign({}, cachedUserTokenData[0], { revokedDate: true });
 
-          //     // set expectations
-          //     const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-          //     const EPECTED_TYPE_OF_STRING = 'string';
-          //     const EXPECTED_ERRORS_LENGTH = 1;
-          //     const EXPECTED_ERROR_PATH = 'revokedDate';
-          //     const EXPECTED_ERROR_TYPE = 'is-date';
+              // set expectations
+              const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
+              const EPECTED_TYPE_OF_STRING = 'string';
+              const EXPECTED_ERRORS_LENGTH = 1;
+              const EXPECTED_ERROR_PATH = 'revokedDate';
+              const EXPECTED_ERROR_TYPE = 'is-date-optional';
 
-          //     /////////////////////////
-          //     //////// test //////////
-          //     /////////////////////////
-          //     // run testee
-          //     const userToken = new UserToken(updateUserToken);
-          //     const validateResponse = userToken.validate();
+              /////////////////////////
+              //////// test //////////
+              /////////////////////////
+              // run testee
+              const userToken = new UserToken(updateUserToken);
+              const validateResponse = userToken.validate();
 
-          //     // run assertions
-          //     expect(validateResponse !== undefined).to.be.true;
-          //     expect(validateResponse.error !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-          //     expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
-          //     for (const error of (validateResponse.error as ValidationError).errors) {
-          //       expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
-          //     }
-          //     expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
-          //     expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
-          //     expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
+              // run assertions
+              expect(validateResponse !== undefined).to.be.true;
+              expect(validateResponse.error !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).errors !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).errors instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
+              expect((validateResponse.error as ValidationError).errors.length === EXPECTED_ERRORS_LENGTH).to.be.true;
+              for (const error of (validateResponse.error as ValidationError).errors) {
+                expect(typeof error === EPECTED_TYPE_OF_STRING).to.be.true;
+              }
+              expect((validateResponse.error as ValidationError).path !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).path === EXPECTED_ERROR_PATH).to.be.true;
+              expect((validateResponse.error as ValidationError).type !== undefined).to.be.true;
+              expect((validateResponse.error as ValidationError).type === EXPECTED_ERROR_TYPE).to.be.true;
 
-          //     // return explicitly
-          //     return;
-          //   } catch (err) {
-          //     // throw explicitly
-          //     throw err;
-          //   }
-          // });
+              // return explicitly
+              return;
+            } catch (err) {
+              // throw explicitly
+              throw err;
+            }
+          });
 
           it('- should correctly validate an user token instance and throw appropriate errors when found (revokedIp)', async () => {
             try {
