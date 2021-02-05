@@ -7,6 +7,7 @@ import { APIError } from '../../../models/error';
 import { User, UserToken, UserTokenTypeEnum } from '../../../models/user';
 import { AuthenticateUserInputType } from '../types/AuthenticateUserInputType';
 import { AuthenticateUserObjectType } from '../types/AuthenticateUserObjectType';
+import { UnauthenticateUserObjectType } from '../types/UnauthenticateUserObjectType';
 
 // libraries
 import { logger } from '../../../lib/logger';
@@ -48,6 +49,26 @@ export class UserResolver {
         userToken: authenticateUserResponse.userTokens.find(
           (userToken: UserToken) => userToken.tokenType === UserTokenTypeEnum.JWT,
         ) as UserToken,
+      };
+    } catch (err) {
+      // build error
+      const error = new APIError(err);
+      // log for debugging and run support purposes
+      logger.error(`{}UserResolver::#putUsers::error executing::error=${anyUtils.stringify(error)}`);
+      // throw error explicitly
+      throw error;
+    }
+  }
+
+  @Mutation((_returns: unknown) => UnauthenticateUserObjectType)
+  public async unauthenticateUser(@Ctx() context: any): Promise<UnauthenticateUserObjectType> {
+    try {
+      // clear cookies
+      context.response.clearCookie('refreshToken');
+
+      // return expiclitly
+      return {
+        success: true,
       };
     } catch (err) {
       // build error

@@ -69,10 +69,10 @@ process.on('unhandledRejection', (err: unknown) => {
     await env.init({ ...require('./configs/environment').default });
 
     // initialize asynchronous libraries, connectiones, etc. here
-    await Promise.all([]);
+    await Promise.all([mongo.init(require('./configs/mongo').default)]);
 
     // initialize synchronous libraries, connectiones, etc. here
-    [emailClients.init(require('./configs/email-clients').default), mongo.init(require('./configs/mongo').default)];
+    [emailClients.init(require('./configs/email-clients').default)];
 
     // build app
     const app = await bootstrap();
@@ -81,7 +81,9 @@ process.on('unhandledRejection', (err: unknown) => {
     const serverInfo = await app.listen(env.PORT);
 
     // open chrome to graphiql for dev
-    if (env.isLocal) await open(`${serverInfo}/graphiql`, { app: 'google chrome' });
+    if (env.isLocal) {
+      await open(`${serverInfo}/graphiql`, { app: 'google chrome' });
+    }
 
     // log for debugging and run support purposes
     logger.info(`{}App::server started::serverInfo=${anyUtils.stringify(serverInfo)}`);
