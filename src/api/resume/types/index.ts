@@ -1,3 +1,4 @@
+export * from './DownloadResumeObjectType';
 export * from './PutSchoolExperiencesInputType';
 export * from './PutSchoolExperiencesObjectType';
 export * from './SearchCertificationsArgsType';
