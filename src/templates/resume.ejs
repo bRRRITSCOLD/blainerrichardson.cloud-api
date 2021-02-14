@@ -1,11 +1,61 @@
-<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div style="display: flex; flex-direction: column;">
   <% if (workExperiences) { %>
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-      <% workExperiences.forEach(function(workExperience){ %>
-        <div>
-          <%=workExperience.companyName%>
-        </div>
-        <% }); %>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+      <h2 style="padding-top: 10px">Work Epxerience</h2>
     </div>
-    <% } %>
+    <div style="padding-top: 2px; display: flex; flex-direction: column;">
+      <% workExperiences.forEach(function(workExperience){ %>
+        <div style="padding-top: 20px">
+          <div><%=workExperience.companyName%></div>
+          <div><%=workExperience.companyAddress%></div>
+          <div><%=workExperience.position%></div>
+          <div>Duties</div>
+          <ul>
+            <% workExperience.duties.forEach(function(duty){ %>
+              <li><%=duty%></li>
+            <% }); %>
+          </ul>
+          <div>Accomplishments</div>
+          <ul>
+            <% workExperience.accomplishments.forEach(function(accomplishment){ %>
+              <li><%=accomplishment%></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <% if (schoolExperiences) { %>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+      <h2 style="padding-top: 10px">School Epxerience</h2>
+    </div>
+    <div style="padding-top: 2px; display: flex; flex-direction: column;">
+      <% schoolExperiences.forEach(function(schoolExperience){ %>
+        <div style="padding-top: 20px">
+          <div><%=schoolExperience.schoolName%></div>
+          <div><%=schoolExperience.schoolAddress%></div>
+          <div><%=schoolExperience.degree%></div>
+          <ul>
+            <% schoolExperience.classes.forEach(function(klass){ %>
+              <li><%=klass%></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <% if (certifications) { %>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+      <h2 style="padding-top: 10px">Certifications</h2>
+    </div>
+    <div style="padding-top: 2px; display: flex; flex-direction: column;">
+      <% certifications.forEach(function(certification){ %>
+        <div style="padding-top: 20px">
+          <div><%=certification.institution%></div>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
 </div>

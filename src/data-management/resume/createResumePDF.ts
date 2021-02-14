@@ -18,6 +18,8 @@ import {
   WorkExperienceInterface,
 } from '../../models/resume';
 import { env } from '../../lib/environment';
+import { address } from 'faker';
+import { addressUtils } from '../../lib/utils/address';
 
 // file constants
 const generatePDF = promisify(htmlToPDF.generatePdf);
@@ -52,18 +54,27 @@ export async function createResumePDF(createResumePDFRequest: CreateResumePDFReq
     const htmlTemplate = await fs.readFile(`${process.cwd()}/${env.isLocal ? 'src/templates/resume.ejs' : 'templates/resume.ejs'}`, {
       encoding: 'utf-8',
     });
-    const compiledTemplate = await ejs.compile(htmlTemplate, { async: true });
-    const compiledHtml = await compiledTemplate({ workExperiences });
+    const compileTemplate = await ejs.compile(htmlTemplate, { async: true });
+    const compiledTemplate = await compileTemplate({
+      workExperiences: workExperiences.map((workExperience) =>
+        _.assign({}, workExperience, { companyAddress: addressUtils.format(workExperience.companyAddress) }),
+      ),
+      schoolExperiences: schoolExperiences.map((schoolExperience) =>
+        _.assign({}, schoolExperience, { schoolAddress: addressUtils.format(schoolExperience.schoolAddress) }),
+      ),
+      certifications,
+    });
 
     // create the pdf file
     const generatePDFRequestParameters = {
-      content: compiledHtml,
+      content: compiledTemplate,
     };
     const generatePDFRequestOptions = { options: 'A4' };
     const generatePDFResponse = await generatePDF(generatePDFRequestParameters, generatePDFRequestOptions);
 
     // TODO: delete below lines when working
     // debugging purposes
+    await fs.writeFile('test.html', compiledTemplate);
     await fs.writeFile('test.pdf', generatePDFResponse);
 
     // return explicitly
