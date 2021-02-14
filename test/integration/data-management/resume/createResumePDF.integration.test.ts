@@ -137,16 +137,8 @@ describe('data-management/resume/createResumePDF - #createResumePDF - integratio
 
             // run assertions
             expect(createResumePDFResponse !== undefined).to.be.true;
-            // expect(searchWorkExperiencesResponse.workExperiences !== undefined).to.be.true;
-            // expect(searchWorkExperiencesResponse.workExperiences instanceof EXPECTED_ARRAY_CLASS_INSTANCE).to.be.true;
-            // expect(searchWorkExperiencesResponse.workExperiences.length === EXPECTED_WORK_EXPERIENCES_LENGTH).to.be.true;
-            // for (const workExperience of searchWorkExperiencesResponse.workExperiences) {
-            //   expect(workExperience instanceof EXPECTED_WORK_EXPERIENCE_CLASS_INSTANCE).to.be.true;
-            //   expect(
-            //     EXPECTED_WORK_EXPERIENCES.find((expectedItem: any) => expectedItem.companyName === workExperience.companyName) !==
-            //       undefined,
-            //   ).to.be.true;
-            // }
+            expect(createResumePDFResponse.resume !== undefined).to.be.true;
+            expect(createResumePDFResponse.resume instanceof Buffer).to.be.true;
 
             // return explicitly
             return;
