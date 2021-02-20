@@ -1,11 +1,8 @@
 // node_modules
 import * as _ from 'lodash';
-import { promisify } from 'util';
 import ejs from 'ejs';
 import { promises as fs } from 'fs';
-
-// libraries
-const htmlToPDF = require('html-pdf-node');
+import chromium from 'chrome-aws-lambda';
 
 // models
 import { APIError } from '../../models/error';
@@ -21,9 +18,6 @@ import { env } from '../../lib/environment';
 import { address } from 'faker';
 import { addressUtils } from '../../lib/utils/address';
 
-// file constants
-const generatePDF = promisify(htmlToPDF.generatePdf);
-
 export interface CreateResumePDFRequestInterface {
   workExperiences: WorkExperienceInterface[];
   schoolExperiences: SchoolExperienceInterface[];
@@ -33,17 +27,6 @@ export interface CreateResumePDFRequestInterface {
 export interface CreateResumePDFResponseInterface {
   resume: Buffer | string;
 }
-
-// let options = { format: 'A4' };
-// // Example of options with args //
-// // let options = { format: 'A4', args: ['--no-sandbox', '--disable-setuid-sandbox'] };
-
-// let file = { content: "<h1>Welcome to html-pdf-node</h1>" };
-// // or //
-// let file = { url: "https://example.com" };
-// html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
-//   console.log("PDF Buffer:-", pdfBuffer);
-// });
 
 export async function createResumePDF(createResumePDFRequest: CreateResumePDFRequestInterface): Promise<CreateResumePDFResponseInterface> {
   try {
@@ -65,21 +48,34 @@ export async function createResumePDF(createResumePDFRequest: CreateResumePDFReq
       certifications,
     });
 
-    // create the pdf file
-    const generatePDFRequestParameters = {
-      content: compiledTemplate,
-    };
-    const generatePDFRequestOptions = { options: 'A4' };
-    const generatePDFResponse = await generatePDF(generatePDFRequestParameters, generatePDFRequestOptions);
+    const browser = await chromium.puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
+    });
+
+    console.log('Opening new page...');
+    // 👇 create a new headless chrome pag
+    const page = await browser.newPage();
+
+    console.log('Generating PDF file from HTML template...');
+
+    // 👇 Ignore this line for right now
+    await page.setContent(compiledTemplate, { waitUntil: 'networkidle2' });
+
+    // 👇 this tells puppeteer to save the webpage as a pdf file
+    const pdf = await page.pdf({ format: 'a4' });
 
     // TODO: delete below lines when working
     // debugging purposes
     await fs.writeFile('test.html', compiledTemplate);
-    await fs.writeFile('test.pdf', generatePDFResponse);
+    await fs.writeFile('test.pdf', pdf);
 
     // return explicitly
     return {
-      resume: generatePDFResponse,
+      resume: pdf,
     };
   } catch (err) {
     // build error
