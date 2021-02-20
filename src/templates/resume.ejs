@@ -7,6 +7,9 @@
       <% workExperiences.forEach(function(workExperience){ %>
         <div style="padding-top: 20px">
           <div><%=workExperience.companyName%></div>
+          <div style="display: flex; flex-direction: row;">
+            <div><%=workExperience.startDate%> to <%=workExperience.endDate%></div>
+          </div>
           <div><%=workExperience.companyAddress%></div>
           <div><%=workExperience.position%></div>
           <div>Duties</div>
@@ -34,6 +37,9 @@
       <% schoolExperiences.forEach(function(schoolExperience){ %>
         <div style="padding-top: 20px">
           <div><%=schoolExperience.schoolName%></div>
+          <div style="display: flex; flex-direction: row;">
+            <div><%=schoolExperience.startDate%> to <%=schoolExperience.endDate%></div>
+          </div>
           <div><%=schoolExperience.schoolAddress%></div>
           <div><%=schoolExperience.degree%></div>
           <ul>
@@ -54,6 +60,10 @@
       <% certifications.forEach(function(certification){ %>
         <div style="padding-top: 20px">
           <div><%=certification.institution%></div>
+          <div style="display: flex; flex-direction: row;">
+            <div><%=certification.startDate%> to <%=certification.endDate%></div>
+          </div>
+          <div><%=certification.name%></div>
         </div>
       <% }); %>
     </div>
