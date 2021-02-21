@@ -41,7 +41,7 @@ export class ResumeService {
 
       // return health check explicitly
       return {
-        content: searchResumeResponse.resume,
+        bytes: searchResumeResponse.resume.toString('base64'),
       };
     } catch (err) {
       // build error

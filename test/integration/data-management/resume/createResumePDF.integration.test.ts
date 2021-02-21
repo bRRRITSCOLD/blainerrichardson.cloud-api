@@ -118,10 +118,7 @@ describe('data-management/resume/createResumePDF - #createResumePDF - integratio
             //////// setup //////////
             /////////////////////////
             // none
-            const EXPECTED_ARRAY_CLASS_INSTANCE = Array;
-            const EXPECTED_WORK_EXPERIENCE_CLASS_INSTANCE = WorkExperience;
-            const EXPECTED_WORK_EXPERIENCES = cachedWorkExperienceData.slice();
-            const EXPECTED_WORK_EXPERIENCES_LENGTH = EXPECTED_WORK_EXPERIENCES.length;
+            const EXPECTED_BUFFER_CLASS_INSTANCE = Buffer;
 
             /////////////////////////
             //////// test //////////
@@ -138,7 +135,7 @@ describe('data-management/resume/createResumePDF - #createResumePDF - integratio
             // run assertions
             expect(createResumePDFResponse !== undefined).to.be.true;
             expect(createResumePDFResponse.resume !== undefined).to.be.true;
-            expect(createResumePDFResponse.resume instanceof Buffer).to.be.true;
+            expect(createResumePDFResponse.resume instanceof EXPECTED_BUFFER_CLASS_INSTANCE).to.be.true;
 
             // return explicitly
             return;
